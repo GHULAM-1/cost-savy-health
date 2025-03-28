@@ -1,6 +1,17 @@
-export default function Home() {
-  return <div className="flex flex-col items-center justify-center h-screen">
+import Footer from "@/components/footer";
+import FeatureCards from "@/components/features-card";
+import Hero from "@/components/landing-page/hero";
+import ShopHealthcare from "@/components/landing-page/shop-health-care";
+import Navbar from "@/components/navbar";
 
-<div className="text-2xl font-bold">Hi <span className="text-blue-500">Maureen</span> , this is the stagging link of the website  </div>
-  </div>
+export default function Home() {
+  return (
+    <>
+      <Navbar />
+      <Hero />
+      <FeatureCards />
+      <ShopHealthcare />
+      <Footer />
+    </>
+  );
 }
