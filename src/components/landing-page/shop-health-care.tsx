@@ -1,5 +1,6 @@
 import React from "react";
 import Services from "./services";
+import FeatureIcon from "../svg-icon";
 const ShopHealthcare = () => {
   return (
     <section className="max-w-[1800px] mx-auto px-6 sm:px-12 py-16 sm:py-20 mb-8">
@@ -17,33 +18,12 @@ const ShopHealthcare = () => {
         <div className="relative flex justify-start md:justify-start">
           <div className="w-[200px] sm:w-[250px] md:w-[300px] h-[200px] sm:h-[250px] md:h-[300px]">
             <div className="absolute top-0 left-0 flex">
-              <svg
-                width="100%"
-                height="100%"
-                viewBox="0 0 300 300"
-                fill="none"
-                className="max-w-full"
-              >
-                <path
-                  d="M150 30L270 90V210L150 270L30 210V90L150 30Z"
-                  fill="#4CD7C6"
-                  fillOpacity="0.2"
-                />
-                <path
-                  d="M150 40L260 95V205L150 260L40 205V95L150 40Z"
-                  fill="#4CD7C6"
-                  fillOpacity="0.4"
-                />
-                <path
-                  d="M150 50L250 100V200L150 250L50 200V100L150 50Z"
-                  fill="#4CD7C6"
-                />
-                <circle cx="80" cy="220" r="30" fill="#E6B19F" />
-                <circle cx="220" cy="80" r="30" fill="#E6B19F" />
-                <path d="M140 140H160V160H140V140Z" fill="white" />
-                <path d="M150 130V170" stroke="white" strokeWidth="4" />
-                <path d="M130 150H170" stroke="white" strokeWidth="4" />
-              </svg>
+              <FeatureIcon
+                name="shield"
+                alt="Picture of shield"
+                width={300}
+                height={300}
+              />
             </div>
           </div>
         </div>

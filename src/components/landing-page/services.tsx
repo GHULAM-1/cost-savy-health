@@ -1,36 +1,9 @@
 import React from "react";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { services } from "@/data/landing-page/servicesData";
 
 const Services = () => {
-  //Service card data
-  const services = [
-    {
-      name: "Carpal Tunnel Repair",
-      link: "#",
-    },
-    {
-      name: "CT of Abdomen and Pelvis",
-      link: "#",
-    },
-    {
-      name: "Hernia Repair - Laparoscopic",
-      link: "#",
-    },
-    {
-      name: "MRI without Contrast",
-      link: "#",
-    },
-    {
-      name: "Percutaneous Breast Biopsy",
-      link: "#",
-    },
-    {
-      name: "Shoulder Repair, Arthroscopic",
-      link: "#",
-    },
-  ];
-
   return (
     <div>
       <h2 className="text-[#03363D] text-3xl font-bold mb-6 mt-8">
@@ -40,7 +13,7 @@ const Services = () => {
         {services.map((service, index) => (
           <div
             key={index}
-            className="border border-gray-200 rounded-2xl overflow-hidden hover:border-[#4CD7C6] transition-colors duration-300  flex justify-center flex-col"
+            className="border border-gray-200 rounded-2xl overflow-hidden hover:border-[#4CD7C6] transition-colors duration-300 flex justify-center flex-col"
           >
             <div className="px-6 py-8 border-b border-gray-200 flex-grow">
               <h3 className="text-[#03363D] text-xl font-bold">

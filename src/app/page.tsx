@@ -7,7 +7,7 @@ import PriceTransparency from "@/components/landing-page/price-transparency";
 import Testimonial from "@/components/landing-page/testimonial";
 import Enterprise from "@/components/landing-page/enterprise";
 import EnterpriseSolutions from "@/components/enterprise-solution";
-import JoinTeam from "@/components/join-team";
+import JoinTeam from "@/components/landing-page/join-team";
 export default function Home() {
   return (
     <>

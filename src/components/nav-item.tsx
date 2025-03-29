@@ -16,7 +16,7 @@ export default function NavItem({
   hasDropdown = false,
   dropdownContent = [],
 }: NavItemProps) {
-  // State to track dropdown visibility of the nav-items
+  // STATE
   const [isOpen, setIsOpen] = useState(false);
 
   return (

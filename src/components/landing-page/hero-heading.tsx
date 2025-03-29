@@ -4,18 +4,17 @@ import React, { useState, useEffect } from "react";
 export default function HeroHeading() {
   const rotatingWords = ["CT scans", "MRIs", "ultrasounds", "tonsil removal"];
 
-  // State to track the current word index
+  // STATE
   const [index, setIndex] = useState(0);
 
+  //CONFIGURATIONS
   useEffect(() => {
-    // Set an interval to rotate words every 2 seconds
     const interval = setInterval(() => {
       setIndex((prevIndex) =>
         prevIndex === rotatingWords.length - 1 ? 0 : prevIndex + 1
       );
     }, 2000);
 
-    // Cleanup function to clear the interval when the component unmounts
     return () => clearInterval(interval);
   }, [rotatingWords.length]);
 

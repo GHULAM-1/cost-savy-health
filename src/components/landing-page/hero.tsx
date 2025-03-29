@@ -1,14 +1,8 @@
 import { Search, MapPin, ShieldPlus } from "lucide-react";
 import HeroHeading from "./hero-heading";
+import { commonProcedures } from "@/data/landing-page/hero-data";
 
 export default function Hero() {
-  const commonProcedures = [
-    "Colonoscopy",
-    "Knee Repair - Arthroscopic",
-    "MRI with Contrast",
-    "Tonsil and/or Adenoid Removal",
-  ];
-
   return (
     <main className="max-w-[1800px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
       <HeroHeading />

@@ -7,10 +7,10 @@ import MobileMenu from "./mobile-menu";
 import { X } from "lucide-react";
 
 export default function Navbar() {
-  // STATE: Controls whether the mobile menu is open
+  // STATES
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  // HANDLER: Toggles the mobile menu open/closed
+  // HANDLERS
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };

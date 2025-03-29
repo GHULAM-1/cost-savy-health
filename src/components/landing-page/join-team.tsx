@@ -1,5 +1,5 @@
 import React from "react";
-import JoinUs from "../../public/JoinUS/JoinUs.webp";
+import JoinUs from "../../../public/JoinUS/JoinUs.webp";
 import Image from "next/image";
 
 const JoinTeam = () => {
