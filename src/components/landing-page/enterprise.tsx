@@ -36,7 +36,6 @@ const Enterprise = () => {
         </svg>
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-          {/* Text Content */}
           <div className="text-left max-w-xl self-start">
             <h2 className="text-[#03363D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-4">
               Turquoise for <br /> enterprise.

@@ -61,7 +61,7 @@ const FeatureCards = () => {
   return (
     <section className=" ">
       <div className="max-w-[1800px] mx-auto px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#E6FAF8]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1  lg:grid-cols-3 gap-6 sm:gap-8">
           {features.map((feature, index) => (
             <div
               key={index}
