@@ -2,7 +2,7 @@ import React from "react";
 import Services from "./services";
 const ShopHealthcare = () => {
   return (
-    <section className="max-w-[1800px] mx-auto px-6 sm:px-12 py-16 sm:py-20">
+    <section className="max-w-[1800px] mx-auto px-6 sm:px-12 py-16 sm:py-20 mb-8">
       <div className="flex flex-col md:flex-row justify-between items-center gap-12 md:gap-20 lg:gap-32 xl:gap-96">
         <div className="md:text-left flex flex-col">
           <h2 className="text-[#03363D] text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
