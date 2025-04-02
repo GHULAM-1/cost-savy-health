@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const JoinTeam = () => {
   return (
-    <div className="bg-[#03363d] max-w-[1800px] mx-auto border-t border-[#164e56] p-8 md:p-14 py-12 md:py-20">
+    <div className="bg-[#03363d] border-t border-[#164e56] p-8 md:p-14 py-12 md:py-20">
       <div className=" flex flex-wrap items-center justify-center md:justify-between gap-6">
         <div className="flex flex-wrap items-center gap-6 md:gap-8 text-center md:text-left">
           <Image

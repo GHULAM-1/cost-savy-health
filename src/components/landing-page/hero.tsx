@@ -4,9 +4,8 @@ import { commonProcedures } from "@/data/landing-page/hero-data";
 
 export default function Hero() {
   return (
-    <main className="max-w-[1800px] mx-auto px-6 sm:px-12 py-10 sm:py-20">
+    <main className="px-6 sm:px-12 py-10 sm:py-20">
       <HeroHeading />
-
       <div className="flex flex-col md:flex-col lg:flex-row w-full border-2 border-gray-200 rounded-lg overflow-hidden divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-gray-200 mb-8">
         <div className="flex-1 px-4 py-3 flex items-center w-full">
           <Search

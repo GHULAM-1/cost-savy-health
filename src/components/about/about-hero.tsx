@@ -3,29 +3,29 @@ import React from "react";
 
 export default function AboutHero() {
   return (
-    <div className="bg-[#02363d] max-w-[1800px] w-full py-16 md:py-24 lg:py-36 px-4 md:px-8 lg:px-16 mx-auto flex flex-col md:flex-row items-center justify-between gap-12 lg:gap-16">
-      <div className="max-w-2xl ">
-        <div className="mb-4">
-          <p className="bg-[#176f6f] text-white px-2 py-[2px] rounded text-[16px] inline-block">
+    <div className="bg-[#02363d] py-12 sm:py-16 md:py-24 lg:py-36 px-4 sm:px-6 md:px-8 lg:px-16 mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 md:gap-12 lg:gap-16">
+      <div className="max-w-xl md:max-w-2xl">
+        <div className="mb-4 sm:mb-6">
+          <p className="bg-[#176f6f] text-white px-3 py-1 rounded text-[14px] sm:text-[16px] inline-block">
             About Us
           </p>
         </div>
         <div className="text-white">
-          <h1 className="text-[48px] md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-5xl font-bold mb-4 sm:mb-6 md:mb-8 leading-[1.2]">
             Healthcare pricing is laughably complex.
           </h1>
-          <p className="text-[18px] mb-8 opacity-90 max-w-xl">
+          <p className="text-[16px] sm:text-[18px] opacity-90 max-w-md sm:max-w-lg mb-6 sm:mb-8">
             We make it simple through the industry's most comprehensive price
             transparency platform.
           </p>
         </div>
         <div>
-          <button className="bg-[#e2f7f5] hover:bg-[#a8e6e1] py-3 px-[20px] rounded-full text-[#02363d]  transition-colors duration-200">
+          <button className="bg-[#e2f7f5] hover:bg-[#a8e6e1] py-2 px-6 sm:py-3 sm:px-8 rounded-full text-[#02363d] transition-colors duration-200">
             Contact Us
           </button>
         </div>
       </div>
-      <div className="w-full max-w-md mx-auto md:block hidden">
+      <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto md:block hidden">
         <Image
           src="/about-us-hero.svg"
           alt="Healthcare pricing visualization"

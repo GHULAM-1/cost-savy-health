@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="py-3 px-2 md:px-5 max-w-[1800px] bg-[#03363d] mx-auto w-full">
+      <nav className="py-3 px-2 md:px-5  bg-[#03363d] w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <div className="text-[#4CD7C6] text-2xl font-bold flex items-center justify-center gap-1">
@@ -55,4 +55,3 @@ export default function Navbar() {
     </div>
   );
 }
-

@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { useState } from "react";
 
 interface DropdownItem {
   title: string;
   description: string;
+  url: string;
 }
 
 interface NavItemProps {
@@ -39,9 +41,10 @@ export default function NavItem({
         >
           <div className="space-y-4 grid grid-cols-2">
             {dropdownContent.map((item, index) => (
-              <div
+              <Link
                 key={index}
-                className="cursor-pointer p-2 rounded-md hover:bg-gray-100 transition-colors"
+                href={item.url}
+                className="cursor-pointer p-2 rounded-md hover:bg-gray-100 transition-colors block"
               >
                 <div className="text-[#03363d] font-semibold text-md">
                   {item.title}
@@ -49,7 +52,7 @@ export default function NavItem({
                 <div className="text-gray-600 text-sm mt-1">
                   {item.description}
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

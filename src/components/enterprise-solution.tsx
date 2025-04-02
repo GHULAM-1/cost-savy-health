@@ -3,7 +3,7 @@ import { enterpriseSolutionsData } from "@/data/landing-page/enterprise-solution
 
 const EnterpriseSolutions = () => {
   return (
-    <section className="max-w-[1800px] mx-auto px-12 py-16 md:py-2 mb-32">
+    <section className=" px-12 py-16 md:py-2 mb-32">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
         {enterpriseSolutionsData.map((solution, index) => (
           <div key={index} className="group">

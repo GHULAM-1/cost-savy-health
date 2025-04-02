@@ -1,54 +1,58 @@
 import React from "react";
 import { CheckCircle, XCircle } from "lucide-react";
 import transparencyData from "@/data/about/transparency-data";
+import Image from "next/image";
+import roleImage from "../../../public/about/about-us-role.webp";
 
 export default function Transparency() {
-  const doValues = transparencyData.filter(item => item.type === "do");
-  const dontValues = transparencyData.filter(item => item.type === "dont");
-
   const ValueItem = ({ type, text }: { type: "do" | "dont"; text: string }) => (
-    <div className="flex  items-start w-[45%] gap-3 mb-5">
+    <div className="flex items-start w-full md:w-[45%] gap-3 mb-5">
       {type === "do" ? (
-        <CheckCircle size={12} className="text-emerald-500 mt-[7px] flex-shrink-0" />
+        <CheckCircle
+          size={16}
+          className="text-emerald-500 mt-[6px] flex-shrink-0"
+        />
       ) : (
-        <XCircle size={12} className="text-red-500 mt-[8px] flex-shrink-0" />
+        <XCircle size={16} className="text-red-500 mt-[6px] flex-shrink-0" />
       )}
-      <p className="text-[15px]">{text}</p>
+      <p className="text-[15px] sm:text-[14px]">{text}</p>
     </div>
   );
 
   return (
-    <div className="flex flex-col items-center py-[64px] md:py-[100px]">
-      <div className="flex gap-[24px] mb-[24px] flex-col max-w-[700px]">
-        <p className="text-[70px] tracking-tight text-center font-bold">
-          We don't pick sides.
-        </p>
-        <p className="text-[15px]">
-          Instead, we reach across the aisle to connect stakeholders in the
-          healthcare industry toward a better, more transparent future.
-        </p>
-      </div>
-      <div className="w-full max-w-[700px]">
-        <div className="flex flex-row gap-y-4">
-          <div className="flex flex-wrap justify-between gap-1">
-            {transparencyData.map(item => (
+    <>
+      <div className="flex flex-col items-center py-[64px] md:py-[40px] px-4 sm:px-6">
+        <div className="flex gap-[24px] mb-[24px] flex-col max-w-[700px] text-center">
+          <p className="text-4xl md:text-5xl tracking-tight font-bold text-left md:text-center">
+            We don't pick sides.
+          </p>
+          <p className="text-lg sm:text-xl text-left md:text-center">
+            Instead, we reach across the aisle to connect stakeholders in the
+            healthcare industry toward a better, more transparent future.
+          </p>
+        </div>
+
+        <div className="w-full max-w-[700px]">
+          <div className="flex flex-row flex-wrap gap-y-4 justify-center">
+            {transparencyData.map((item) => (
               <ValueItem key={item.id} type={item.type} text={item.text} />
             ))}
-            {/* {dontValues.map(item => (
-              <ValueItem key={item.id} type={item.type} text={item.text} />
-            ))} */}
           </div>
-{/*           
-          <div>
-            {doValues.slice(2).map(item => (
-              <ValueItem key={item.id} type={item.type} text={item.text} />
-            ))}
-            {dontValues.slice(2).map(item => (
-              <ValueItem key={item.id} type={item.type} text={item.text} />
-            ))}
-          </div> */}
         </div>
       </div>
-    </div>
+
+      <div className="bg-gradient-to-t from-[#a9e5e3] to-white pb-36 px-4 sm:px-6">
+        <Image
+          src={roleImage}
+          alt="Image defining roles"
+          className="mx-auto w-full sm:w-[80%] md:w-[60%]"
+        />
+        <figcaption className="mt-8 text-left md:text-center px-2 sm:px-6 text-[15px] text-balance">
+          We fill a unique role in the healthcare ecosystem by positioning
+          ourselves as the neutral meeting place between stakeholders helping
+          them facilitate transparent relationships.
+        </figcaption>
+      </div>
+    </>
   );
 }

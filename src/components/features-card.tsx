@@ -6,7 +6,7 @@ import { featureCardsData } from "@/data/landing-page/features-card-data";
 const FeatureCards = () => {
   return (
     <section>
-      <div className="max-w-[1800px] mx-auto px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#E6FAF8]">
+      <div className="px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#E6FAF8]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {featureCardsData.map((feature, index) => (
             <div

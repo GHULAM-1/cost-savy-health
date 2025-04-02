@@ -2,10 +2,11 @@ import Link from "next/link";
 import React from "react";
 import EnterpriseFeatures from "../enterprise-features";
 import FeatureIcon from "../svg-icon";
+import enterpriseFeaturesData from "@/data/landing-page/enterprise-features-data";
 const Enterprise = () => {
   return (
     <>
-      <section className="max-w-[1800px] mx-auto px-6 sm:px-12 pt-20 pb-10">
+      <section className=" px-6 sm:px-12 pt-20 pb-10">
         <FeatureIcon
           name={"enterprise"}
           alt={"Balancing weights"}
@@ -14,7 +15,7 @@ const Enterprise = () => {
         />
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-          <div className="text-left max-w-xl self-start">
+          <div className="text-left  self-start">
             <h2 className="text-[#03363D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-4">
               Turquoise for <br /> enterprise.
             </h2>
@@ -36,7 +37,10 @@ const Enterprise = () => {
           </Link>
         </div>
       </section>
-      <EnterpriseFeatures />
+      <EnterpriseFeatures
+        accordionData={enterpriseFeaturesData}
+        textColor="text-grey-600"
+      />
     </>
   );
 };

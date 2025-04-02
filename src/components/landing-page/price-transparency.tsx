@@ -4,7 +4,7 @@ import features from "../../data/landing-page/price-transperency-data";
 
 export default function PriceTransparency() {
   return (
-    <section className="max-w-[1800px] mx-auto px-8 md:px-12 bg-gradient-to-b from-[#e9f8f8] to-white py-12 md:py-20 mb-8">
+    <section className="px-8 md:px-12 bg-gradient-to-b from-[#e9f8f8] to-white py-12 md:py-20 mb-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 py-12">
         <div>
           <h2 className="text-[#03363D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-6">
