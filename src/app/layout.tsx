@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${sourceSerif.variable} antialiased max-w-[1440px] mx-auto`}
+        className={`${sourceSerif.variable} antialiased max-w-[1660px] w-full mx-auto `}
       >
         <Navbar />
         {children}

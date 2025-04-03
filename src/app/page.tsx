@@ -12,7 +12,7 @@ import quotation from "../../public/Testimonial/Quotation.webp";
 export default function Home() {
   return (
     <>
-      {/* <Hero /> */}
+      <Hero />
       <FeatureCards />
       <ShopHealthcare />
       <PriceTransparency />
