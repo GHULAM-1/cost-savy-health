@@ -30,7 +30,8 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formSchema, FormSchemaType } from "@/schema/form-schema";
-import { languages } from "@/data/contact-us/languages";
+import { organization } from "@/data/contact-us/organization"; // Now using correct content for Organization Type
+import { hearAboutUs } from "@/data/contact-us/hear-about-us"; // Correct data for Hear About Us
 
 export default function MyForm() {
   const form = useForm<FormSchemaType>({
@@ -243,8 +244,8 @@ export default function MyForm() {
                       )}
                     >
                       {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
+                        ? organization.find(
+                            (item) => item.value === field.value
                           )?.label
                         : "------"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -260,23 +261,23 @@ export default function MyForm() {
                     <CommandList>
                       <CommandEmpty>No option found.</CommandEmpty>
                       <CommandGroup>
-                        {languages.map((language) => (
+                        {organization.map((item) => (
                           <CommandItem
-                            key={language.value}
-                            value={language.value}
+                            key={item.value}
+                            value={item.value}
                             onSelect={() =>
-                              form.setValue("organizationtype", language.value)
+                              form.setValue("organizationtype", item.value)
                             }
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                language.value === field.value
+                                item.value === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
                             />
-                            {language.label}
+                            {item.label}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -311,9 +312,8 @@ export default function MyForm() {
                       )}
                     >
                       {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
+                        ? hearAboutUs.find((item) => item.value === field.value)
+                            ?.label
                         : "------"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -328,23 +328,21 @@ export default function MyForm() {
                     <CommandList>
                       <CommandEmpty>No option found.</CommandEmpty>
                       <CommandGroup>
-                        {languages.map((language) => (
+                        {hearAboutUs.map((item) => (
                           <CommandItem
-                            key={language.value}
-                            value={language.value}
-                            onSelect={() =>
-                              form.setValue("hear", language.value)
-                            }
+                            key={item.value}
+                            value={item.value}
+                            onSelect={() => form.setValue("hear", item.value)}
                           >
                             <Check
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                language.value === field.value
+                                item.value === field.value
                                   ? "opacity-100"
                                   : "opacity-0"
                               )}
                             />
-                            {language.label}
+                            {item.label}
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -370,7 +368,7 @@ export default function MyForm() {
               <FormControl className="w-full">
                 <Textarea
                   placeholder="Tell us how we can help or if there's a product you'd like to learn more about."
-                  className="block w-full resize-none rounded-2xl border border-gray-300 px-4 py-4 h-40 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                  className="block w-full resize-none rounded-2xl border border-gray-300 px-4 py-4 h-23 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
                   {...field}
                 />
               </FormControl>
