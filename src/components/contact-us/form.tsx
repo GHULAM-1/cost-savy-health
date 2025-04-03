@@ -50,6 +50,7 @@ export default function MyForm() {
 
   function onSubmit(values: FormSchemaType) {
     try {
+      console.log(values)
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(values, null, 2)}</code>
