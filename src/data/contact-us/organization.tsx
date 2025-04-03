@@ -1,11 +1,13 @@
-export const languages = [
-  { label: "English", value: "en" },
-  { label: "French", value: "fr" },
-  { label: "German", value: "de" },
-  { label: "Spanish", value: "es" },
-  { label: "Portuguese", value: "pt" },
-  { label: "Russian", value: "ru" },
-  { label: "Japanese", value: "ja" },
-  { label: "Korean", value: "ko" },
-  { label: "Chinese", value: "zh" },
+export const organization = [
+  { label: "Individual", value: "individual" },
+  { label: "Payer", value: "payer" },
+  { label: "Provider", value: "provider" },
+  { label: "Pharma", value: "pharma" },
+  { label: "Medical Device", value: "medical_device" },
+  { label: "Employer", value: "employer" },
+  { label: "Broker/Advisor", value: "broker_advisor" },
+  { label: "Consultant", value: "consultant" },
+  { label: "Health Tech", value: "health_tech" },
+  { label: "Research Institution", value: "research_institution" },
+  { label: "Other", value: "other" },
 ] as const;
