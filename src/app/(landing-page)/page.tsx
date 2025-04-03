@@ -11,7 +11,6 @@ import JoinTeam from "@/components/landing-page/join-team";
 export default function Home() {
   return (
     <>
-      <Navbar />
       <Hero />
       <FeatureCards />
       <ShopHealthcare />
@@ -20,7 +19,6 @@ export default function Home() {
       <Enterprise />
       <EnterpriseSolutions />
       <JoinTeam />
-      <Footer />
     </>
   );
 }
