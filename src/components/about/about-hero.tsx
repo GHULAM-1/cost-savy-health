@@ -3,7 +3,7 @@ import React from "react";
 
 export default function AboutHero() {
   return (
-    <div className="bg-[#02363d] py-12 sm:py-16 md:py-24 lg:py-36 px-4 sm:px-6 md:px-8 lg:px-16 mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 md:gap-12 lg:gap-16">
+    <div className="bg-[#02363d] py-12 sm:py-16 md:py-24 lg:py-28 px-8 sm:px-6 md:px-8 lg:px-24 mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 md:gap-12 lg:gap-16">
       <div className="max-w-xl md:max-w-2xl">
         <div className="mb-4 sm:mb-6">
           <p className="bg-[#176f6f] text-white px-3 py-1 rounded text-[14px] sm:text-[16px] inline-block">
@@ -11,7 +11,7 @@ export default function AboutHero() {
           </p>
         </div>
         <div className="text-white">
-          <h1 className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-5xl font-bold mb-4 sm:mb-6 md:mb-8 leading-[1.2]">
+          <h1 className="text-[32px] sm:text-[40px] md:text-7xl  font-bold mb-4 sm:mb-6 md:mb-8 leading-[1.2] ">
             Healthcare pricing is laughably complex.
           </h1>
           <p className="text-[16px] sm:text-[18px] opacity-90 max-w-md sm:max-w-lg mb-6 sm:mb-8">

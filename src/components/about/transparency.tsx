@@ -6,7 +6,7 @@ import roleImage from "../../../public/about/about-us-role.webp";
 
 export default function Transparency() {
   const ValueItem = ({ type, text }: { type: "do" | "dont"; text: string }) => (
-    <div className="flex items-start w-full md:w-[45%] gap-3 mb-5">
+    <div className="flex items-start w-full md:w-[45%] gap-3 mb-1">
       {type === "do" ? (
         <CheckCircle
           size={16}
@@ -32,8 +32,8 @@ export default function Transparency() {
           </p>
         </div>
 
-        <div className="w-full max-w-[700px]">
-          <div className="flex flex-row flex-wrap gap-y-4 justify-center">
+        <div className="w-full max-w-[650px]">
+          <div className="flex flex-row gap-12 flex-wrap gap-y-4 justify-start">
             {transparencyData.map((item) => (
               <ValueItem key={item.id} type={item.type} text={item.text} />
             ))}
@@ -47,7 +47,7 @@ export default function Transparency() {
           alt="Image defining roles"
           className="mx-auto w-full sm:w-[80%] md:w-[60%]"
         />
-        <figcaption className="mt-8 text-left md:text-center px-2 sm:px-6 text-[15px] text-balance">
+        <figcaption className="mt-8  md:text-center md:px-56 lg:px-80 sm:px-6 text-[15px] text-center">
           We fill a unique role in the healthcare ecosystem by positioning
           ourselves as the neutral meeting place between stakeholders helping
           them facilitate transparent relationships.

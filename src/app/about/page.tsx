@@ -24,10 +24,12 @@ export default function About() {
         testimonial="Turquoise Health allowed us to unlock access to the data we needed to help better understand market dynamics as we prepare for an important commercial launch."
         reference="—VP, Payer Relations at a Healthcare Technology Company"
       />
-      <LeadershipShowcase />
-      <JoinTeam />
-      <PeopleGrid data={advisors} heading="Advisors" />
-      <PeopleGrid data={investors} heading="Investors" />
+      <div className="bg-[#f8f7fa] border-b-2 pb-20">
+        <LeadershipShowcase />
+        <JoinTeam />
+        <PeopleGrid data={advisors} heading="Advisors" />
+        <PeopleGrid data={investors} heading="Investors" />
+      </div>
     </div>
   );
 }
