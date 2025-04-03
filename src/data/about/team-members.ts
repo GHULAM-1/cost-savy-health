@@ -1,7 +1,8 @@
 export interface TeamMember {
   name: string;
   role: string;
-  image: string;
+  defaultImage: string;
+  hoverImage: string;
   linkedIn: string;
 }
 
@@ -9,43 +10,43 @@ export const teamMembers: TeamMember[] = [
   {
     name: "Chris Severn",
     role: "CEO & Co-founder",
-    image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=faces&q=80",
+    defaultImage: "/leadership/a1.png",
+    hoverImage: "/leadership/n1.png",
     linkedIn: "#",
   },
   {
     name: "Adam Geitgey",
     role: "CTO & Co-founder",
-    image:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces&q=80",
+    defaultImage: "/leadership/a2.png",
+    hoverImage: "/leadership/n2.png",
     linkedIn: "#",
   },
   {
     name: "Marcus Dorstel",
     role: "VP of Operations",
-    image:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces&q=80",
+    defaultImage: "/leadership/a3.png",
+    hoverImage: "/leadership/n3.png",
     linkedIn: "#",
   },
   {
     name: "Amy Golding",
     role: "VP of Sales",
-    image:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces&q=80",
+    defaultImage: "/leadership/a4.png",
+    hoverImage: "/leadership/n4.png",
     linkedIn: "#",
   },
   {
     name: "Jenn Misora",
     role: "VP of Customer Success",
-    image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=faces&q=80",
+    defaultImage: "/leadership/a5.png",
+    hoverImage: "/leadership/n5.png",
     linkedIn: "#",
   },
   {
     name: "Chris O'Dell",
     role: "VP of Market Solutions",
-    image:
-      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=faces&q=80",
+    defaultImage: "/leadership/a6.png",
+    hoverImage: "/leadership/n6.png",
     linkedIn: "#",
   },
 ];
