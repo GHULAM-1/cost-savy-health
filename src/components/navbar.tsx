@@ -51,8 +51,7 @@ export default function Navbar() {
 
       <MobileMenu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
 
-      <PromotionBar />
+      {/* <PromotionBar /> */}
     </div>
   );
 }
-
