@@ -45,14 +45,32 @@ import {
   providersSchema,
   ProvidersSchemaType,
 } from "@/schema/providers-schema";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function MyForm() {
+export default function SearchBar() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const initialSearchCare = searchParams.get("searchCare") || "";
+  const initialZipCode = searchParams.get("zipCode") || "1099";
+  const initialInsurance = searchParams.get("insurance") || "";
+
   const form = useForm<ProvidersSchemaType>({
     resolver: zodResolver(providersSchema),
-    defaultValues: { searchCare: "", zipCode: "", insurance: "" },
+    defaultValues: {
+      searchCare: initialSearchCare,
+      zipCode: initialZipCode,
+      insurance: initialInsurance,
+    },
   });
   function onSubmit(values: ProvidersSchemaType) {
     console.log(values);
+    const params = new URLSearchParams();
+    if (values.searchCare) params.set("searchCare", values.searchCare);
+    if (values.zipCode) params.set("zipCode", values.zipCode);
+    if (values.insurance) params.set("insurance", values.insurance);
+
+    router.push(`/providers?${params.toString()}`);
   }
 
   return (
