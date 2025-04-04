@@ -5,6 +5,7 @@ import NavLinks from "./nav-links";
 import Hamburger from "./hamburger-icon";
 import MobileMenu from "./mobile-menu";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar() {
   // STATES
@@ -29,12 +30,17 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-5 text-[16px]">
             <NavLinks />
             <div className="flex items-center justify-center text-white">|</div>
-            <button className="text-white hover:text-[#4CD7C6] transition-colors font-medium">
-              Sign Up
-            </button>
-            <button className="bg-[#a9e6e1] text-[#0A2533] px-5 py-1 rounded-full hover:bg-teal-100 transition-colors cursor-pointer">
-              Platform Sign In
-            </button>
+            <Link
+              href="/auth"
+              className="flex items-center justify-center gap-4"
+            >
+              <button className="text-white hover:text-[#4CD7C6] transition-colors font-medium cursor-pointer">
+                Sign Up
+              </button>
+              <button className="bg-[#a9e6e1] text-[#0A2533] px-5 py-1 rounded-full hover:bg-teal-100 transition-colors cursor-pointer">
+                Platform Sign In
+              </button>
+            </Link>
           </div>
 
           <div className="lg:hidden">
