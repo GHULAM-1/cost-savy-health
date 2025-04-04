@@ -4,7 +4,6 @@ import React from "react";
 import {
   Area,
   AreaChart,
-  CartesianGrid,
   XAxis,
   YAxis,
   ReferenceLine,
