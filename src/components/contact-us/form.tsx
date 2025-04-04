@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formSchema, FormSchemaType } from "@/schema/form-schema";
+import { formSchema, FormSchemaType } from "@/schema/contact-form-schema";
 import { organization } from "@/data/contact-us/organization"; // Now using correct content for Organization Type
 import { hearAboutUs } from "@/data/contact-us/hear-about-us"; // Correct data for Hear About Us
 

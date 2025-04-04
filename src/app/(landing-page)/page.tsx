@@ -8,7 +8,7 @@ import Testimonial from "@/components/testimonial";
 import Enterprise from "@/components/landing-page/enterprise";
 import EnterpriseSolutions from "@/components/enterprise-solution";
 import JoinTeam from "@/components/landing-page/join-team";
-import quotation from "../../public/Testimonial/Quotation.webp";
+import quotation from "../../../public/Testimonial/Quotation.webp";
 export default function Home() {
   return (
     <>

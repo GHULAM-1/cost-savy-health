@@ -1,0 +1,62 @@
+export const insuranceOptions = [
+  {
+    id: "no-insurance",
+    name: "I'm not using insurance",
+    category: "No Insurance",
+    plans: [],
+  },
+  {
+    id: "aetna",
+    name: "Aetna POS",
+    category: "Aetna",
+    plans: ["POS"],
+  },
+  {
+    id: "anthem-ca",
+    name: "Anthem CA PPO",
+    category: "Anthem",
+    plans: ["PPO"],
+    region: "California",
+  },
+  {
+    id: "anthem-ny",
+    name: "Anthem NY (Empire) PPO",
+    category: "Anthem",
+    plans: ["PPO"],
+    region: "New York",
+  },
+  {
+    id: "bcbs-il",
+    name: "Blue Cross Blue Shield Illinois PPO",
+    category: "Blue Cross Blue Shield",
+    plans: ["PPO"],
+    region: "Illinois",
+  },
+  {
+    id: "bcbs-tx",
+    name: "Blue Cross Blue Shield Texas PPO",
+    category: "Blue Cross Blue Shield",
+    plans: ["PPO"],
+    region: "Texas",
+  },
+  {
+    id: "blue-shield-ca",
+    name: "Blue Shield California PPO",
+    category: "Blue Shield",
+    plans: ["PPO"],
+    region: "California",
+  },
+  {
+    id: "cigna",
+    name: "Cigna National OAP",
+    category: "Cigna",
+    plans: ["OAP"],
+    region: "National",
+  },
+  {
+    id: "united",
+    name: "United Healthcare Choice Plus",
+    category: "United Healthcare",
+    plans: ["Choice Plus"],
+  },
+] as const;
