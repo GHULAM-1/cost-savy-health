@@ -24,7 +24,7 @@ interface TwoArticlesProps {
 
 export default function TwoArticles({ articles }: TwoArticlesProps) {
   return (
-    <div className="p-6 md:pt-12 lg:p-12 xl:px-25">
+    <div className="p-6  lg:px-12 xl:px-25">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {articles.map((article, index) => (
           <Link

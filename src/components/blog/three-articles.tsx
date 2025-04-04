@@ -27,6 +27,11 @@ export default function ThreeArticles({ articles }: ThreeArticlesProps) {
 
   return (
     <>
+      {remainingArticles.length > 0 && (
+        <div className="mt-8 ">
+          <TwoArticles articles={remainingArticles} />
+        </div>
+      )}
       <div className="p-4 md:p-8 lg:p-12 xl:px-25">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {firstThreeArticles.map((article, index) => (
@@ -92,12 +97,6 @@ export default function ThreeArticles({ articles }: ThreeArticlesProps) {
           ))}
         </div>
       </div>
-
-      {remainingArticles.length > 0 && (
-        <div className="mt-8 md:mt-12">
-          <TwoArticles articles={remainingArticles} />
-        </div>
-      )}
     </>
   );
 }

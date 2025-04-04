@@ -23,13 +23,6 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { insuranceOptions } from "@/data/landing-page/insurance";
 import { searchCare } from "@/data/landing-page/search-care";
 import { Search, MapPin, ShieldPlus, CheckIcon } from "lucide-react";
@@ -94,7 +87,7 @@ export default function SearchBar() {
                           setOpen(isOpen);
                           if (isOpen && containerRef.current) {
                             setPopoverWidth(
-                              containerRef.current.offsetWidth - 10
+                              containerRef.current.offsetWidth + 5
                             );
                           }
                         }}
@@ -111,7 +104,7 @@ export default function SearchBar() {
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent
-                          className="p-0 absolute -left-10"
+                          className="p-0 absolute -left-12"
                           style={{ width: popoverWidth }}
                           align="start"
                         >
@@ -203,49 +196,92 @@ export default function SearchBar() {
               control={form.control}
               name="insurance"
               render={({ field }) => {
+                const [openInsurance, setOpenInsurance] = useState(false);
+                const [searchInsuranceQuery, setSearchInsuranceQuery] =
+                  useState("");
                 const [popoverWidth, setPopoverWidth] = useState(0);
                 const containerRef = useRef<HTMLDivElement>(null);
 
                 return (
-                  <FormItem>
+                  <FormItem className="text-[#03363d]">
                     <div
                       className="px-2 py-3 flex items-center cursor-pointer"
                       ref={containerRef}
                     >
-                      <ShieldPlus className="text-[#03363d] mr-2" size={24} />
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
+                      <ShieldPlus
+                        className="ml-2 text-[#03363d] mr-2"
+                        size={24}
+                      />
+                      <Popover
+                        open={openInsurance}
                         onOpenChange={(isOpen) => {
+                          setOpenInsurance(isOpen);
                           if (isOpen && containerRef.current) {
                             setPopoverWidth(
-                              containerRef.current.offsetWidth - 10
+                              containerRef.current.offsetWidth + 14
                             );
                           }
                         }}
                       >
-                        <FormControl>
-                          <SelectTrigger className="border-none  focus-visible:ring-0 p-0 w-full text-lg shadow-none [&>svg]:hidden">
-                            <SelectValue placeholder="I'm not using insurance" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent
-                          className="max-h-[300px] right-4 overflow-y-auto"
-                          position="popper"
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className="w-[90%] justify-between focus-visible:ring-0 text-lg font-normal px-0 border-none shadow-none hover:bg-transparent cursor-pointer"
+                            >
+                              {field.value || "I'm not using insurance"}
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="p-0 absolute -left-11"
+                          style={{ width: popoverWidth }}
                           align="start"
-                          sideOffset={4}
-                          style={{
-                            width: `${popoverWidth}px`,
-                            maxWidth: "100%",
-                          }}
                         >
-                          {insuranceOptions.map((option) => (
-                            <SelectItem key={option.id} value={option.id}>
-                              {option.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                          <Command>
+                            <CommandInput
+                              placeholder="Search insurance..."
+                              value={searchInsuranceQuery}
+                              onValueChange={setSearchInsuranceQuery}
+                            />
+                            <CommandEmpty>No insurance found.</CommandEmpty>
+                            <CommandGroup>
+                              <div className="max-h-48 w-full overflow-y-auto">
+                                {insuranceOptions
+                                  .filter((option) =>
+                                    option.name
+                                      .toLowerCase()
+                                      .includes(
+                                        searchInsuranceQuery.toLowerCase()
+                                      )
+                                  )
+                                  .map((option) => (
+                                    <CommandItem
+                                      key={option.id}
+                                      value={option.id}
+                                      onSelect={() => {
+                                        field.onChange(option.id);
+                                        setOpenInsurance(false);
+                                        setSearchInsuranceQuery("");
+                                      }}
+                                    >
+                                      {option.name}
+                                      <CheckIcon
+                                        className={cn(
+                                          "ml-auto h-4 w-4",
+                                          field.value === option.id
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                    </CommandItem>
+                                  ))}
+                              </div>
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                     </div>
                     <FormMessage />
                   </FormItem>
