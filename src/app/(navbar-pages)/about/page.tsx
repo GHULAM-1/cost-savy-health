@@ -4,7 +4,7 @@ import Vision from "@/components/about/vision";
 import React from "react";
 import ServiceHighlight from "@/components/about/service-highlights";
 import CollaborativePannel from "@/components/about/collaborative-pannel";
-import quotation from "../../../public/Testimonial/Quotation.webp";
+import quotation from "../../../../public/Testimonial/Quotation.webp";
 import Testimonial from "@/components/testimonial";
 import LeadershipShowcase from "@/components/about/leadership-showcase";
 import { JoinTeam } from "@/components/about/about-join-team";

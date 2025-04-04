@@ -33,19 +33,19 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 text-lg">
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Search Care
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Services
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Providers
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -56,24 +56,24 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 text-lg">
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Providers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Payers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   ASCs
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Employers
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -84,24 +84,24 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 text-lg">
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Data
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Contracting
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Compliance
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   All Features
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -112,29 +112,35 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3 text-lg">
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link
+                  href="/about"
+                  className="text-gray-600 hover:text-[#06b6d4]"
+                >
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Careers
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link
+                  href="/blog"
+                  className="text-gray-600 hover:text-[#06b6d4]"
+                >
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Press & Media
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Partnerships
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -142,24 +148,24 @@ const Footer = () => {
           <div className="self-end ">
             <ul className="space-y-3 text-lg ">
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Reports
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   MRF Resources
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   Research Datasets
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-600 hover:text-[#06b6d4]">
+                <Link href="#" className="text-gray-600 hover:text-[#06b6d4]">
                   TQU
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -171,18 +177,30 @@ const Footer = () => {
             Medical Association. All Rights Reserved.
           </div>
           <div className="flex flex-wrap gap-6">
-            <a href="#" className="text-sm text-gray-600 hover:text-[#06b6d4]">
+            <Link
+              href="#"
+              className="text-sm text-gray-600 hover:text-[#06b6d4]"
+            >
               Contact Us
-            </a>
-            <a href="#" className="text-sm text-gray-600 hover:text-[#06b6d4]">
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-gray-600 hover:text-[#06b6d4]"
+            >
               Email Us
-            </a>
-            <a href="#" className="text-sm text-gray-600 hover:text-[#06b6d4]">
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-gray-600 hover:text-[#06b6d4]"
+            >
               Privacy Policy
-            </a>
-            <a href="#" className="text-sm text-gray-600 hover:text-[#06b6d4]">
+            </Link>
+            <Link
+              href="#"
+              className="text-sm text-gray-600 hover:text-[#06b6d4]"
+            >
               Terms of Use
-            </a>
+            </Link>
           </div>
         </div>
       </div>

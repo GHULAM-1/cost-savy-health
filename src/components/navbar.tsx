@@ -5,7 +5,7 @@ import NavLinks from "./nav-links";
 import Hamburger from "./hamburger-icon";
 import MobileMenu from "./mobile-menu";
 import { X } from "lucide-react";
-
+import Link from "next/link";
 export default function Navbar() {
   // STATES
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,10 +20,12 @@ export default function Navbar() {
       <nav className="py-3 px-2 md:px-5  bg-[#03363d] w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="text-[#4CD7C6] text-2xl font-bold flex items-center justify-center gap-1">
-              <span className="text-5xl">+</span>
-              <span className="text-white">Turquoise Health</span>
-            </div>
+            <Link href="/">
+              <div className="text-[#4CD7C6] text-2xl font-bold flex items-center justify-center gap-1">
+                <span className="text-5xl">+</span>
+                <span className="text-white">Turquoise Health</span>
+              </div>
+            </Link>
           </div>
 
           <div className="hidden lg:flex items-center gap-5 text-[16px]">

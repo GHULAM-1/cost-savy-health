@@ -32,15 +32,9 @@ import {
 } from "@/components/ui/select";
 import { insuranceOptions } from "@/data/landing-page/insurance";
 import { searchCare } from "@/data/landing-page/search-care";
-import {
-  Search,
-  MapPin,
-  ShieldPlus,
-  CheckIcon,
-  SearchCheck,
-} from "lucide-react";
+import { Search, MapPin, ShieldPlus, CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import {
   providersSchema,
   ProvidersSchemaType,
@@ -52,7 +46,7 @@ export default function SearchBar() {
   const router = useRouter();
 
   const initialSearchCare = searchParams.get("searchCare") || "";
-  const initialZipCode = searchParams.get("zipCode") || "1099";
+  const initialZipCode = searchParams.get("zipCode") || "";
   const initialInsurance = searchParams.get("insurance") || "";
 
   const form = useForm<ProvidersSchemaType>({
@@ -63,8 +57,8 @@ export default function SearchBar() {
       insurance: initialInsurance,
     },
   });
+
   function onSubmit(values: ProvidersSchemaType) {
-    console.log(values);
     const params = new URLSearchParams();
     if (values.searchCare) params.set("searchCare", values.searchCare);
     if (values.zipCode) params.set("zipCode", values.zipCode);
@@ -75,142 +69,195 @@ export default function SearchBar() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-auto mx-auto py-10"
-      >
-        <div className="flex flex-col lg:flex-row w-full border-2 border-gray-200 rounded-lg overflow-hidden divide-y-2 lg:divide-y-0 lg:divide-x-2 divide-gray-200">
-          <FormField
-            control={form.control}
-            name="searchCare"
-            render={({ field }) => {
-              const [open, setOpen] = useState(false);
-              const [searchQuery, setSearchQuery] = useState("");
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-10">
+        <div className="flex flex-col lg:flex-row w-full border-2 border-gray-200 rounded-lg overflow-hidden">
+          <div className="relative flex-1">
+            <FormField
+              control={form.control}
+              name="searchCare"
+              render={({ field }) => {
+                const [open, setOpen] = useState(false);
+                const [searchQuery, setSearchQuery] = useState("");
+                const [popoverWidth, setPopoverWidth] = useState(0);
+                const containerRef = useRef<HTMLDivElement>(null);
 
-              return (
-                <FormItem className="flex-1 text-gray-400">
-                  <div className="px-2 py-3 flex items-center">
-                    <div>
-                      <Search className=" ml-2 mr-2" size={24} />
+                return (
+                  <FormItem className="text-[#03363d]">
+                    <div
+                      className="px-2 py-3 flex items-center cursor-pointer"
+                      ref={containerRef}
+                    >
+                      <Search className="ml-2 text-[#03363d] mr-2" size={24} />
+                      <Popover
+                        open={open}
+                        onOpenChange={(isOpen) => {
+                          setOpen(isOpen);
+                          if (isOpen && containerRef.current) {
+                            setPopoverWidth(
+                              containerRef.current.offsetWidth - 10
+                            );
+                          }
+                        }}
+                      >
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className="w-[90%] justify-between focus-visible:ring-0 text-lg font-normal px-0 border-none shadow-none hover:bg-transparent cursor-pointer"
+                            >
+                              {field.value || "Search for care..."}
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="p-0 absolute -left-10"
+                          style={{ width: popoverWidth }}
+                          align="start"
+                        >
+                          <Command>
+                            <CommandInput
+                              placeholder="Search care..."
+                              value={searchQuery}
+                              onValueChange={setSearchQuery}
+                            />
+                            <CommandEmpty>No care found.</CommandEmpty>
+                            <CommandGroup>
+                              <div className="max-h-48 w-full overflow-y-auto">
+                                {searchCare
+                                  .filter((option) =>
+                                    option.name
+                                      .toLowerCase()
+                                      .includes(searchQuery.toLowerCase())
+                                  )
+                                  .slice(0, 15)
+                                  .map((option) => (
+                                    <CommandItem
+                                      key={option.name}
+                                      value={option.name}
+                                      onSelect={() => {
+                                        field.onChange(option.name);
+                                        setOpen(false);
+                                        setSearchQuery("");
+                                      }}
+                                    >
+                                      {}
+                                      {option.name}
+                                      <CheckIcon
+                                        className={cn(
+                                          "ml-auto h-4 w-4",
+                                          field.value === option.name
+                                            ? "opacity-100"
+                                            : "opacity-0"
+                                        )}
+                                      />
+                                    </CommandItem>
+                                  ))}
+                              </div>
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                     </div>
-                    <Popover open={open} onOpenChange={setOpen}>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className="w-[90%] justify-between text-lg font-normal px-0 border-none shadow-none hover:bg-transparent"
-                          >
-                            {field.value || "Search for care..."}
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[100%] p-0">
-                        <Command>
-                          <CommandInput
-                            placeholder="Search care..."
-                            value={searchQuery}
-                            onValueChange={setSearchQuery}
-                          />
-                          <CommandEmpty>No care found.</CommandEmpty>
-                          <CommandGroup>
-                            <div className="max-h-48 w-[100%] overflow-y-auto">
-                              {searchCare
-                                .filter((option) =>
-                                  option.name
-                                    .toLowerCase()
-                                    .includes(searchQuery.toLowerCase())
-                                )
-                                .slice(0, 15)
-                                .map((option) => (
-                                  <CommandItem
-                                    key={option.name}
-                                    value={option.name}
-                                    onSelect={() => {
-                                      field.onChange(option.name);
-                                      setOpen(false);
-                                      setSearchQuery("");
-                                    }}
-                                  >
-                                    {option.name}
-                                    <CheckIcon
-                                      className={cn(
-                                        "ml-auto h-4 w-4",
-                                        field.value === option.name
-                                          ? "opacity-100"
-                                          : "opacity-0"
-                                      )}
-                                    />
-                                  </CommandItem>
-                                ))}
-                            </div>
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </div>
+
+          <div className="hidden lg:flex items-center">
+            <div className="w-px bg-gray-200" style={{ height: "70%" }} />
+          </div>
+
+          <div className="relative flex-1">
+            <FormField
+              control={form.control}
+              name="zipCode"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="px-2 py-3 flex items-center cursor-pointer">
+                    <MapPin className="ml-2 mr-2 text-[#03363d]" size={24} />
+                    <FormControl>
+                      <Input
+                        placeholder="Enter Zip Code"
+                        type="number"
+                        className="border-none focus-visible:ring-0 shadow-none text-lg pl-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        value={field.value || ""}
+                        onChange={(e) => field.onChange(e.target.value)}
+                      />
+                    </FormControl>
                   </div>
                   <FormMessage />
                 </FormItem>
-              );
-            }}
-          />
+              )}
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="zipCode"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <div className="px-2 py-3 flex items-center">
-                  <MapPin className="text-gray-400 ml-2 mr-2" size={24} />
-                  <FormControl>
-                    <Input
-                      placeholder="Enter Zip Code"
-                      type="number"
-                      className="border-none focus-visible:ring-0 shadow-none text-lg pl-0"
-                      value={field.value || ""}
-                      onChange={(e) => field.onChange(e.target.value)}
-                    />
-                  </FormControl>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="hidden lg:flex items-center">
+            <div className="w-px bg-gray-200" style={{ height: "70%" }} />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="insurance"
-            render={({ field }) => (
-              <FormItem className="flex-1">
-                <div className="px-2 py-3 flex items-center">
-                  <ShieldPlus className="text-[#4CD7C6] mr-2" size={24} />
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="border-none p-0 h-auto w-full focus:ring-0 text-lg">
-                        <SelectValue placeholder="I'm not using insurance" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent className="">
-                      {insuranceOptions.map((option) => (
-                        <SelectItem key={option.id} value={option.id}>
-                          {option.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className="relative flex-1">
+            <FormField
+              control={form.control}
+              name="insurance"
+              render={({ field }) => {
+                const [popoverWidth, setPopoverWidth] = useState(0);
+                const containerRef = useRef<HTMLDivElement>(null);
 
-          <div className="px-4 py-3 w-full lg:w-auto">
+                return (
+                  <FormItem>
+                    <div
+                      className="px-2 py-3 flex items-center cursor-pointer"
+                      ref={containerRef}
+                    >
+                      <ShieldPlus className="text-[#03363d] mr-2" size={24} />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        onOpenChange={(isOpen) => {
+                          if (isOpen && containerRef.current) {
+                            setPopoverWidth(
+                              containerRef.current.offsetWidth - 10
+                            );
+                          }
+                        }}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="border-none  focus-visible:ring-0 p-0 w-full text-lg shadow-none [&>svg]:hidden">
+                            <SelectValue placeholder="I'm not using insurance" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent
+                          className="max-h-[300px] right-4 overflow-y-auto"
+                          position="popper"
+                          align="start"
+                          sideOffset={4}
+                          style={{
+                            width: `${popoverWidth}px`,
+                            maxWidth: "100%",
+                          }}
+                        >
+                          {insuranceOptions.map((option) => (
+                            <SelectItem key={option.id} value={option.id}>
+                              {option.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </div>
+
+          <div className="px-4 py-2 w-full lg:w-auto">
             <Button
               type="submit"
-              className="flex items-center justify-center bg-[#03363D] text-white px-4 py-2 rounded hover:bg-[#044955] transition-colors w-full lg:h-full lg:w-auto"
+              className="flex items-center justify-center bg-[#03363D] text-white px-5 py-4 rounded hover:bg-[#044955] transition-colors w-full lg:h-full lg:w-auto cursor-pointer"
             >
               <span className="lg:hidden">Search Care</span>
               <Search size={24} className="hidden lg:block" />

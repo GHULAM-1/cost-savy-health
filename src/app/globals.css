@@ -59,10 +59,21 @@
   animation: slideUp 0.6s ease-in-out forwards;
 }
 
-body {
-  /* background: var(--background); */
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
+[data-radix-popper-content-wrapper] {
+  min-width: unset !important;
+  width: var(--radix-select-trigger-width) !important;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);

@@ -1,6 +1,7 @@
 import React from "react";
 import { Clock } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Author {
   image: string;
@@ -23,25 +24,32 @@ interface TwoArticlesProps {
 
 export default function TwoArticles({ articles }: TwoArticlesProps) {
   return (
-    <div className="p-6 md:pt-12 md:px-40">
-      <div className="grid md:grid-cols-2 gap-8">
+    <div className="p-6 md:pt-12 lg:p-12 xl:px-25">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {articles.map((article, index) => (
-          <div key={index} className="flex flex-col bg-white">
-            <Image
-              src={article.image}
-              alt={article.title}
-              width={320}
-              height={200}
-              className="w-full h-48 object-cover rounded-t-lg"
-            />
+          <Link
+            href="#"
+            key={index}
+            className="cursor-pointer flex flex-col bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
+          >
+            <div className="relative w-full h-48 sm:h-56 md:h-64 lg:h-56 xl:h-64">
+              <Image
+                src={article.image}
+                alt={article.title}
+                fill
+                className="object-cover rounded-t-lg"
+                sizes="(max-width: 1024px) 50vw, 50vw"
+              />
+            </div>
+
             <div className="p-6">
-              <div className="text-teal-500 text-[12px] font-light mb-2">
+              <div className="text-teal-500 text-[12px] lg:text-xs font-light mb-2">
                 {article.category}
               </div>
-              <h2 className="text-2xl text-[#0D3B4C] font-bold leading-tight mb-4">
+              <h2 className="text-2xl lg:text-xl xl:text-2xl font-bold text-[#0D3B4C] leading-tight mb-4">
                 {article.title}
               </h2>
-              <p className="text-gray-600 mb-4 font-light">
+              <p className="text-gray-600 mb-4 font-light lg:text-sm xl:text-base">
                 {article.description}
               </p>
 
@@ -61,7 +69,7 @@ export default function TwoArticles({ articles }: TwoArticlesProps) {
                   ))}
                 </div>
                 <div>
-                  <div className="font-medium text-[#0D3B4C]">
+                  <div className="font-medium text-[#0D3B4C] lg:text-xs xl:text-sm">
                     {article.authors.map((a) => a.name).join(", ")}
                   </div>
                   <div className="flex items-center text-gray-500 text-[12px]">
@@ -75,7 +83,7 @@ export default function TwoArticles({ articles }: TwoArticlesProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

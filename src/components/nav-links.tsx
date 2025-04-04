@@ -96,7 +96,11 @@ export default function NavLinks() {
             description: "Industry insights and analysis.",
             url: "/about",
           },
-          { title: "Blog", description: "Latest updates and news.", url: "#" },
+          {
+            title: "Blog",
+            description: "Latest updates and news.",
+            url: "/blog",
+          },
           {
             title: "Documentation",
             description: "Technical guides and resources.",
