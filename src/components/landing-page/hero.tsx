@@ -18,6 +18,7 @@ export default function Hero() {
             placeholder="Search for care..."
             className="w-full focus:outline-none text-lg text-zinc-900"
           />
+                        
         </div>
 
         <div className="flex-1 px-4 py-3 flex items-center w-full">
