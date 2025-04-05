@@ -35,13 +35,16 @@ import {
 import { useRouter, useSearchParams } from "next/navigation";
 
 export default function SearchBar() {
+  //HOOKS
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  //CONSTANTS
   const initialSearchCare = searchParams.get("searchCare") || "";
   const initialZipCode = searchParams.get("zipCode") || "";
   const initialInsurance = searchParams.get("insurance") || "";
 
+  //FORM
   const form = useForm<ProvidersSchemaType>({
     resolver: zodResolver(providersSchema),
     defaultValues: {
@@ -50,7 +53,8 @@ export default function SearchBar() {
       insurance: initialInsurance,
     },
   });
-
+  
+  //FUNCTIONS
   function onSubmit(values: ProvidersSchemaType) {
     const params = new URLSearchParams();
     if (values.searchCare) params.set("searchCare", values.searchCare);
@@ -261,7 +265,7 @@ export default function SearchBar() {
                                       key={option.id}
                                       value={option.id}
                                       onSelect={() => {
-                                        field.onChange(option.id);
+                                        field.onChange(option.name);
                                         setOpenInsurance(false);
                                         setSearchInsuranceQuery("");
                                       }}
@@ -270,7 +274,7 @@ export default function SearchBar() {
                                       <CheckIcon
                                         className={cn(
                                           "ml-auto h-4 w-4",
-                                          field.value === option.id
+                                          field.value === option.name
                                             ? "opacity-100"
                                             : "opacity-0"
                                         )}

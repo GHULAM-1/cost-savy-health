@@ -1,28 +1,14 @@
 import React from "react";
 import { MapPin, Star, ShieldCheck, Check } from "lucide-react";
+import { ProviderCardProps } from "@/types/providers/providers-card";
 
-interface ProviderCardProps {
-  facility: {
-    id: string;
-    name: string;
-    type: string;
-    location: {
-      city: string;
-      state: string;
-      distance: number;
-    };
-    rating: number | null;
-    price: number;
-    inNetwork: boolean;
-    initial: string;
-  };
-}
+
 
 export function ProviderCard({ facility }: ProviderCardProps) {
   return (
     <div className="group bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
       <div className="grid md:grid-cols-[3fr_1fr_1fr] gap-4 md:gap-8 p-4 md:p-0 ">
-        <div className="flex flex-col items-start gap-2 md:p-4 md:py-8">
+        <div className="flex flex-col items-start gap-2 md:p-4">
           <div className="flex items-start gap-4">
             <div className="hidden md:flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#CD8B65] items-center justify-center">
               <span className="text-white text-md md:text-lg font-semibold">
@@ -66,14 +52,14 @@ export function ProviderCard({ facility }: ProviderCardProps) {
           </div>
         </div>
 
-        <div className="md:border-r-2 md:border-gray-200 md:pr-6 py-2 md:py-4 text-left md:text-right order-last md:order-none">
+        <div className="md:border-r-2 md:border-gray-200 md:pr-6 py-2 md:py-4 text-center md:text-right order-last md:order-none">
           <div className="text-sm text-gray-600">
             up to{" "}
             <span className="text-lg md:text-xl font-semibold text-[#1B3B36]">
               ${facility.price.toLocaleString()}
             </span>
           </div>
-          <div className="flex md:justify-end items-center gap-1 text-[#2A665B] mt-1">
+          <div className="flex justify-center md:justify-end items-center gap-1 text-[#2A665B] mt-1">
             <span className="text-sm underline">Significantly lower</span>
             <span className="text-xs transform transition-transform duration-300 group-hover:-rotate-45">
               ↓

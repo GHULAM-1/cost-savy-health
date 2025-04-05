@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import { Menu } from "lucide-react";
+import { ListFilter } from "lucide-react";
 import { FilterDropdown } from "./filter-dropdowns";
 
 export function FilterBar() {
+  //STATES
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-
+  
+  //HANDLERS
   const toggleDropdown = (dropdown: string) => {
     setOpenDropdown(openDropdown === dropdown ? null : dropdown);
   };
@@ -13,7 +15,7 @@ export function FilterBar() {
   return (
     <div className="flex flex-wrap items-center gap-3  px-4 sm:px-0">
       <button className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-[#a9e6e1] rounded-full">
-        <Menu className="text-[#1B3B36] w-4 h-4 md:w-6 md:h-6" />
+        <ListFilter className="text-[#1B3B36] w-4 h-4 md:w-6 md:h-6" />
       </button>
 
       <div className="flex flex-wrap gap-3">

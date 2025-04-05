@@ -4,11 +4,16 @@ import { useSearchParams } from "next/navigation";
 import React, { useState, useMemo } from "react";
 
 export default function ProcedureInfo() {
-  const searchParams = useSearchParams();
+  //STATES
   const [showFullDescription, setShowFullDescription] = useState(false);
+  
+  //HOOKS
+  const searchParams = useSearchParams();
 
+  //CONSTANTS
   const searchCare = searchParams.get("searchCare") || "";
 
+  //FUNCTIONS
   const { shortDescription } = useMemo(() => {
     const firstParagraph = fullDescription.split("\n")[0];
 
