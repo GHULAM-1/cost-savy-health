@@ -14,6 +14,7 @@ export default function AllProviders() {
     <>
       <ProvidersSearch />
       <FilterBar />
+      <ProcedureInfoDetails />
 
       <div className="lg:hidden flex items-center justify-start my-4 ml-4">
         <button
@@ -25,25 +26,21 @@ export default function AllProviders() {
         </button>
       </div>
 
-      <div className="flex flex-col lg:flex-row items-start justify-between">
+      <div className="flex flex-col lg:flex-row items-start justify-between gap-4">
         <div
           className={`${
             isMapVisible ? "hidden lg:block" : "block"
-          } lg:w-2/3 w-full flex flex-col`}
+          } w-full lg:w-2/3`}
         >
-          {!isMapVisible && (
-            <>
-              <ProcedureInfoDetails />
-              <ProviderCards />
-            </>
-          )}
+          <ProviderCards />
         </div>
+
         <div
           className={`${
             isMapVisible ? "block" : "hidden lg:block"
-          } w-full lg:w-1/3 lg:sticky lg:top-0`}
+          } w-full lg:w-1/3`}
         >
-          <div className="lg:ml-4 lg:mt-7 h-[calc(100vh-150px)]">
+          <div className="lg:sticky lg:top-4 lg:h-[calc(100vh-160px)] mt-10">
             <ProviderMap />
           </div>
         </div>
