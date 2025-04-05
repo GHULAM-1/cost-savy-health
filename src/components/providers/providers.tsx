@@ -39,9 +39,9 @@ export default function AllProviders() {
         <div
           className={`${
             isMapVisible ? "block" : "hidden lg:block"
-          } w-full lg:w-1/3`}
+          } w-full lg:w-1/3 lg:sticky lg:top-4 lg:h-[calc(100vh-530px)] mt-10`}
         >
-          <div className="lg:sticky lg:top-4 lg:h-[calc(100vh-160px)] mt-10">
+          <div className="">
             <ProviderMap />
           </div>
         </div>

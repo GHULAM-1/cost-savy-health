@@ -179,7 +179,7 @@ export default function SearchBar() {
                       <Input
                         placeholder="Enter Zip Code"
                         type="number"
-                        className="border-none focus-visible:ring-0 shadow-none text-lg pl-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="border-none focus-visible:ring-0 shadow-none !text-lg pl-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         value={field.value || ""}
                         onChange={(e) => field.onChange(e.target.value)}
                       />
