@@ -11,8 +11,21 @@ import { Label } from "@/components/ui/label";
 import Icon from "../svg-icon";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import React, { FormEvent } from "react";
 
-export default function SignUpForm({ onSwitch }: { onSwitch: () => void }) {
+export default function SignUpForm({
+  authType,
+  onSwitch,
+}: {
+  authType: "business" | "consumer" | null;
+  onSwitch: () => void;
+}) {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const values = Object.fromEntries(formData.entries());
+    console.log("Form Values:", values);
+  };
   return (
     <Card className="bg-white border border-gray-300 text-gray-900 rounded-t-lg pt-0">
       <Link
@@ -42,7 +55,9 @@ export default function SignUpForm({ onSwitch }: { onSwitch: () => void }) {
       </CardHeader>
 
       <CardContent>
-        <form>
+        <form onSubmit={handleSubmit}>
+          <input type="hidden" name="authType" value={authType ?? ""} />
+
           <div className="grid gap-4">
             <div className="flex flex-col gap-3">
               <Button
@@ -62,30 +77,30 @@ export default function SignUpForm({ onSwitch }: { onSwitch: () => void }) {
 
             <div className="grid gap-4">
               <div className="grid gap-1">
-                <Label htmlFor="email" className="text-sm text-gray-700">
-                  Email
-                </Label>
+                <Label htmlFor="signup-email">Email</Label>
                 <Input
-                  id="email"
+                  id="signup-email"
+                  name="email"
                   type="email"
+                  required
                   placeholder="m@example.com"
                   className="bg-white border border-gray-300 text-gray-900 placeholder:text-gray-800 focus-visible:ring-gray-300 h-9"
                 />
               </div>
               <div className="grid gap-1">
-                <Label htmlFor="password" className="text-sm text-gray-700">
-                  Password
-                </Label>
+                <Label htmlFor="signup-password">Password</Label>
                 <Input
-                  id="password"
+                  id="signup-password"
+                  name="password"
                   type="password"
+                  required
                   className="bg-white border border-gray-300 text-gray-900 placeholder:text-gray-800 focus-visible:ring-gray-300 h-9"
                 />
               </div>
 
               <Button
                 type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-700 text-sm font-medium uppercase flex items-center justify-center gap-2 h-9 cursor-pointer"
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium uppercase flex items-center justify-center gap-2 h-9 cursor-pointer"
               >
                 Sign Up
                 <ChevronRight className="h-4 w-4" />
