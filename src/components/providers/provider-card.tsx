@@ -2,12 +2,20 @@ import React from "react";
 import { MapPin, Star, ShieldCheck, Check } from "lucide-react";
 import { ProviderCardProps } from "@/types/providers/providers-card";
 
+interface ExtendedProviderCardProps extends ProviderCardProps {
+  onClick?: () => void;
+}
 
-
-export function ProviderCard({ facility }: ProviderCardProps) {
+export default function ProviderCard({
+  facility,
+  onClick,
+}: ExtendedProviderCardProps) {
   return (
-    <div className="group bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer">
-      <div className="grid md:grid-cols-[3fr_1fr_1fr] gap-4 md:gap-8 p-4 md:p-0 ">
+    <div
+      className="group bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      onClick={onClick}
+    >
+      <div className="grid md:grid-cols-[3fr_1fr_1fr] gap-4 md:gap-8 p-4 md:p-0">
         <div className="flex flex-col items-start gap-2 md:p-4">
           <div className="flex items-start gap-4">
             <div className="hidden md:flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#CD8B65] items-center justify-center">

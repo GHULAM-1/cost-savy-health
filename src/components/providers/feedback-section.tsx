@@ -3,7 +3,7 @@ import Icon from "../svg-icon";
 
 export function FeedbackSection() {
   return (
-    <div className="rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 mt-6 w-full max-w-[905px] bg-gray-50">
+    <div className="rounded-2xl shadow-sm border border-gray-100 p-4 md:p-6 mt-10 w-full max-w-[905px] bg-gray-50">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
         <div className="flex items-start md:items-center gap-3 md:gap-4 w-full">
           <div className="shrink-0">

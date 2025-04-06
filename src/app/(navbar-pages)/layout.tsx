@@ -3,6 +3,7 @@ import { Source_Serif_4 } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { Toaster } from "sonner";
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <Navbar />
         {children}
         <Footer />
+        <Toaster richColors position="top-center" />
       </body>
     </html>
   );
