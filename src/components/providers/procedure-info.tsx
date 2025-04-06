@@ -11,7 +11,7 @@ export default function ProcedureInfo() {
   const searchParams = useSearchParams();
 
   //CONSTANTS
-  const searchCare = searchParams.get("searchCare") || "";
+  const searchCare = searchParams.get("searchCare") || "Forearm/Wrist Repair - Non-Surgical";
 
   //FUNCTIONS
   const { shortDescription } = useMemo(() => {

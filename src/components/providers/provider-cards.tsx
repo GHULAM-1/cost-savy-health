@@ -16,7 +16,7 @@ function ProviderCards() {
   const [showVerification, setShowVerification] = useState(true);
   const [sortOrder, setSortOrder] = useState("lowest");
   const [currentPage, setCurrentPage] = useState(1);
-  const initialSearchCare = searchParams.get("searchCare") || "";
+  const initialSearchCare = searchParams.get("searchCare") || "Forearm/Wrist Repair - Non-Surgical";
 
   // PAGINATION SETTINGS
   const cardsPerPage = 10;

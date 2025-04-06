@@ -7,7 +7,7 @@ export default function ProcedureMidRange() {
     const searchParams = useSearchParams();
 
   //CONSTANTS
-    const initialSearchCare = searchParams.get("searchCare") || "";
+    const initialSearchCare = searchParams.get("searchCare") || "Forearm/Wrist Repair - Non-Surgical";
 
   
   return (
