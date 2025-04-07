@@ -19,9 +19,9 @@ export default function NavLinks() {
             url: "#",
           },
           {
-            title: "Standard Service Packages",
-            description: "Bundled medical service packages.",
-            url: "#",
+            title: "Providers",
+            description: "View All healthcare providers.",
+            url: "/providers-glossary",
           },
         ]}
       />
