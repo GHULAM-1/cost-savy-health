@@ -1,6 +1,5 @@
 import { GlossaryItem, SearchOption, StateOption } from "@/types/providers-glossary/glossary-types";
 
-// Helper function to generate mock glossary data
 export function generateMockGlossaryData(type: string, count: number): GlossaryItem[] {
   const result: GlossaryItem[] = [];
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

@@ -1,4 +1,3 @@
-// Shared type definitions for the glossary components
 
 export interface GlossaryItem {
     id: string | number;
