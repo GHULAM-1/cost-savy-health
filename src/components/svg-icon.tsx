@@ -17,7 +17,7 @@ const Icon: React.FC<IconProps> = ({
 }) => {
   return (
     <img
-      src={`/icons/${name}.svg`}
+      src={`/Icons/${name}.svg`}
       alt={alt}
       width={width}
       height={height}
