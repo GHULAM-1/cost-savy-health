@@ -178,7 +178,7 @@ const Footer = () => {
           </div>
           <div className="flex flex-wrap gap-6">
             <Link
-              href="#"
+              href="/contact-us"
               className="text-sm text-gray-600 hover:text-[#06b6d4]"
             >
               Contact Us

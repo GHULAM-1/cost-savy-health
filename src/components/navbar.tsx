@@ -49,9 +49,11 @@ export default function Navbar() {
             >
               Sign Up
             </button>
-            <button className="bg-[#a9e6e1] text-[#0A2533] px-5 py-1 rounded-full hover:bg-teal-100 transition-colors cursor-pointer">
-              Platform Sign In
-            </button>
+            <a href="/auth">
+              <button className="bg-[#a9e6e1] text-[#0A2533] px-5 py-1 rounded-full hover:bg-teal-100 transition-colors cursor-pointer">
+                Platform Sign In
+              </button>
+            </a>
           </div>
 
           <div className="lg:hidden">
