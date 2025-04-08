@@ -11,7 +11,11 @@ const LoadingEstimatedCost = () => (
 export default function page() {
   return (
     <div className="px-[16px]">
+<<<<<<< HEAD
       <Suspense fallback={<LoadingEstimatedCost />}>
+=======
+      <Suspense fallback={<div>Loading...</div>}>
+>>>>>>> stagging
         <EstimatedCost />
       </Suspense>
       <Summary />
