@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import ProvidersSearch from "./providers-search";
 import ProcedureInfoDetails from "./procedure-info-details";
 import ProviderCards from "./provider-cards";
@@ -13,9 +13,12 @@ export default function AllProviders() {
 
   return (
     <>
+      <Suspense fallback={<div>Loading...</div>}>
       <ProvidersSearch />
       <FilterBar />
-      <ProcedureInfoDetails />
+
+        <ProcedureInfoDetails />
+
 
       <div className="lg:hidden flex items-center justify-start my-4 ml-4">
         <button
@@ -46,6 +49,7 @@ export default function AllProviders() {
           </div>
         </div>
       </div>
+      </Suspense>
     </>
   );
 }

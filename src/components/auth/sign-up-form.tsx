@@ -30,10 +30,10 @@ export default function SignUpForm({
     <Card className="bg-white border border-gray-300 text-gray-900 rounded-t-lg pt-0">
       <Link
         href="/"
-        className="flex items-center justify-center bg-gray-100 p-4 rounded-t-lg"
+        className="flex items-center justify-center bg-gray-100 p-2 rounded-t-lg"
       >
-        <Icon name="half-logo" width={36} height={36} />
-      </Link>
+        <img src="/icon-black.png" alt="" />
+        </Link>
 
       <div className="text-center text-normal text-gray-600 flex items-center justify-center border-b pb-3 gap-16">
         <button

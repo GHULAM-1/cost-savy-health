@@ -3,6 +3,7 @@ import { ProviderFaqs } from "@/components/providers/provider-faqs";
 import { FeedbackSection } from "@/components/providers/feedback-section";
 
 import React from "react";
+import HealthcareDataTable from "@/components/data/data";
 
 export default function Providers() {
   return (
@@ -10,6 +11,7 @@ export default function Providers() {
       <AllProviders />
       <FeedbackSection />
       <ProviderFaqs />
+      <HealthcareDataTable />
     </div>
   );
 }

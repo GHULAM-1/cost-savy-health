@@ -32,10 +32,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link href="/">
-              <div className="text-[#4CD7C6] text-2xl font-bold flex items-center justify-center gap-1">
-                <span className="text-5xl">+</span>
-                <span className="text-white">Turquoise Health</span>
-              </div>
+              <img src="/logo.png" alt="" className="w-[80%]" />
             </Link>
           </div>
 

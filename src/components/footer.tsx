@@ -1,7 +1,7 @@
 import React from "react";
 import { Linkedin, Twitter } from "lucide-react";
 import Image from "next/image";
-import Logo from "../../public/Footer/Logo.webp";
+import Logo from "../../public/Footer/logo-black.png";
 import Link from "next/link";
 
 const Footer = () => {
