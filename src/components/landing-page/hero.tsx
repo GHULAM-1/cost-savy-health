@@ -2,12 +2,15 @@ import { Search } from "lucide-react";
 import HeroHeading from "./hero-heading";
 import { commonProcedures } from "@/data/landing-page/hero-data";
 import SearchBar from "./landing-form";
+import { Suspense } from "react";
 
 export default function Hero() {
   return (
     <main className="px-6 sm:px-12 py-10 sm:py-20">
       <HeroHeading />
-      <SearchBar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchBar />
+      </Suspense>
       <div className="flex flex-wrap gap-3">
         {commonProcedures.map((procedure, index) => (
           <button
