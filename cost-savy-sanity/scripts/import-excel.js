@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
+
 function generateId(length = 10) {
   return crypto.randomBytes(length).toString('hex');
 }
