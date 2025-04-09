@@ -4,7 +4,13 @@ import NavItem from "./nav-item";
 export default function NavLinks() {
   return (
     <>
+      <a href="/providers-glossary">
       <NavItem
+        text="Providers"
+        hasDropdown={false}
+      />
+      </a>
+      {/* <NavItem
         text="Search Care"
         hasDropdown={true}
         dropdownContent={[
@@ -24,8 +30,8 @@ export default function NavLinks() {
             url: "/providers-glossary",
           },
         ]}
-      />
-      <NavItem
+      /> */}
+      {/* <NavItem
         text="Solutions"
         hasDropdown={true}
         dropdownContent={[
@@ -86,7 +92,7 @@ export default function NavLinks() {
             url: "#",
           },
         ]}
-      />
+      /> */}
       <NavItem
         text="Resources"
         hasDropdown={true}
@@ -101,16 +107,16 @@ export default function NavLinks() {
             description: "Latest updates and news.",
             url: "/blog",
           },
-          {
-            title: "Documentation",
-            description: "Technical guides and resources.",
-            url: "#",
-          },
-          {
-            title: "Case Studies",
-            description: "Learn how others are succeeding.",
-            url: "#",
-          },
+          // {
+          //   title: "Documentation",
+          //   description: "Technical guides and resources.",
+          //   url: "#",
+          // },
+          // {
+          //   title: "Case Studies",
+          //   description: "Learn how others are succeeding.",
+          //   url: "#",
+          // },
           {
             title: "FAQs",
             description: "Find answers to common questions.",
