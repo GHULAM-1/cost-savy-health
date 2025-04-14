@@ -4,6 +4,12 @@ import NavItem from "./nav-item";
 export default function NavLinks() {
   return (
     <>
+      <a href="/">
+      <NavItem
+        text="Search Care"
+        hasDropdown={false}
+      />
+      </a>
       <a href="/providers-glossary">
       <NavItem
         text="Providers"
