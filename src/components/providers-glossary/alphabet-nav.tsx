@@ -15,7 +15,7 @@ const AlphabetNav: React.FC<AlphabetNavProps> = ({ activeLetter, onLetterChange 
         <button 
           key={letter}
           onClick={() => onLetterChange(letter)}
-          className={`px-2 py-1 pb-4 ${activeLetter === letter ? 'text-[#176f6f] border-b-2 border-[#176f6f] font-medium' : 'text-gray-500'} focus:outline-none`}
+          className={`px-2 py-1 pb-4 ${activeLetter === letter ? 'text-[#098481] border-b-2 border-[#098481] font-medium' : 'text-gray-500'} focus:outline-none`}
         >
           {letter}
         </button>

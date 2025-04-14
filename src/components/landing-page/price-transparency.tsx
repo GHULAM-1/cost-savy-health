@@ -19,7 +19,7 @@ export default function PriceTransparency() {
           </p>
           <a
             href="#"
-            className="inline-block bg-[#1D5E5A] text-white px-6 py-3 rounded-full hover:bg-[#044955] transition-colors duration-300"
+            className="inline-block bg-[#098481] text-white px-6 py-3 rounded-full hover:bg-[#035153] transition-colors duration-300"
           >
             Resource Hub
           </a>

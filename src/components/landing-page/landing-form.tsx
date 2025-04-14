@@ -297,7 +297,7 @@ export default function SearchBar() {
           <div className="px-4 py-2 w-full lg:w-auto">
             <Button
               type="submit"
-              className="flex items-center justify-center bg-[#03363D] text-white px-5 py-4 rounded hover:bg-[#044955] transition-colors w-full lg:h-full lg:w-auto cursor-pointer"
+              className="flex items-center justify-center bg-[#098481] text-white px-5 py-4 rounded hover:bg-[#035153] transition-colors w-full lg:h-full lg:w-auto cursor-pointer"
             >
               <span className="lg:hidden">Search Care</span>
               <Search size={24} className="hidden lg:block" />

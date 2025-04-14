@@ -214,7 +214,7 @@ export default function Calculator() {
               </button>
               <button
                 onClick={handleCalculate}
-                className="bg-teal-700 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-800 transition-colors text-sm sm:text-base"
+                className="bg-[#098481] text-white px-6 py-2 rounded-lg font-medium hover:bg-[#035153] transition-colors text-sm sm:text-base"
               >
                 Calculate
               </button>

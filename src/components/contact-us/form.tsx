@@ -81,7 +81,7 @@ export default function MyForm() {
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                     First Name
-                    <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                    <span className="ml-1" style={{ color: "#098481" }}>
                       *
                     </span>
                   </FormLabel>
@@ -90,7 +90,7 @@ export default function MyForm() {
                       placeholder="Enter first name"
                       type="text"
                       {...field}
-                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-0 focus:ring-[#3ac4bb]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -106,7 +106,7 @@ export default function MyForm() {
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                     Last Name
-                    <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                    <span className="ml-1" style={{ color: "#098481" }}>
                       *
                     </span>
                   </FormLabel>
@@ -115,7 +115,7 @@ export default function MyForm() {
                       placeholder="Enter last name"
                       type="text"
                       {...field}
-                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -131,7 +131,7 @@ export default function MyForm() {
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                 Email
-                <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                <span className="ml-1" style={{ color: "#098481" }}>
                   *
                 </span>
               </FormLabel>
@@ -140,7 +140,7 @@ export default function MyForm() {
                   placeholder="Enter email address"
                   type="text"
                   {...field}
-                  className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                  className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
                 />
               </FormControl>
               <FormMessage />
@@ -156,7 +156,7 @@ export default function MyForm() {
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                     Phone Number
-                    <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                    <span className="ml-1" style={{ color: "#098481" }}>
                       *
                     </span>
                   </FormLabel>
@@ -165,7 +165,7 @@ export default function MyForm() {
                       placeholder="XXX-XXX-XXXX"
                       type="number"
                       {...field}
-                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -181,7 +181,7 @@ export default function MyForm() {
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                     Job Title
-                    <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                    <span className="ml-1" style={{ color: "#098481" }}>
                       *
                     </span>
                   </FormLabel>
@@ -190,7 +190,7 @@ export default function MyForm() {
                       placeholder="Enter job title"
                       type="text"
                       {...field}
-                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
                     />
                   </FormControl>
                   <FormMessage />
@@ -206,7 +206,7 @@ export default function MyForm() {
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                 Organization
-                <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                <span className="ml-1" style={{ color: "#098481" }}>
                   *
                 </span>
               </FormLabel>
@@ -215,7 +215,7 @@ export default function MyForm() {
                   placeholder="Enter organization name"
                   type="text"
                   {...field}
-                  className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#3ac4bb]"
+                  className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
                 />
               </FormControl>
               <FormMessage />
@@ -229,7 +229,7 @@ export default function MyForm() {
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                 Organization Type
-                <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                <span className="ml-1" style={{ color: "#098481" }}>
                   *
                 </span>
               </FormLabel>
@@ -297,7 +297,7 @@ export default function MyForm() {
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                 How Did You Hear About Us?
-                <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                <span className="ml-1" style={{ color: "#098481" }}>
                   *
                 </span>
               </FormLabel>
@@ -362,7 +362,7 @@ export default function MyForm() {
             <FormItem>
               <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                 What Problem Can We Help You Solve?
-                <span className="ml-1" style={{ color: "#3ac4bb" }}>
+                <span className="ml-1" style={{ color: "#098481" }}>
                   *
                 </span>
               </FormLabel>
@@ -380,7 +380,7 @@ export default function MyForm() {
 
         <Button
           type="submit"
-          className="bg-[#3ac4bb] text-white px-16 py-6 mx-auto flex items-center justify-center rounded-4xl"
+          className="bg-[#098481] text-white px-16 py-6 mx-auto flex items-center justify-center rounded-4xl"
         >
           Submit
         </Button>

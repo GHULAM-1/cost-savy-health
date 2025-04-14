@@ -26,7 +26,7 @@ export default function HeroHeading() {
         <span className="text-[#03363D] hidden sm:flex">for</span>
         <span
           key={rotatingWords[index]}
-          className="text-[#15706f] animate-slideUp"
+          className="text-[#098481] animate-slideUp"
         >
           {rotatingWords[index]}
         </span>

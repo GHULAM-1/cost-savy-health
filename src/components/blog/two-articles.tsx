@@ -43,7 +43,7 @@ export default function TwoArticles({ articles }: TwoArticlesProps) {
             </div>
 
             <div className="p-6">
-              <div className="text-teal-500 text-[12px] lg:text-xs font-light mb-2">
+              <div className="text-[#098481] text-[12px] lg:text-xs font-light mb-2">
                 {article.category}
               </div>
               <h2 className="text-2xl lg:text-xl xl:text-2xl font-bold text-[#0D3B4C] leading-tight mb-4">

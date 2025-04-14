@@ -6,7 +6,7 @@ export default function AboutHero() {
     <div className="bg-[#02363d] py-12 sm:py-16 md:py-24 lg:py-28 px-8 sm:px-6 md:px-8 lg:px-24 mx-auto flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-10 md:gap-12 lg:gap-16">
       <div className="max-w-xl md:max-w-2xl">
         <div className="mb-4 sm:mb-6">
-          <p className="bg-[#176f6f] text-white px-3 py-1 rounded text-[14px] sm:text-[16px] inline-block">
+          <p className="bg-[#035153] text-white px-3 py-1 rounded text-[14px] sm:text-[16px] inline-block">
             About Us
           </p>
         </div>

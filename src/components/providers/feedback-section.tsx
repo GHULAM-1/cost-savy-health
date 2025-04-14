@@ -24,7 +24,7 @@ export function FeedbackSection() {
           </div>
         </div>
 
-        <button className="md:self-start px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base text-[#2A665B] border-2 border-[#2A665B] rounded-full hover:bg-[#2A665B] hover:text-white transition-colors duration-200 cursor-pointer whitespace-nowrap">
+        <button className="md:self-start px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base text-[#2A665B] border-2 border-[#2A665B] rounded-full hover:bg-[#098481] hover:text-white transition-colors duration-200 cursor-pointer whitespace-nowrap">
           Send us feedback
         </button>
       </div>

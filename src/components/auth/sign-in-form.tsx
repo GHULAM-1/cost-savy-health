@@ -101,7 +101,7 @@ export default function SignInForm({
 
               <Button
                 type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium uppercase gap-2 h-9"
+                className="w-full bg-[#098481] hover:bg-teal-700 text-white text-sm font-medium uppercase gap-2 h-9"
               >
                 Sign In
                 <ChevronRight className="h-4 w-4" />

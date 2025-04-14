@@ -41,7 +41,7 @@ const PeopleGrid: React.FC<Props> = ({ data, heading }) => {
               href={item.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 text-gray-800 transition-colors group-hover:text-[#36C5BA]"
+              className="mt-4 text-gray-800 transition-colors group-hover:text-[#098481]"
             >
               LinkedIn Profile
             </a>

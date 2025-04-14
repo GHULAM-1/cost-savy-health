@@ -19,7 +19,7 @@ const CollaborativePannel = () => {
 
           <Link
             href="#"
-            className="inline-block bg-[#1D5E5A] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#044955] transition-colors duration-300 text-md font-medium"
+            className="inline-block bg-[#098481] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#035153] transition-colors duration-300 text-md font-medium"
           >
             <div className="flex items-center justify-center gap-1">
               <p>View </p>

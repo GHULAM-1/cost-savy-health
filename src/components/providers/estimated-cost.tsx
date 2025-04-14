@@ -49,7 +49,7 @@ export default function EstimatedCost() {
     <div className="p-4">
       <div className="max-w-[730px] mx-auto">
         <button
-          className="inline-flex items-center text-teal-700 mb-6 cursor-pointer"
+          className="inline-flex items-center text-[#098481] mb-6 cursor-pointer"
           onClick={goBackToProviders}
         >
           <ArrowLeft className="w-5 h-5 mr-2" />
@@ -63,7 +63,7 @@ export default function EstimatedCost() {
                 {facility.initial || "N"}
               </div>
               <div>
-                <h1 className="text-xl sm:text-lg font-semibold text-[#00756b]">
+                <h1 className="text-xl sm:text-lg font-semibold text-[#098481]">
                   {facility.name}
                 </h1>
                 <p className="text-gray-600 text-sm">
@@ -124,7 +124,7 @@ export default function EstimatedCost() {
                 <div className="text-[#2d3c3b] text-2xl font-semibold">
                   {isUsingInsurance ? "$2,170" : "$1,770"}
                 </div>
-                <div className="flex items-center gap-1 text-[#407672]">
+                <div className="flex items-center gap-1 text-[#098481]">
                   <span className="font-medium text-sm">
                     Price Fully Verified
                   </span>
@@ -159,7 +159,7 @@ export default function EstimatedCost() {
                 <div className="text-[#2d3c3b] text-2xl font-semibold">
                   {isUsingInsurance ? "$2,170" : "$1,770"}
                 </div>
-                <div className="flex items-center justify-end gap-1 text-[#407672]">
+                <div className="flex items-center justify-end gap-1 text-[#098481]">
                   <span className="font-medium text-sm">
                     Price Fully Verified
                   </span>
@@ -189,7 +189,7 @@ export default function EstimatedCost() {
                 </div>
                 <button
                   onClick={() => setIsCalculatorOpen(!isCalculatorOpen)}
-                  className="flex items-center gap-2 text-sm text-[#407672] font-semibold rounded-2xl hover:bg-[#e3f7f5] cursor-pointer px-3 py-2 transition-all duration-200"
+                  className="flex items-center gap-2 text-sm text-[#407672] font-semibold rounded-2xl hover:bg-[#098481] hover:text-white cursor-pointer px-3 py-2 transition-all duration-200"
                 >
                   {isCalculatorOpen ? (
                     <>
@@ -216,7 +216,7 @@ export default function EstimatedCost() {
 
           <div className="px-4 mb-4">
             <button
-              className="w-full bg-[#15706f] text-white py-3 text-sm px-6 rounded-4xl font-medium hover:bg-[#1d4d45] transition-colors duration-200 flex items-center justify-center gap-3"
+              className="w-full bg-[#098481] text-white py-3 text-sm px-6 rounded-4xl font-medium hover:bg-[#035153] transition-colors duration-200 flex items-center justify-center gap-3"
               onClick={openModal}
             >
               Contact Provider to Verify

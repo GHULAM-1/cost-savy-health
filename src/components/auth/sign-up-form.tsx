@@ -100,7 +100,7 @@ export default function SignUpForm({
 
               <Button
                 type="submit"
-                className="w-full bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium uppercase flex items-center justify-center gap-2 h-9 cursor-pointer"
+                className="w-full bg-[#098481] hover:bg-teal-700 text-white text-sm font-medium uppercase flex items-center justify-center gap-2 h-9 cursor-pointer"
               >
                 Sign Up
                 <ChevronRight className="h-4 w-4" />

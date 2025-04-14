@@ -39,7 +39,7 @@ export function SearchHeader({
             <button
               onClick={onVerificationToggle}
               className={`relative inline-flex h-5 w-10 md:h-6 md:w-12 items-center rounded-full transition-colors duration-200 ease-in-out ${
-                showVerification ? "bg-[#2A665B]" : "bg-gray-200"
+                showVerification ? "bg-[#098481]" : "bg-gray-200"
               }`}
             >
               <span

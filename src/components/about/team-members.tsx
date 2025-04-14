@@ -19,20 +19,20 @@ const TeamGrid: React.FC<TeamGridProps> = ({ members }) => {
       {members.map((member) => (
         <div
           key={member.name}
-          className="group bg-white shadow-md rounded-lg overflow-hidden border border-transparent transition-all duration-300 hover:border-[#1B4B43] hover:shadow-xl"
+          className="group bg-white shadow-md rounded-lg overflow-hidden border border-transparent ease-in-out transition-all duration-300 hover:border-[#1B4B43] hover:shadow-xl"
         >
           <div className="relative overflow-hidden rounded-t-lg w-full h-[393px]">
             <Image
               src={member.defaultImage}
               alt={member.name}
               fill
-              className=" group-hover:opacity-0 "
+              className=" group-hover:opacity-0 duration-0 "
             />
             <Image
               src={member.hoverImage}
               alt={`${member.name} hover`}
               fill
-              className="absolute top-0 left-0  opacity-0 group-hover:opacity-100 "
+              className="absolute top-0 left-0  opacity-0  duration-0 group-hover:opacity-100 "
             />
           </div>
           <div className="p-6">
@@ -42,7 +42,7 @@ const TeamGrid: React.FC<TeamGridProps> = ({ members }) => {
             <p className="text-gray-600 mb-4">{member.role}</p>
             <a
               href={member.linkedIn}
-              className="text-gray-800 transition-colors group-hover:text-[#36C5BA] underline text-sm"
+              className="text-gray-800 transition-colors group-hover:text-[#098481] underline text-sm"
               target="_blank"
               rel="noopener noreferrer"
             >

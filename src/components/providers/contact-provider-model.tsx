@@ -36,7 +36,7 @@ export function ContactProviderModal({
 
           <div className="border border-gray-200 rounded-lg p-3 mb-4">
             <div className="flex items-start gap-2 sm:gap-3">
-              <div className="bg-teal-600 p-2 rounded-lg">
+              <div className="bg-[#098481] p-2 rounded-lg">
                 <HelpCircle className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -79,14 +79,14 @@ export function ContactProviderModal({
           <div className="bg-blue-50 rounded-lg p-3 sm:p-4 mb-4">
             <div className="flex gap-2 sm:gap-3">
               <div className="flex-shrink-0">
-                <Shield className="w-10 h-10 text-teal-700" />
+                <Shield className="w-10 h-10 text-[#098481]" />
               </div>
               <div>
                 <h3 className="text-base font-semibold mb-2">
                   Your Right to Know
                 </h3>
                 <p className="text-gray-700 text-sm">
-                  The <span className="text-teal-700">No Surprises Act</span>{" "}
+                  The <span className="text-[#098481]">No Surprises Act</span>{" "}
                   requires healthcare providers to provide a cost estimate for
                   certain services. When speaking with your provider, you can
                   request a 'Good Faith Estimate' and have the CPT code above,
@@ -97,11 +97,11 @@ export function ContactProviderModal({
           </div>
 
           <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            <button className="flex items-center justify-center gap-2 px-3 py-2 border border-teal-700 rounded-lg text-teal-700 hover:bg-teal-50 transition-colors text-sm">
+            <button className="flex items-center justify-center gap-2 px-3 py-2 border border-teal-700 rounded-lg text-[#098481] hover:bg-teal-50 transition-colors text-sm">
               <Globe className="w-4 h-4" />
               Website
             </button>
-            <button className="flex items-center justify-center gap-2 px-3 py-2 bg-teal-700 text-white rounded-lg hover:bg-teal-800 transition-colors text-sm">
+            <button className="flex items-center justify-center gap-2 px-3 py-2 bg-[#098481] text-white rounded-lg hover:bg-teal-800 transition-colors text-sm">
               <Phone className="w-4 h-4" />
               (718) 604-5789
             </button>

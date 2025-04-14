@@ -34,7 +34,7 @@ export default function MainCard({ mainCardData }: MainCardProps) {
           </div>
 
           <div className="bg-white overflow-hidden shadow-sm p-4 box-border [&_*::selection]:bg-[#ace8e4] [&_*::-moz-selection]:bg-[#ace8e4] lg:h-[450px]">
-            <div className="text-teal-500 font-medium mb-2 text-xs sm:text-[13px] lg:text-sm mx-4 lg:mx-8 xl:mx-11">
+            <div className="text-[#098481] font-medium mb-2 text-xs sm:text-[13px] lg:text-sm mx-4 lg:mx-8 xl:mx-11">
               {mainCardData.category}
             </div>
 
