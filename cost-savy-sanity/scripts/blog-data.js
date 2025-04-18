@@ -7,7 +7,7 @@ const client = createClient({
   projectId: 'loof1pb6',
   dataset: 'production',
   apiVersion: '2023-05-03',
-  token: 'sklcfsm7lToQS91LPIl9Oju3yfsERhXw4vXQ6fttf8U7CgpvqkvEhiATTSdzOPKqF7pTVdQ9ExFo17NXjNiI8KSbgjeCq6NTENsfq77uY5MyrtdeokjNUEzeFamqiOFOnWvXMrFHaAbKNUQxz92p2YM3yH4TOeePZrWl1MvRnLqBPdhiBSUC', // You need a token with write access
+  token: 'sklcfsm7lToQS91LPIl9Oju3yfsERhXw4vXQ6fttf8U7CgpvqkvEhiATTSdzOPKqF7pTVdQ9ExFo17NXjNiI8KSbgjeCq6NTENsfq77uY5MyrtdeokjNUEzeFamqiOFOnWvXMrFHaAbKNUQxz92p2YM3yH4TOeePZrWl1MvRnLqBPdhiBSUC', 
   useCdn: false,
 });
 
