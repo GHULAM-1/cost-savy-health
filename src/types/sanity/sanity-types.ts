@@ -28,3 +28,31 @@ export interface HealthcareRecord {
     pagination: Pagination;
   }
   
+
+  export interface MainCardProps {
+    _id: string;
+    image: string;
+    category: string;
+    title: string;
+    bulletPoints: string[];
+    author: {
+      name: string;
+      image: string;
+    };
+    date: string;
+    readTime: string;
+  }
+  
+  export interface ArticleProps {
+    _id: string;
+    image: string;
+    category: string;
+    title: string;
+    description: string;
+    authors: {
+      name: string;
+      image: string;
+    }[];
+    date: string;
+    readTime: string;
+  }

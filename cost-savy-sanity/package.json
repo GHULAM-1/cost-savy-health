@@ -17,13 +17,15 @@
   "dependencies": {
     "@sanity/vision": "^3.82.0",
     "next-sanity": "^9.9.9",
+    "node-fetch": "^3.3.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanity": "^3.82.0",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@sanity/client": "^6.28.4",
+    "@sanity/client": "^6.29.0",
     "@sanity/eslint-config-studio": "^5.0.2",
     "@types/babel__generator": "^7.27.0",
     "@types/babel__traverse": "^7.20.7",
