@@ -35,7 +35,6 @@ export default defineConfig({
             S.listItem()
               .title('Authors')
               .child(S.documentTypeList('author')),
-            // Keep this if you still need it
             S.listItem()
               .title('Healthcare Records')
               .child(S.documentTypeList('healthcareRecord'))
