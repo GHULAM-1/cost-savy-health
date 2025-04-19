@@ -2,7 +2,6 @@
 import { createClient } from '@sanity/client';
 import fetch from 'node-fetch';
 
-// Configure the Sanity client
 const client = createClient({
   projectId: 'loof1pb6',
   dataset: 'production',
