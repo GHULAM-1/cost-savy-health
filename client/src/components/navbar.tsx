@@ -7,7 +7,7 @@ import Hamburger from "./hamburger-icon";
 import { X } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import SignUpModal from "../components/landing-page/sign-up-modal";
+import SignUpModal from "./landing-page/sign-up-modal";
 export default function Navbar() {
   // STATES
   const [isMenuOpen, setIsMenuOpen] = useState(false);
