@@ -1,22 +1,31 @@
 import React from "react";
 import NavItem from "./nav-item";
+import { useAuth } from "@/context/AuthContext";
 
 export default function NavLinks() {
+  const { user, isAuthenticated } = useAuth();
+  const isAdmin = user?.role === "admin";
+
+  const handleAdminDashboardClick = (e: any) => {
+    if (isAdmin) {
+      e.preventDefault();
+      window.location.href = "https://cost-savy.sanity.studio/structure";
+    }
+  };
   return (
     <>
+      {isAdmin && (
+        <a href="/" onClick={handleAdminDashboardClick}>
+          <NavItem text="Dashboard" hasDropdown={false} />
+        </a>
+      )}
       <a href="/">
-      <NavItem
-        text="Search Care"
-        hasDropdown={false}
-      />
+        <NavItem text="Search Care" hasDropdown={false} />
       </a>
       <a href="/providers-glossary">
-      <NavItem
-        text="Providers"
-        hasDropdown={false}
-      />
+        <NavItem text="Providers" hasDropdown={false} />
       </a>
-      
+
       {/* <NavItem
         text="Search Care"
         hasDropdown={true}

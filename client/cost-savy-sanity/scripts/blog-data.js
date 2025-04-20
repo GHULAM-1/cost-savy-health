@@ -10,7 +10,6 @@ const client = createClient({
   useCdn: false,
 });
 
-// Sample author data
 const authors = [
   {
     _id: 'author-1',

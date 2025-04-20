@@ -4,6 +4,7 @@ import "@/app/globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { Toaster } from "sonner";
+import { AuthProvider } from "@/context/AuthContext";
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
@@ -25,10 +26,12 @@ export default function RootLayout({
       <body
         className={`${sourceSerif.variable} antialiased max-w-[1660px] w-full mx-auto `}
       >
-        <Navbar />
-        {children}
-        <Footer />
-        <Toaster richColors position="top-center" />
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
+          <Toaster richColors position="top-center" />
+        </AuthProvider>
       </body>
     </html>
   );

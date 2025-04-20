@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Source_Serif_4 } from "next/font/google";
 import "../globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
@@ -22,7 +23,7 @@ export default function RootLayout({
       <body
         className={`${sourceSerif.variable} antialiased max-w-[1660px] w-full mx-auto `}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
