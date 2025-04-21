@@ -10,6 +10,7 @@ const errorHandler = require('./middleware/errorHandler');
 const rateLimit = require('express-rate-limit');
 
 dotenv.config();
+
 connectDB();
 
 const app = express();
