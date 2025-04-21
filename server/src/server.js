@@ -11,7 +11,10 @@ const rateLimit = require('express-rate-limit');
 
 dotenv.config();
 
-connectDB();
+// Only connect to DB when not being called as a serverless function
+if (process.env.NODE_ENV !== 'production') {
+  connectDB();
+}
 
 const app = express();
 
@@ -67,8 +70,13 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-const PORT = process.env.PORT || 5000;
+// For local development only
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-});
+// This export is critical for Vercel
+module.exports = app;
