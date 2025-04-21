@@ -6,10 +6,9 @@ export default function NavLinks() {
   const { user, isAuthenticated } = useAuth();
   const isAdmin = user?.role === "admin";
 
-  const handleAdminDashboardClick = (e: any) => {
+  const handleAdminDashboardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (isAdmin) {
-      e.preventDefault();
-      window.location.href = "https://cost-savy.sanity.studio/structure";
+      window.open("https://cost-savy.sanity.studio/structure", "_blank");
     }
   };
   return (
