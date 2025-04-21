@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Info } from "lucide-react";
 import { FinalCalculation } from "./final-calculation";
 
-export default function Calculator() {
+interface CalculatorProps {
+  procedureCost: number;
+}
+export default function Calculator({ procedureCost }: CalculatorProps) {
   // STATES
   const [outOfPocketMax, setOutOfPocketMax] = useState<string>("");
   const [remainingAmount, setRemainingAmount] = useState<string | number>("");
@@ -17,18 +20,27 @@ export default function Calculator() {
   // HANDLERS
   const handleCalculate = () => {
     let cost = 0;
-    if (outOfPocketMax === "no") {
-      cost += Number(remainingAmount) || 0;
+    const procost = procedureCost;
+
+    if (outOfPocketMax === "yes") {
+      cost = 0;
+    } else {
+      let remainingprocost = procost;
+
       if (metDeductible === "no") {
-        cost += Number(deductibleLeft) || 0;
+        const deductible = Number(deductibleLeft) || 0;
+        cost += deductible;
+        remainingprocost -= deductible;
       }
+
       if (benefitType === "copay") {
         cost += Number(benefitAmount) || 0;
       } else if (benefitType === "coinsurance") {
-        const procedureCost = 5000;
-        cost += ((Number(benefitAmount) || 20) / 100) * procedureCost;
+        const coinsuranceRate = Number(benefitAmount) || 0;
+        cost += (coinsuranceRate / 100) * remainingprocost;
       }
     }
+
     setTotalCost(cost.toFixed(2));
     setShowFinalCalculation(true);
   };

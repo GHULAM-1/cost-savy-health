@@ -18,6 +18,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@sanity/client": "^6.28.4",
     "@sanity/image-url": "^1.1.0",
+    "@tanstack/react-virtual": "^3.13.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -29,6 +30,7 @@
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
     "react-leaflet": "^5.0.0",
+    "react-virtualized": "^9.22.6",
     "recharts": "^2.15.2",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.0.2",
@@ -41,6 +43,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/react-virtualized": "^9.22.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

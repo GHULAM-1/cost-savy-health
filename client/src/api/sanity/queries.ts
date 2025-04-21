@@ -1,59 +1,124 @@
-import client from '@/lib/sanity';
-import { ArticleProps, HealthcareQueryParams, HealthcareQueryResponse, HealthcareRecord } from '@/types/sanity/sanity-types';
-import { groq } from 'next-sanity';
+import client from "@/lib/sanity";
+import {
+  ArticleProps,
+  HealthcareQueryParams,
+  HealthcareQueryResponse,
+  HealthcareRecord,
+} from "@/types/sanity/sanity-types";
+import { groq } from "next-sanity";
 
+export async function searchReportingEntities(
+  searchTerm: string,
+  limit = 100
+): Promise<string[]> {
+  if (!searchTerm) return [];
+
+  const results: string[] = await client.fetch(
+    `*[
+      _type == "healthcareRecord" &&
+      billing_code_name match $term
+    ].billing_code_name`,
+    { term: `${searchTerm}*` }
+  );
+
+  return Array.from(new Set(results)).slice(0, limit);
+}
+
+export async function getZipCodesByEntityName(name: string): Promise<string[]> {
+  if (!name) return [];
+
+  const result: string[] = await client.fetch(
+    `*[
+      _type == "healthcareRecord" &&
+      billing_code_name match $name
+    ].provider_zip_code`,
+    { name: `${name}*` }
+  );
+
+  return Array.from(new Set(result)).filter(Boolean);
+}
+export async function getInsurersByBillingCode(
+  billingName: string
+): Promise<string[]> {
+  if (!billingName) return [];
+
+  const insurers: string[] = await client.fetch(
+    `*[
+       _type == "healthcareRecord" &&
+       billing_code_name match $billingName
+     ].reporting_entity_name`,
+    { billingName: `${billingName}*` }
+  );
+
+  return Array.from(new Set(insurers)).filter(Boolean);
+}
+export async function getHealthcareRecordById(
+  id: string
+): Promise<HealthcareRecord | null> {
+  if (!id) return null;
+
+  const query = `*[
+    _type == "healthcareRecord" &&
+    _id == $id
+  ][0]{
+    _id,
+    provider_name,
+    billing_code_name,
+    negotiated_rate,
+    provider_city,
+    provider_state,
+    provider_zip_code,
+    reporting_entity_name
+  }`;
+
+  return client.fetch<HealthcareRecord | null>(query, { id });
+}
 
 export async function getHealthcareRecords({
   page = 1,
   limit = 10,
-  state = '',
-  minRate = '',
-  providerName = ''
+  state = "",
+  zipCode = "",
+  providerName = "",
+  insurance = "",
 }: HealthcareQueryParams): Promise<HealthcareQueryResponse> {
-  const filters = ['_type == "healthcareRecord"'];
-  
-  if (state) {
-    filters.push(`provider_state == "${state}"`);
-  }
-  
-  if (minRate && !isNaN(parseFloat(String(minRate)))) {
-    filters.push(`negotiated_rate >= ${parseFloat(String(minRate))}`);
-  }
-  
-  if (providerName) {
-    filters.push(`provider_name match "${providerName}*"`);
-  }
-  
-  const filterString = filters.join(' && ');
-  
+  const filters: string[] = ['_type == "healthcareRecord"'];
+
+  if (state) filters.push(`provider_state == "${state}"`);
+  if (zipCode) filters.push(`provider_zip_code == "${zipCode}"`);
+  if (providerName) filters.push(`billing_code_name match "${providerName}*"`);
+  if (insurance) filters.push(`reporting_entity_name match "${insurance}*"`);
+
+  const filterExpr = filters.join(" && ");
   const start = (page - 1) * limit;
   const end = start + limit;
-  
-  const dataQuery = `*[${filterString}][${start}...${end}] {
+
+  const dataQuery = `*[${filterExpr}][${start}...${end}] {
     _id,
     provider_name,
-    billing_code,
     billing_code_name,
     negotiated_rate,
     provider_city,
-    provider_state
+    provider_state,
+    provider_zip_code
   }`;
-  
-  const countQuery = `count(*[${filterString}])`;
-  
-  const [data, totalCount] = await Promise.all([
+
+  const countQuery = `count(*[${filterExpr}])`;
+
+  const [data, total] = await Promise.all([
     client.fetch<HealthcareRecord[]>(dataQuery),
-    client.fetch<number>(countQuery)
+    client.fetch<number>(countQuery),
   ]);
-  
+  console.log("Query:" + data);
+
   return {
     data,
     pagination: {
-      total: totalCount,
+      total,
       page,
       limit,
-      pages: Math.ceil(totalCount / limit)
-    }
+      pages: Math.ceil(total / limit),
+    },
   };
 }
 
@@ -110,7 +175,7 @@ export async function getBlogData() {
 
   try {
     const result = await client.fetch(query);
-    
+
     const formattedMainCards = result.mainCards.map((card: any) => ({
       _id: card._id,
       image: card.image,
@@ -119,22 +184,23 @@ export async function getBlogData() {
       bulletPoints: card.bulletPoints || [],
       author: {
         name: card.author.name,
-        image: card.author.image
+        image: card.author.image,
       },
-      date: new Date(card.date).toLocaleDateString('en-US', {
-        month: 'short', day: 'numeric', year: 'numeric'
+      date: new Date(card.date).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
       }),
       readTime: card.readTime,
-      sortOrder: card.sortOrder
+      sortOrder: card.sortOrder,
     }));
-    
-    // Group articles by their associated main card
+
     const articleGroups: Record<string, any[]> = {};
     result.articles.forEach((article: any) => {
       if (!articleGroups[article.mainCardId]) {
         articleGroups[article.mainCardId] = [];
       }
-      
+
       articleGroups[article.mainCardId].push({
         _id: article._id,
         image: article.image,
@@ -143,15 +209,17 @@ export async function getBlogData() {
         description: article.description,
         authors: article.authors.map((author: any) => ({
           name: author.name,
-          image: author.image
+          image: author.image,
         })),
-        date: new Date(article.date).toLocaleDateString('en-US', {
-          month: 'short', day: 'numeric', year: 'numeric'
+        date: new Date(article.date).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
         }),
-        readTime: article.readTime
+        readTime: article.readTime,
       });
     });
-    
+
     const formattedOtherArticles = result.otherArticles.map((article: any) => ({
       _id: article._id,
       image: article.image,
@@ -160,25 +228,27 @@ export async function getBlogData() {
       description: article.description,
       authors: article.authors.map((author: any) => ({
         name: author.name,
-        image: author.image
+        image: author.image,
       })),
-      date: new Date(article.date).toLocaleDateString('en-US', {
-        month: 'short', day: 'numeric', year: 'numeric'
+      date: new Date(article.date).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
       }),
-      readTime: article.readTime
+      readTime: article.readTime,
     }));
-    
+
     return {
       mainCards: formattedMainCards,
-      articleGroups, 
-      otherArticles: formattedOtherArticles || []
+      articleGroups,
+      otherArticles: formattedOtherArticles || [],
     };
   } catch (error) {
     console.error("Error fetching blog data:", error);
     return {
       mainCards: [],
       articleGroups: {},
-      otherArticles: []
+      otherArticles: [],
     };
   }
 }

@@ -1,6 +1,7 @@
 "use client";
-import React, { useState } from "react";
-import { facilities } from "@/data/procedure/provider-facility";
+
+import React, { useState, useEffect } from "react";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ChevronDown,
@@ -8,42 +9,56 @@ import {
   CheckCircle,
   ShieldCheck,
 } from "lucide-react";
-import Calculator from "./calculator";
-import { useParams } from "next/navigation";
-import { useSearchParams } from "next/navigation";
-import ProviderDropdown from "./provider-dropdown";
+
 import Icon from "../svg-icon";
-import { useRouter } from "next/navigation";
+import ProviderDropdown from "./provider-dropdown";
+import Calculator from "./calculator";
 import { ContactProviderModal } from "./contact-provider-model";
 
+import { HealthcareRecord } from "@/types/sanity/sanity-types";
+import { getHealthcareRecordById } from "@/api/sanity/queries";
+
 export default function EstimatedCost() {
-  // STATES
+  const router = useRouter();
+  const params = useParams();
+  const searchParams = useSearchParams();
+  //STATES
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [provider, setProvider] = useState<HealthcareRecord | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // HANDLERS
+  const rawId = params.providerId;
+  const providerId = Array.isArray(rawId) ? rawId[0] : rawId || "";
+  const insurance = searchParams.get("insurance") || "";
+  const searchCare = searchParams.get("searchCare") || "";
+
+  const goBackToProviders = () => router.push("/providers");
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  const isUsingInsurance = insurance && insurance !== "no-insurance";
+  //HANDLERS
+  useEffect(() => {
+    if (!providerId) return;
+    setLoading(true);
+    getHealthcareRecordById(providerId)
+      .then((res) => setProvider(res))
+      .catch((err) => {
+        console.error(err);
+        setProvider(null);
+      })
+      .finally(() => setLoading(false));
+  }, [providerId]);
 
-  const insurance = searchParams.get("insurance");
-  const searchCare = searchParams.get("searchCare");
-
-  const { providerId } = useParams();
-  const facility = facilities.find((item) => item.id === providerId);
-  const goBackToProviders = () => router.push("/providers");
-
-  if (!facility) {
+  if (loading) {
+    return <div className="text-center text-gray-600 mt-6">Loading…</div>;
+  }
+  if (!provider) {
     return (
-      <div className="flex items-center justify-center text-gray-600">
-        Facility not found.
-      </div>
+      <div className="text-center text-gray-600 mt-6">Provider not found.</div>
     );
   }
-
-  const isUsingInsurance = insurance && insurance !== "no-insurance";
 
   return (
     <div className="p-4">
@@ -59,81 +74,42 @@ export default function EstimatedCost() {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
           <div className="p-4 border-b border-gray-200">
             <div className="flex items-center gap-4">
-              <div className=" hidden md:flex w-16 h-16 sm:w-12 sm:h-12 bg-[#c96529] rounded-full  items-center justify-center text-white text-xl sm:text-lg font-semibold">
-                {facility.initial || "N"}
+              <div className="hidden md:flex w-16 h-16 bg-[#c96529] rounded-full items-center justify-center text-white text-xl font-semibold">
+                {provider.provider_name.charAt(0).toUpperCase()}
               </div>
               <div>
-                <h1 className="text-xl sm:text-lg font-semibold text-[#098481]">
-                  {facility.name}
+                <h1 className="text-xl font-semibold text-[#098481]">
+                  {provider.provider_name}
                 </h1>
                 <p className="text-gray-600 text-sm">
-                  {facility.location.city} {facility.location.state} — Distance{" "}
-                  {facility.location.distance}
+                  {provider.provider_city}, {provider.provider_state}{" "}
+                  {provider.provider_zip_code || ""}
                 </p>
               </div>
             </div>
           </div>
 
           <div className="p-5 border-b border-gray-200">
-            <h2 className="text-xl sm:text-lg font-semibold text-[#03363d] mb-4">
+            <h2 className="text-xl font-semibold text-[#03363d] mb-4">
               {searchCare || "Procedure not specified"}
             </h2>
 
-            <ProviderDropdown defaultValue={insurance || ""} />
+            <ProviderDropdown defaultValue={insurance} />
 
             <div
               className={`mt-4 p-3 rounded-lg ${
-                facility.inNetwork
-                  ? "bg-[#e3f7f5] text-[#03363d]"
-                  : "bg-red-200 text-red-50"
+                true ? "bg-[#e3f7f5] text-[#03363d]" : "bg-red-200 text-red-50"
               } w-full inline-flex items-center`}
             >
               <span className="flex items-center w-full text-sm">
                 <ShieldCheck className="w-5 h-5 mr-2" />
-                {facility.inNetwork
-                  ? "The provider is in network"
-                  : "The provider is out of network"}
+                {"The provider is in network"}
               </span>
             </div>
           </div>
 
           <div className="p-4">
-            <div className="lg:hidden bg-[#f0faf9] w-full max-w-3xl rounded-xl p-2 sm:px-4 flex flex-col gap-4 mx-auto">
-              <div className="flex justify-center">
-                <div className="p-3 rounded-full flex items-center justify-center">
-                  <Icon
-                    name="Dollar"
-                    alt="Dollar Sign"
-                    width={48}
-                    height={48}
-                  />
-                </div>
-              </div>
-              <div className="text-center">
-                <h2 className="text-[#2d3c3b] text-lg font-semibold">
-                  Estimated Cost
-                </h2>
-                <p className="text-[#2d3c3b] text-sm">
-                  The total price{" "}
-                  <span className="font-semibold text-[#03363d]">before</span>{" "}
-                  insurance.
-                </p>
-              </div>
-              <div className="flex flex-col items-center">
-                <div className="text-sm text-[#2d3c3b]">Up to</div>
-                <div className="text-[#2d3c3b] text-2xl font-semibold">
-                  {isUsingInsurance ? "$2,170" : "$1,770"}
-                </div>
-                <div className="flex items-center gap-1 text-[#098481]">
-                  <span className="font-medium text-sm">
-                    Price Fully Verified
-                  </span>
-                  <CheckCircle className="w-5 h-5" />
-                </div>
-              </div>
-            </div>
-
-            <div className="hidden lg:flex bg-[#f0faf9] w-full max-w-3xl rounded-xl p-2 sm:px-4 items-start justify-between gap-4 mx-auto">
+            <div className="bg-[#f0faf9] w-full max-w-3xl rounded-xl p-2 sm:px-4 flex flex-col lg:flex-row items-center justify-between gap-4 mx-auto">
               <div className="flex gap-4 items-center">
                 <div className="p-3 rounded-full flex items-center justify-center">
                   <Icon
@@ -157,7 +133,7 @@ export default function EstimatedCost() {
               <div className="text-right">
                 <div className="text-sm text-[#2d3c3b]">Up to</div>
                 <div className="text-[#2d3c3b] text-2xl font-semibold">
-                  {isUsingInsurance ? "$2,170" : "$1,770"}
+                  ${provider.negotiated_rate.toLocaleString()}
                 </div>
                 <div className="flex items-center justify-end gap-1 text-[#098481]">
                   <span className="font-medium text-sm">
@@ -204,13 +180,11 @@ export default function EstimatedCost() {
                   )}
                 </button>
               </div>
-              <div className="transition-all duration-300 ease-in-out">
-                {isCalculatorOpen && (
-                  <div className="mt-4 border-t border-gray-200 pt-4">
-                    <Calculator />
-                  </div>
-                )}
-              </div>
+              {isUsingInsurance && isCalculatorOpen && (
+                <div className="mt-4 border-t border-gray-200 pt-4">
+                  <Calculator procedureCost={provider.negotiated_rate} />
+                </div>
+              )}
             </div>
           )}
 
