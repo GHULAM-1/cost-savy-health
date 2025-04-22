@@ -1,29 +1,29 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-const { validationResult } = require('express-validator');
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+const { validationResult } = require("express-validator");
 dotenv.config();
 
 exports.register = async (req, res, next) => {
   try {
     const errors = validationResult(req);
-    
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const { name, email, password } = req.body;
 
     let user = await User.findOne({ email });
 
     if (user) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: "User already exists" });
     }
 
     user = new User({
       name,
       email,
-      password
+      password,
     });
 
     await user.save();
@@ -37,23 +37,23 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     const errors = validationResult(req);
-    
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    
+
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid credentials' });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
     sendTokenResponse(user, 200, res);
@@ -72,9 +72,9 @@ exports.getMe = async (req, res, next) => {
 };
 
 exports.logout = (req, res) => {
-  res.cookie('token', 'none', {
+  res.cookie("token", "none", {
     expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true
+    httpOnly: true,
   });
 
   res.status(200).json({ success: true, data: {} });
@@ -84,9 +84,9 @@ exports.logout = (req, res) => {
 
 //   // Create token
 //   const token = req.user.getSignedJwtToken();
-  
+
 //   const frontendURL = process.env.FRONTEND_URL;
-  
+
 //   const cookieOptions = {
 //     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
 //     httpOnly: true,
@@ -97,14 +97,14 @@ exports.logout = (req, res) => {
 //   if (process.env.NODE_ENV === 'production') {
 //     cookieOptions.secure = true;
 //   }
-  
+
 //   res.cookie('token', token, cookieOptions);
-  
+
 //   res.cookie('auth_token', token, {
 //     ...cookieOptions,
 //     httpOnly: false
 //   });
-  
+
 //   const userData = {
 //     id: req.user._id,
 //     name: req.user.name,
@@ -112,12 +112,12 @@ exports.logout = (req, res) => {
 //     role: req.user.role,
 //     avatar: req.user.avatar
 //   };
-  
+
 //   res.cookie('auth_user', JSON.stringify(userData), {
 //     ...cookieOptions,
 //     httpOnly: false
 //   });
-  
+
 //   res.redirect(frontendURL);
 // };
 
@@ -140,11 +140,18 @@ exports.googleCallback = async (req, res) => {
     };
 
     // Check if we're in a production environment
-    const isProduction = !frontendURL.includes('localhost');
+    const isProduction = process.env.NODE_ENV === 'production';
     if (isProduction) {
       cookieOptions.secure = true;
       cookieOptions.sameSite = 'none';
+      
+      // Only set domain in production
+      if (process.env.COOKIE_DOMAIN) {
+        cookieOptions.domain = process.env.COOKIE_DOMAIN;
+      }
     }
+    
+    console.log("Cookie options:", cookieOptions);
     
     // Set cookies
     res.cookie('token', token, cookieOptions);
@@ -176,7 +183,7 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   let expiresIn = 90;
   if (process.env.JWT_EXPIRES_IN) {
-    if (process.env.JWT_EXPIRES_IN.endsWith('d')) {
+    if (process.env.JWT_EXPIRES_IN.endsWith("d")) {
       expiresIn = parseInt(process.env.JWT_EXPIRES_IN);
     } else {
       expiresIn = 90;
@@ -185,16 +192,16 @@ const sendTokenResponse = (user, statusCode, res) => {
 
   const options = {
     expires: new Date(Date.now() + expiresIn * 24 * 60 * 60 * 1000),
-    httpOnly: true
+    httpOnly: true,
   };
 
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     options.secure = true;
   }
 
   res
     .status(statusCode)
-    .cookie('token', token, options)
+    .cookie("token", token, options)
     .json({
       success: true,
       token,
@@ -203,8 +210,7 @@ const sendTokenResponse = (user, statusCode, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        avatar: user.avatar
-      }
+        avatar: user.avatar,
+      },
     });
 };
-
