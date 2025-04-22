@@ -1,39 +1,33 @@
-const express = require('express');
-const dotenv = require('dotenv');
-const morgan = require('morgan');
-const cors = require('cors');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const connectDB = require('./config/db');
-const errorHandler = require('./middleware/errorHandler');
-const rateLimit = require('express-rate-limit');
+const express = require("express");
+const dotenv = require("dotenv");
+const morgan = require("morgan");
+const cors = require("cors");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const connectDB = require("./config/db");
+const errorHandler = require("./middleware/errorHandler");
+const rateLimit = require("express-rate-limit");
 
 dotenv.config();
 
-// Only connect to DB when not being called as a serverless function
-if (process.env.NODE_ENV !== 'production') {
-  connectDB();
-}
+connectDB();
 
 const app = express();
 
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'https://www.costsavvy.health'
-  ],
+  origin: ["http://localhost:3000", "https://www.costsavvy.health"],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: [
-    'Content-Type', 
-    'Authorization', 
-    'X-Requested-With', 
-    'Accept', 
-    'Origin',
-    'Access-Control-Request-Method',
-    'Access-Control-Request-Headers'
-  ]
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+    "Accept",
+    "Origin",
+    "Access-Control-Request-Method",
+    "Access-Control-Request-Headers",
+  ],
 };
 
 app.use(cors(corsOptions));
@@ -42,43 +36,39 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors(corsOptions));
-app.use(helmet()); 
+app.use(helmet());
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
+app.use(morgan("dev"));
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
-  max: 100, 
+  windowMs: 15 * 60 * 1000,
+  max: 100,
   standardHeaders: true,
-  legacyHeaders: false 
+  legacyHeaders: false,
 });
-app.use('/api', limiter);
+app.use("/api", limiter);
 
 app.use(passport.initialize());
 
-require('./config/passport')(passport);
+require("./config/passport")(passport);
 
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/users', require('./routes/user.routes'));
+app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api/users", require("./routes/user.routes"));
 
-app.get('/', (req, res) => {
-  res.json({ message: 'Welcome to the Authentication API' });
+app.get("/", (req, res) => {
+  res.json({ message: "Welcome to the Authentication API" });
 });
 
 app.use(errorHandler);
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({ message: "Route not found" });
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  });
-}
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
 
 // This export is critical for Vercel
 module.exports = app;
