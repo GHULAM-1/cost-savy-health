@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
 const { validationResult } = require('express-validator');
+dotenv.config();
 
 exports.register = async (req, res, next) => {
   try {
@@ -82,7 +84,7 @@ exports.googleCallback = (req, res) => {
   // Create token
   const token = req.user.getSignedJwtToken();
   
-  const frontendURL = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const frontendURL = process.env.FRONTEND_URL;
   
   const cookieOptions = {
     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
