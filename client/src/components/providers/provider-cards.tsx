@@ -1,61 +1,107 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+
 import ProviderCard from "@/components/providers/provider-card";
-import { facilities } from "@/data/procedure/provider-facility";
 import { SearchHeader } from "./search-header";
 import Pagination from "../pagination";
 
-function ProviderCards() {
-  // HOOKS
+import { getHealthcareRecords } from "@/api/sanity/queries";
+import { HealthcareRecord } from "@/types/sanity/sanity-types";
+
+export default function ProviderCards() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // STATES
-  const [showVerification, setShowVerification] = useState(true);
-  const [sortOrder, setSortOrder] = useState("lowest");
+  const searchCare = searchParams.get("searchCare") || "";
+  const zipCode = searchParams.get("zipCode") || "";
+  const insurance = searchParams.get("insurance") || "";
+  //STATES
   const [currentPage, setCurrentPage] = useState(1);
-  const initialSearchCare = searchParams.get("searchCare") || "Forearm/Wrist Repair - Non-Surgical";
-
-  // PAGINATION SETTINGS
   const cardsPerPage = 10;
-  const totalPages = Math.ceil(facilities.length / cardsPerPage);
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  const currentCards = facilities.slice(indexOfFirstCard, indexOfLastCard);
 
-  const handlePageChange = (pageNumber: number) => {
-    if (pageNumber >= 1 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
+  const [providers, setProviders] = useState<HealthcareRecord[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  //HANDLERS
+  useEffect(() => {
+    setLoading(true);
+
+    getHealthcareRecords({
+      page: currentPage,
+      limit: cardsPerPage,
+      state: "",
+      zipCode,
+      providerName: searchCare,
+      insurance,
+    })
+      .then((res) => {
+        setProviders(res.data);
+        setTotalCount(res.pagination.total);
+      })
+      .catch((err) => {
+        console.error(err);
+        setProviders([]);
+        setTotalCount(0);
+      })
+      .finally(() => setLoading(false));
+  }, [searchCare, zipCode, insurance, currentPage]);
+
+  const totalPages = Math.ceil(totalCount / cardsPerPage);
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
       window.scrollTo(0, 0);
     }
   };
 
-  const handleCardClick = (providerId: string) => {
-    const queryString = searchParams.toString();
-    router.push(`/providers/${providerId}?${queryString}`);
+  const handleCardClick = (id: string) => {
+    const qs = searchParams.toString();
+
+    router.push(`/providers/${id}?${qs}`);
   };
+  console.log(providers);
 
   return (
     <div className="py-6 px-2">
       <div className="max-w-[1600px] space-y-4">
         <SearchHeader
-          searchTerm={initialSearchCare}
-          resultCount={facilities.length}
-          showVerification={showVerification}
-          onVerificationToggle={() => setShowVerification(!showVerification)}
-          sortOrder={sortOrder}
-          onSortChange={setSortOrder}
+          searchTerm={searchCare}
+          resultCount={totalCount}
+          showVerification={false}
+          onVerificationToggle={() => {}}
+          sortOrder="lowest"
+          onSortChange={() => {}}
         />
 
-        {currentCards.map((facility) => (
-          <ProviderCard
-            key={facility.id}
-            facility={facility}
-            onClick={() => handleCardClick(facility.id)}
-          />
-        ))}
+        {loading ? (
+          <p>Loading providers…</p>
+        ) : providers.length > 0 ? (
+          providers.map((prov) => (
+            <ProviderCard
+              key={prov._id}
+              facility={{
+                id: prov._id,
+                name: prov.provider_name,
+                type: prov.billing_code_name,
+                location: {
+                  city: prov.provider_city,
+                  state: prov.provider_state,
+                  distance: 0,
+                },
+                rating: null,
+                price: prov.negotiated_rate,
+                inNetwork: true,
+                initial: prov.provider_name.charAt(0).toUpperCase(),
+              }}
+              onClick={() => handleCardClick(prov._id)}
+            />
+          ))
+        ) : (
+          <p>No providers match your search.</p>
+        )}
 
         {totalPages > 1 && (
           <Pagination
@@ -68,5 +114,3 @@ function ProviderCards() {
     </div>
   );
 }
-
-export default ProviderCards;

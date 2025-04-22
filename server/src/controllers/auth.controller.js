@@ -122,7 +122,7 @@ exports.logout = (req, res) => {
 // };
 
 exports.googleCallback = async (req, res) => {
-  try {
+  try {gi
     console.log("Google callback started");
     
     // Create token

@@ -1,7 +1,10 @@
 "use client";
+
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -10,7 +13,6 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -23,127 +25,252 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { insuranceOptions } from "@/data/landing-page/insurance";
-import { searchCare } from "@/data/landing-page/search-care";
 import { Search, MapPin, ShieldPlus, CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState, useRef } from "react";
+
 import {
   providersSchema,
   ProvidersSchemaType,
 } from "@/schema/providers-schema";
-import { useRouter, useSearchParams } from "next/navigation";
+
+import {
+  searchReportingEntities,
+  getZipCodesByEntityName,
+  getInsurersByBillingCode,
+} from "@/api/sanity/queries";
+import {
+  defaultCareOptions,
+  defaultInsOptions,
+  defaultZipOptions,
+} from "@/data/default-search-options";
 
 export default function SearchBar() {
-  //HOOKS
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  //CONSTANTS
-  const initialSearchCare = searchParams.get("searchCare") || "";
-  const initialZipCode = searchParams.get("zipCode") || "";
+  const initialCare = searchParams.get("searchCare") || "";
+  const initialZip = searchParams.get("zipCode") || "";
   const initialInsurance = searchParams.get("insurance") || "";
 
-  //FORM
   const form = useForm<ProvidersSchemaType>({
     resolver: zodResolver(providersSchema),
     defaultValues: {
-      searchCare: initialSearchCare,
-      zipCode: initialZipCode,
+      searchCare: initialCare,
+      zipCode: initialZip,
       insurance: initialInsurance,
     },
   });
-  
-  //FUNCTIONS
-  function onSubmit(values: ProvidersSchemaType) {
-    const params = new URLSearchParams();
-    if (values.searchCare) params.set("searchCare", values.searchCare);
-    if (values.zipCode) params.set("zipCode", values.zipCode);
-    if (values.insurance) params.set("insurance", values.insurance);
 
-    router.push(`/providers?${params.toString()}`);
+  //STATES
+  const [careOptions, setCareOptions] = useState<string[]>(defaultCareOptions);
+  const [careQuery, setCareQuery] = useState(initialCare);
+  const careRef = useRef<HTMLDivElement>(null);
+  const [careWidth, setCareWidth] = useState(0);
+  const [zipOptions, setZipOptions] = useState<string[]>(defaultZipOptions);
+  const [zipQuery, setZipQuery] = useState("");
+  const [zipWidth, setZipWidth] = useState(0);
+  const [insOptions, setInsOptions] = useState<string[]>(defaultInsOptions);
+  const [insQuery, setInsQuery] = useState("");
+  const insRef = useRef<HTMLDivElement>(null);
+  const [insWidth, setInsWidth] = useState(0);
+  //HANDLERS
+  useEffect(() => {
+    if (careRef.current) setCareWidth(careRef.current.offsetWidth + 5);
+  }, [careRef]);
+
+  useEffect(() => {
+    if (!careQuery) return setCareOptions(defaultCareOptions);
+    let active = true;
+    searchReportingEntities(careQuery, 15)
+      .then((list) => active && setCareOptions(list))
+      .catch(() => active && setCareOptions(defaultCareOptions));
+    return () => {
+      active = false;
+    };
+  }, [careQuery]);
+
+  const zipRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (zipRef.current) setZipWidth(zipRef.current.offsetWidth + 14);
+  }, [zipRef]);
+
+  useEffect(() => {
+    const care = form.watch("searchCare") || "";
+    if (!care) return setZipOptions(defaultZipOptions);
+    let active = true;
+    getZipCodesByEntityName(care)
+      .then((list) => active && setZipOptions(list))
+      .catch(() => active && setZipOptions(defaultZipOptions));
+    return () => {
+      active = false;
+    };
+  }, [form.watch("searchCare")]);
+
+  useEffect(() => {
+    if (insRef.current) setInsWidth(insRef.current.offsetWidth + 14);
+  }, [insRef]);
+
+  useEffect(() => {
+    const care = form.watch("searchCare") || "";
+    if (!care) return setInsOptions(defaultInsOptions);
+    let active = true;
+    getInsurersByBillingCode(care)
+      .then((list) => active && setInsOptions(list))
+      .catch(() => active && setInsOptions(defaultInsOptions));
+    return () => {
+      active = false;
+    };
+  }, [form.watch("searchCare")]);
+  //FUNCTIONS
+  function onSubmit(vals: ProvidersSchemaType) {
+    const q = new URLSearchParams();
+    if (vals.searchCare) q.set("searchCare", vals.searchCare);
+    if (vals.zipCode) q.set("zipCode", vals.zipCode);
+    if (vals.insurance) q.set("insurance", vals.insurance);
+    router.push(`/providers?${q.toString()}`);
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-10">
         <div className="flex flex-col lg:flex-row w-full border-2 border-gray-200 rounded-lg overflow-hidden">
-          <div className="relative flex-1">
+          <div className="relative flex-1" ref={careRef}>
             <FormField
               control={form.control}
               name="searchCare"
               render={({ field }) => {
                 const [open, setOpen] = useState(false);
-                const [searchQuery, setSearchQuery] = useState("");
-                const [popoverWidth, setPopoverWidth] = useState(0);
-                const containerRef = useRef<HTMLDivElement>(null);
-
                 return (
                   <FormItem className="text-[#03363d]">
                     <div
                       className="px-2 py-3 flex items-center cursor-pointer"
-                      ref={containerRef}
+                      onClick={() => setOpen(true)}
                     >
-                      <Search className="ml-2 text-[#03363d] mr-2" size={24} />
-                      <Popover
-                        open={open}
-                        onOpenChange={(isOpen) => {
-                          setOpen(isOpen);
-                          if (isOpen && containerRef.current) {
-                            setPopoverWidth(
-                              containerRef.current.offsetWidth + 5
-                            );
-                          }
-                        }}
-                      >
+                      <Search size={24} className="ml-2 mr-2 text-[#03363d]" />
+                      <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant="outline"
                               role="combobox"
-                              className="w-[90%] justify-between focus-visible:ring-0 text-lg font-normal px-0 border-none shadow-none hover:bg-transparent cursor-pointer"
+                              className="w-[90%] justify-between text-lg font-normal px-0 border-none shadow-none hover:bg-transparent"
                             >
                               {field.value || "Search for care..."}
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent
-                          className="p-0 absolute -left-12"
-                          style={{ width: popoverWidth }}
+                          className="p-0 absolute -left-12 mt-1"
+                          style={{ width: careWidth }}
                           align="start"
                         >
                           <Command>
                             <CommandInput
                               placeholder="Search care..."
-                              value={searchQuery}
-                              onValueChange={setSearchQuery}
+                              value={careQuery}
+                              onValueChange={(v) => {
+                                setCareQuery(v);
+                                field.onChange(v);
+                              }}
                             />
                             <CommandEmpty>No care found.</CommandEmpty>
                             <CommandGroup>
                               <div className="max-h-48 w-full overflow-y-auto">
-                                {searchCare
-                                  .filter((option) =>
-                                    option.name
-                                      .toLowerCase()
-                                      .includes(searchQuery.toLowerCase())
-                                  )
-                                  .slice(0, 15)
-                                  .map((option) => (
+                                {careOptions.map((name) => (
+                                  <CommandItem
+                                    key={name}
+                                    value={name}
+                                    onSelect={() => {
+                                      field.onChange(name);
+                                      setCareQuery("");
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    {name}
+                                    <CheckIcon
+                                      className={cn(
+                                        "ml-auto h-4 w-4",
+                                        field.value === name
+                                          ? "opacity-100"
+                                          : "opacity-0"
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </div>
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                );
+              }}
+            />
+          </div>
+
+          <div className="hidden lg:flex items-center">
+            <div className="w-px bg-gray-200" style={{ height: "70%" }} />
+          </div>
+
+          <div className="relative flex-1" ref={zipRef}>
+            <FormField
+              control={form.control}
+              name="zipCode"
+              render={({ field }) => {
+                const [open, setOpen] = useState(false);
+                return (
+                  <FormItem className="text-[#03363d]">
+                    <div
+                      className="px-2 py-3 flex items-center cursor-pointer"
+                      onClick={() => setOpen(true)}
+                    >
+                      <MapPin size={24} className="ml-2 mr-2 text-[#03363d]" />
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className="w-[90%] justify-between text-lg font-normal px-0 border-none shadow-none hover:bg-transparent"
+                            >
+                              {field.value || "Select Zip Code"}
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="p-0 absolute -left-12 mt-1"
+                          style={{ width: zipWidth }}
+                          align="start"
+                        >
+                          <Command>
+                            <CommandInput
+                              placeholder="Filter ZIPs..."
+                              value={zipQuery}
+                              onValueChange={setZipQuery}
+                            />
+                            <CommandEmpty>No ZIPs found.</CommandEmpty>
+                            <CommandGroup>
+                              <div className="max-h-48 w-full overflow-y-auto">
+                                {zipOptions
+                                  .filter((z) => z.includes(zipQuery))
+                                  .slice(0, 10)
+                                  .map((zip) => (
                                     <CommandItem
-                                      key={option.name}
-                                      value={option.name}
+                                      key={zip}
+                                      value={zip}
                                       onSelect={() => {
-                                        field.onChange(option.name);
+                                        field.onChange(zip);
                                         setOpen(false);
-                                        setSearchQuery("");
                                       }}
                                     >
-                                      {}
-                                      {option.name}
+                                      {zip}
                                       <CheckIcon
                                         className={cn(
                                           "ml-auto h-4 w-4",
-                                          field.value === option.name
+                                          field.value === zip
                                             ? "opacity-100"
                                             : "opacity-0"
                                         )}
@@ -167,114 +294,69 @@ export default function SearchBar() {
             <div className="w-px bg-gray-200" style={{ height: "70%" }} />
           </div>
 
-          <div className="relative flex-1">
-            <FormField
-              control={form.control}
-              name="zipCode"
-              render={({ field }) => (
-                <FormItem>
-                  <div className="px-2 py-3 flex items-center cursor-pointer">
-                    <MapPin className="ml-2 mr-2 text-[#03363d]" size={24} />
-                    <FormControl>
-                      <Input
-                        placeholder="Enter Zip Code"
-                        type="number"
-                        className="border-none focus-visible:ring-0 shadow-none !text-lg pl-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                        value={field.value || ""}
-                        onChange={(e) => field.onChange(e.target.value)}
-                      />
-                    </FormControl>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="hidden lg:flex items-center">
-            <div className="w-px bg-gray-200" style={{ height: "70%" }} />
-          </div>
-
-          <div className="relative flex-1">
+          <div className="relative flex-1" ref={insRef}>
             <FormField
               control={form.control}
               name="insurance"
               render={({ field }) => {
-                const [openInsurance, setOpenInsurance] = useState(false);
-                const [searchInsuranceQuery, setSearchInsuranceQuery] =
-                  useState("");
-                const [popoverWidth, setPopoverWidth] = useState(0);
-                const containerRef = useRef<HTMLDivElement>(null);
-
+                const [open, setOpen] = useState(false);
                 return (
                   <FormItem className="text-[#03363d]">
                     <div
                       className="px-2 py-3 flex items-center cursor-pointer"
-                      ref={containerRef}
+                      onClick={() => setOpen(true)}
                     >
                       <ShieldPlus
-                        className="ml-2 text-[#03363d] mr-2"
                         size={24}
+                        className="ml-2 mr-2 text-[#03363d]"
                       />
-                      <Popover
-                        open={openInsurance}
-                        onOpenChange={(isOpen) => {
-                          setOpenInsurance(isOpen);
-                          if (isOpen && containerRef.current) {
-                            setPopoverWidth(
-                              containerRef.current.offsetWidth + 14
-                            );
-                          }
-                        }}
-                      >
+                      <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <FormControl>
                             <Button
                               variant="outline"
                               role="combobox"
-                              className="w-[90%] justify-between focus-visible:ring-0 text-lg font-normal px-0 border-none shadow-none hover:bg-transparent cursor-pointer"
+                              className="w-[90%] justify-between text-lg font-normal px-0 border-none shadow-none hover:bg-transparent"
                             >
-                              {field.value || "I'm not using insurance"}
+                              {field.value || "Select Insurance"}
                             </Button>
                           </FormControl>
                         </PopoverTrigger>
                         <PopoverContent
-                          className="p-0 absolute -left-11"
-                          style={{ width: popoverWidth }}
+                          className="p-0 absolute -left-12 mt-1"
+                          style={{ width: insWidth }}
                           align="start"
                         >
                           <Command>
                             <CommandInput
-                              placeholder="Search insurance..."
-                              value={searchInsuranceQuery}
-                              onValueChange={setSearchInsuranceQuery}
+                              placeholder="Filter insurers..."
+                              value={insQuery}
+                              onValueChange={setInsQuery}
                             />
-                            <CommandEmpty>No insurance found.</CommandEmpty>
+                            <CommandEmpty>No insurers found.</CommandEmpty>
                             <CommandGroup>
                               <div className="max-h-48 w-full overflow-y-auto">
-                                {insuranceOptions
-                                  .filter((option) =>
-                                    option.name
+                                {insOptions
+                                  .filter((i) =>
+                                    i
                                       .toLowerCase()
-                                      .includes(
-                                        searchInsuranceQuery.toLowerCase()
-                                      )
+                                      .includes(insQuery.toLowerCase())
                                   )
-                                  .map((option) => (
+                                  .slice(0, 10)
+                                  .map((i) => (
                                     <CommandItem
-                                      key={option.id}
-                                      value={option.id}
+                                      key={i}
+                                      value={i}
                                       onSelect={() => {
-                                        field.onChange(option.name);
-                                        setOpenInsurance(false);
-                                        setSearchInsuranceQuery("");
+                                        field.onChange(i);
+                                        setOpen(false);
                                       }}
                                     >
-                                      {option.name}
+                                      {i}
                                       <CheckIcon
                                         className={cn(
                                           "ml-auto h-4 w-4",
-                                          field.value === option.name
+                                          field.value === i
                                             ? "opacity-100"
                                             : "opacity-0"
                                         )}
@@ -297,7 +379,7 @@ export default function SearchBar() {
           <div className="px-4 py-2 w-full lg:w-auto">
             <Button
               type="submit"
-              className="flex items-center justify-center bg-[#098481] text-white px-5 py-4 rounded hover:bg-[#035153] transition-colors w-full lg:h-full lg:w-auto cursor-pointer"
+              className="flex items-center justify-center bg-[#098481] text-white px-5 py-4 rounded hover:bg-[#035153] transition-colors w-full lg:h-full lg:w-auto"
             >
               <span className="lg:hidden">Search Care</span>
               <Search size={24} className="hidden lg:block" />
