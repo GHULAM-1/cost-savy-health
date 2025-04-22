@@ -21,7 +21,7 @@ const app = express();
 const corsOptions = {
   origin: process.env.NODE_ENV === 'development' 
     ? true 
-    : ['http://localhost:3000', process.env.CLIENT_URL].filter(Boolean), 
+    : ['http://localhost:300', process.env.CLIENT_URL].filter(Boolean), 
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type', 
