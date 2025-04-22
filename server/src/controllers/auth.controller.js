@@ -80,46 +80,97 @@ exports.logout = (req, res) => {
   res.status(200).json({ success: true, data: {} });
 };
 
-exports.googleCallback = (req, res) => {
-  // Create token
-  const token = req.user.getSignedJwtToken();
-  
-  const frontendURL = process.env.FRONTEND_URL;
-  
-  const cookieOptions = {
-    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-    httpOnly: true,
-    sameSite: 'lax',
-    path: '/'
-  };
+// exports.googleCallback = (req, res) => {
 
-  if (process.env.NODE_ENV === 'production') {
-    cookieOptions.secure = true;
+//   // Create token
+//   const token = req.user.getSignedJwtToken();
+  
+//   const frontendURL = process.env.FRONTEND_URL;
+  
+//   const cookieOptions = {
+//     expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+//     httpOnly: true,
+//     sameSite: 'lax',
+//     path: '/'
+//   };
+
+//   if (process.env.NODE_ENV === 'production') {
+//     cookieOptions.secure = true;
+//   }
+  
+//   res.cookie('token', token, cookieOptions);
+  
+//   res.cookie('auth_token', token, {
+//     ...cookieOptions,
+//     httpOnly: false
+//   });
+  
+//   const userData = {
+//     id: req.user._id,
+//     name: req.user.name,
+//     email: req.user.email,
+//     role: req.user.role,
+//     avatar: req.user.avatar
+//   };
+  
+//   res.cookie('auth_user', JSON.stringify(userData), {
+//     ...cookieOptions,
+//     httpOnly: false
+//   });
+  
+//   res.redirect(frontendURL);
+// };
+
+exports.googleCallback = async (req, res) => {
+  try {
+    console.log("Google callback started");
+    
+    // Create token
+    const token = req.user.getSignedJwtToken();
+    
+    // Determine proper frontend URL
+    const frontendURL = process.env.FRONTEND_URL;
+    console.log("Frontend URL:", frontendURL);
+    
+    // Set cookie options based on environment
+    const cookieOptions = {
+      expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      path: '/'
+    };
+
+    // Check if we're in a production environment
+    const isProduction = !frontendURL.includes('localhost');
+    if (isProduction) {
+      cookieOptions.secure = true;
+      cookieOptions.sameSite = 'none';
+    }
+    
+    // Set cookies
+    res.cookie('token', token, cookieOptions);
+    res.cookie('auth_token', token, {...cookieOptions, httpOnly: false});
+    
+    // Create minimal user data object
+    const userData = {
+      id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role,
+      avatar: req.user.avatar
+    };
+    
+    res.cookie('auth_user', JSON.stringify(userData), {...cookieOptions, httpOnly: false});
+    
+    // Redirect to frontend
+    console.log("Redirecting to:", frontendURL);
+    return res.redirect(frontendURL);
+  } catch (error) {
+    console.error("Error in Google callback:", error);
+    // Fallback to frontend with error parameter
+    const errorRedirect = process.env.FRONTEND_URL || 'https://www.costsavvy.health';
+    return res.redirect(`${errorRedirect}?auth_error=true`);
   }
-  
-  res.cookie('token', token, cookieOptions);
-  
-  res.cookie('auth_token', token, {
-    ...cookieOptions,
-    httpOnly: false
-  });
-  
-  const userData = {
-    id: req.user._id,
-    name: req.user.name,
-    email: req.user.email,
-    role: req.user.role,
-    avatar: req.user.avatar
-  };
-  
-  res.cookie('auth_user', JSON.stringify(userData), {
-    ...cookieOptions,
-    httpOnly: false
-  });
-  
-  res.redirect(frontendURL);
 };
-
 const sendTokenResponse = (user, statusCode, res) => {
   const token = user.getSignedJwtToken();
 

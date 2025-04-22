@@ -19,9 +19,11 @@ if (process.env.NODE_ENV !== 'production') {
 const app = express();
 
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'development' 
-    ? true 
-    : [process.env.CLIENT_URL].filter(Boolean), 
+  origin: [
+    'http://localhost:3000',
+    'https://www.costsavvy.health'
+  ],
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type', 
@@ -31,9 +33,10 @@ const corsOptions = {
     'Origin',
     'Access-Control-Request-Method',
     'Access-Control-Request-Headers'
-  ],
-  credentials: true 
+  ]
 };
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
