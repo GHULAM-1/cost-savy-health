@@ -5,6 +5,7 @@ import { FinalCalculation } from "./final-calculation";
 interface CalculatorProps {
   procedureCost: number;
 }
+
 export default function Calculator({ procedureCost }: CalculatorProps) {
   // STATES
   const [outOfPocketMax, setOutOfPocketMax] = useState<string>("");

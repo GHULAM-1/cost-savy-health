@@ -1,14 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ListFilter } from "lucide-react";
 import { DistanceFilter } from "./distance-filter";
 import { ScoreFilter } from "./score-filter";
 import { PriceFilter } from "./price-filter";
 import { VerificationFilter } from "./verification-filter";
 import { toast } from "sonner";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
 export function FilterBar() {
-  // STATES
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [distanceOpen, setDistanceOpen] = useState(false);
   const [scoreOpen, setScoreOpen] = useState(false);
@@ -20,7 +24,20 @@ export function FilterBar() {
   const [price, setPrice] = useState({ min: "", max: "" });
   const [verification, setVerification] = useState("");
 
-  // HANDLERS
+  useEffect(() => {
+    const dist = searchParams.get("distance");
+    const sc = searchParams.get("score");
+    const priceMin = searchParams.get("priceMin");
+    const priceMax = searchParams.get("priceMax");
+    const ver = searchParams.get("verification");
+
+    if (dist) setDistance(dist);
+    if (sc) setScore(sc);
+    if (priceMin || priceMax)
+      setPrice({ min: priceMin || "", max: priceMax || "" });
+    if (ver) setVerification(ver);
+  }, []);
+
   const validatePrice = () => {
     const min = parseFloat(price.min);
     const max = parseFloat(price.max);
@@ -29,18 +46,63 @@ export function FilterBar() {
       toast.error("Please enter valid numbers for price");
       return false;
     }
-
     if ((price.min && min < 0) || (price.max && max < 0)) {
       toast.error("Price cannot be negative");
       return false;
     }
-
     if (price.min && price.max && min > max) {
       toast.error("Minimum price cannot be greater than maximum price");
       return false;
     }
-
     return true;
+  };
+
+  const updateQueryParams = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    distance ? params.set("distance", distance) : params.delete("distance");
+    score && score !== "Any"
+      ? params.set("score", score)
+      : params.delete("score");
+    price.min ? params.set("priceMin", price.min) : params.delete("priceMin");
+    price.max ? params.set("priceMax", price.max) : params.delete("priceMax");
+    verification
+      ? params.set("verification", verification)
+      : params.delete("verification");
+
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const toggleFilter = (
+    filter: "distance" | "score" | "price" | "verification"
+  ) => {
+    setDistanceOpen(filter === "distance" ? !distanceOpen : false);
+    setScoreOpen(filter === "score" ? !scoreOpen : false);
+    setPriceOpen(filter === "price" ? !priceOpen : false);
+    setVerificationOpen(filter === "verification" ? !verificationOpen : false);
+  };
+
+  const applyAll = () => {
+    if (!validatePrice()) return;
+    toast.success("Filters applied successfully");
+    setTimeout(() => {
+      updateQueryParams();
+      setIsModalOpen(false);
+      closeAllFilters();
+    }, 300);
+  };
+
+  const resetAll = () => {
+    setDistance("Within 50 miles");
+    setScore("Any");
+    setPrice({ min: "", max: "" });
+    setVerification("");
+    closeAllFilters();
+    const params = new URLSearchParams(searchParams.toString());
+    ["distance", "score", "priceMin", "priceMax", "verification"].forEach((p) =>
+      params.delete(p)
+    );
+    router.push(`${pathname}?${params.toString()}`);
+    toast.success("Filter reset successful");
   };
 
   const closeAllFilters = () => {
@@ -48,122 +110,6 @@ export function FilterBar() {
     setScoreOpen(false);
     setPriceOpen(false);
     setVerificationOpen(false);
-  };
-
-  const toggleFilter = (
-    filter: "distance" | "score" | "price" | "verification"
-  ) => {
-    if (filter === "distance") {
-      setDistanceOpen((prev) => {
-        if (!prev) {
-          setScoreOpen(false);
-          setPriceOpen(false);
-          setVerificationOpen(false);
-          return true;
-        }
-        return false;
-      });
-    } else if (filter === "score") {
-      setScoreOpen((prev) => {
-        if (!prev) {
-          setDistanceOpen(false);
-          setPriceOpen(false);
-          setVerificationOpen(false);
-          return true;
-        }
-        return false;
-      });
-    } else if (filter === "price") {
-      setPriceOpen((prev) => {
-        if (!prev) {
-          setDistanceOpen(false);
-          setScoreOpen(false);
-          setVerificationOpen(false);
-          return true;
-        }
-        return false;
-      });
-    } else if (filter === "verification") {
-      setVerificationOpen((prev) => {
-        if (!prev) {
-          setDistanceOpen(false);
-          setScoreOpen(false);
-          setPriceOpen(false);
-          return true;
-        }
-        return false;
-      });
-    }
-  };
-
-  const resetDistance = () => {
-    setDistance("Within 50 miles");
-    setDistanceOpen(false);
-    toast.success("Distance filter reset to default");
-  };
-
-  const applyDistance = () => {
-    setDistanceOpen(false);
-    toast.success(`Distance filter set to: ${distance}`);
-  };
-
-  const resetScore = () => {
-    setScore("Any");
-    setScoreOpen(false);
-    toast.success("Score filter reset to default");
-  };
-
-  const applyScore = () => {
-    setScoreOpen(false);
-    toast.success(`Score filter set to: ${score}`);
-  };
-
-  const resetPrice = () => {
-    setPrice({ min: "", max: "" });
-    setPriceOpen(false);
-    toast.success("Price filter cleared");
-  };
-
-  const applyPrice = () => {
-    if (!validatePrice()) return;
-
-    const priceText =
-      price.min || price.max
-        ? `${price.min ? `$${price.min}` : "Any"} to ${
-            price.max ? `$${price.max}` : "Any"
-          }`
-        : "Any price";
-
-    setPriceOpen(false);
-    toast.success(`Price range set to: ${priceText}`);
-  };
-
-  const resetVerification = () => {
-    setVerification("");
-    setVerificationOpen(false);
-    toast.success("Verification filter cleared");
-  };
-
-  const applyVerification = () => {
-    setVerificationOpen(false);
-    toast.success(`Verification filter set to: ${verification || "Any"}`);
-  };
-
-  const handleModalReset = () => {
-    setDistance("Within 50 miles");
-    setScore("Any");
-    setPrice({ min: "", max: "" });
-    setVerification("");
-    closeAllFilters();
-    toast.success("All filters reset to default");
-  };
-
-  const handleModalApply = () => {
-    if (!validatePrice()) return;
-
-    toast.success("All filters applied successfully");
-    setIsModalOpen(false);
-    closeAllFilters();
   };
 
   return (
@@ -181,32 +127,66 @@ export function FilterBar() {
             onChange={setDistance}
             isOpen={distanceOpen}
             onToggle={() => toggleFilter("distance")}
-            onReset={resetDistance}
-            onApply={applyDistance}
+            onReset={() => {
+              setDistance("Within 50 miles");
+              toast.success("Filter reset successful");
+              setDistanceOpen(false);
+            }}
+            onApply={() => {
+              updateQueryParams();
+              toast.success("Filter applied successfully");
+              setDistanceOpen(false);
+            }}
           />
           <ScoreFilter
             value={score}
             onChange={setScore}
             isOpen={scoreOpen}
             onToggle={() => toggleFilter("score")}
-            onReset={resetScore}
-            onApply={applyScore}
+            onReset={() => {
+              setScore("Any");
+              toast.success("Filter reset successful");
+              setScoreOpen(false);
+            }}
+            onApply={() => {
+              updateQueryParams();
+              toast.success("Filter applied successfully");
+              setScoreOpen(false);
+            }}
           />
           <PriceFilter
             value={price}
             onChange={setPrice}
             isOpen={priceOpen}
             onToggle={() => toggleFilter("price")}
-            onReset={resetPrice}
-            onApply={applyPrice}
+            onReset={() => {
+              setPrice({ min: "", max: "" });
+              toast.success("Filter reset successful");
+              setPriceOpen(false);
+            }}
+            onApply={() => {
+              if (validatePrice()) {
+                updateQueryParams();
+                toast.success("Filter applied successfully");
+                setPriceOpen(false);
+              }
+            }}
           />
           <VerificationFilter
             value={verification}
             onChange={setVerification}
             isOpen={verificationOpen}
             onToggle={() => toggleFilter("verification")}
-            onReset={resetVerification}
-            onApply={applyVerification}
+            onReset={() => {
+              setVerification("");
+              toast.success("Filter reset successful");
+              setVerificationOpen(false);
+            }}
+            onApply={() => {
+              updateQueryParams();
+              toast.success("Filter reset successful");
+              setVerificationOpen(false);
+            }}
           />
         </div>
       </div>
@@ -250,14 +230,11 @@ export function FilterBar() {
               />
             </div>
             <div className="flex justify-end mt-6 gap-4">
-              <button
-                onClick={handleModalReset}
-                className="text-[#2A665B] font-medium"
-              >
+              <button onClick={resetAll} className="text-[#2A665B] font-medium">
                 Reset
               </button>
               <button
-                onClick={handleModalApply}
+                onClick={applyAll}
                 className="bg-[#2A665B] text-white font-medium px-4 py-2 rounded-full"
               >
                 Apply
