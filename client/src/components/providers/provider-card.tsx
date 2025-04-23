@@ -10,12 +10,17 @@ export default function ProviderCard({
   facility,
   onClick,
 }: ExtendedProviderCardProps) {
+  const showVerification = facility.showVerfication === true;
+  const gridCols = showVerification
+    ? "md:grid-cols-[3fr_1fr_1fr]"
+    : "md:grid-cols-[3fr_1fr]";
+
   return (
     <div
       className="group bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-lg transition-shadow duration-300 cursor-pointer"
       onClick={onClick}
     >
-      <div className="grid md:grid-cols-[3fr_1fr_1fr] gap-4 md:gap-8 p-4 md:p-0">
+      <div className={`grid ${gridCols} gap-4 md:gap-8 p-4 md:p-0`}>
         <div className="flex flex-col items-start gap-2 md:p-4">
           <div className="flex items-start gap-4">
             <div className="hidden md:flex w-8 h-8 md:w-10 md:h-10 rounded-full bg-[#CD8B65] items-center justify-center">
@@ -60,7 +65,13 @@ export default function ProviderCard({
           </div>
         </div>
 
-        <div className="md:border-r-2 md:border-gray-200 md:pr-6 py-2 md:py-4 text-center md:text-right order-last md:order-none">
+        <div
+          className={`md:py-4 text-center md:text-right order-last md:order-none ${
+            showVerification
+              ? "md:border-r-2 md:border-gray-200 md:pr-6"
+              : " pr-6"
+          }`}
+        >
           <div className="text-sm text-gray-600">
             up to{" "}
             <span className="text-lg md:text-xl font-semibold text-[#1B3B36]">
@@ -75,19 +86,23 @@ export default function ProviderCard({
           </div>
         </div>
 
-        <div className="md:pl-4 self-center text-sm order-2 md:order-none">
-          <div className="text-gray-600 mb-1 font-bold">Price verified by:</div>
-          <div className="flex items-center gap-1 font-medium">
-            <Check
-              size={16}
-              strokeWidth={3}
-              className="md:size-[18px] text-[#2A665B]"
-            />
-            <span className="text-[#2A665B] text-sm md:text-base">
-              Insurance
-            </span>
+        {showVerification && (
+          <div className="md:pl-4 self-center text-sm order-2 md:order-none">
+            <div className="text-gray-600 mb-1 font-bold">
+              Price verified by:
+            </div>
+            <div className="flex items-center gap-1 font-medium">
+              <Check
+                size={16}
+                strokeWidth={3}
+                className="md:size-[18px] text-[#2A665B]"
+              />
+              <span className="text-[#2A665B] text-sm md:text-base">
+                Insurance
+              </span>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
