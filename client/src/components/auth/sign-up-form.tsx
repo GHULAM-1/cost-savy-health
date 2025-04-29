@@ -38,8 +38,7 @@ export default function SignUpForm({
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
       // Remove token and user data from localStorage
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      router.push("/")
       // No need to redirect since we want to show the form
     }
   }, [isAuthenticated, isLoading, router, from]);
