@@ -47,30 +47,30 @@ interface ErrorResponse {
 }
 
 // API URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
 // Global fetch options for authentication requests
 const authFetchOptions = {
-  credentials: 'include' as RequestCredentials,
+  credentials: "include" as RequestCredentials,
   headers: {
-    'Content-Type': 'application/json',
-  }
+    "Content-Type": "application/json",
+  },
 };
 
 // Helper function to handle API requests
 const apiRequest = async <T>(
-  url: string, 
-  options: RequestInit, 
+  url: string,
+  options: RequestInit,
   errorMessage: string
 ): Promise<T> => {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error((data as ErrorResponse).message || errorMessage);
     }
-    
+
     return data as T;
   } catch (error) {
     console.error(`API error (${url}):`, error);
@@ -78,14 +78,16 @@ const apiRequest = async <T>(
   }
 };
 
-// Add authorization header if token exists
+// Add authorization header + always include credentials
 const withAuth = (token: string, options: RequestInit = {}): RequestInit => {
   return {
     ...options,
+    credentials: "include" as RequestCredentials, // important
     headers: {
       ...options.headers,
-      'Authorization': `Bearer ${token}`,
-    }
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json", // ensure set
+    },
   };
 };
 
@@ -95,23 +97,25 @@ export const register = async (userData: UserData): Promise<AuthResponse> => {
     `${API_URL}/auth/register`,
     {
       ...authFetchOptions,
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(userData),
     },
-    'Registration failed'
+    "Registration failed"
   );
 };
 
 // Login a user
-export const login = async (credentials: Credentials): Promise<AuthResponse> => {
+export const login = async (
+  credentials: Credentials
+): Promise<AuthResponse> => {
   return apiRequest<AuthResponse>(
     `${API_URL}/auth/login`,
     {
       ...authFetchOptions,
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(credentials),
     },
-    'Login failed'
+    "Login failed"
   );
 };
 
@@ -120,22 +124,22 @@ export const getCurrentUser = async (token: string): Promise<UserResponse> => {
   return apiRequest<UserResponse>(
     `${API_URL}/auth/me`,
     withAuth(token, {
-      ...authFetchOptions,
-      method: 'GET',
+      method: "GET",
     }),
-    'Failed to get user data'
+    "Failed to get user data"
   );
 };
 
 // Logout user
-export const logout = async (token: string): Promise<{success: boolean, data: {}}> => {
-  return apiRequest<{success: boolean, data: {}}>(
+export const logout = async (
+  token: string
+): Promise<{ success: boolean; data: {} }> => {
+  return apiRequest<{ success: boolean; data: {} }>(
     `${API_URL}/auth/logout`,
     withAuth(token, {
-      ...authFetchOptions,
-      method: 'GET',
+      method: "POST", // safer to use POST for logout
     }),
-    'Logout failed'
+    "Logout failed"
   );
 };
 
@@ -147,46 +151,52 @@ export const getAllUsers = async (token: string): Promise<UsersResponse> => {
   return apiRequest<UsersResponse>(
     `${API_URL}/users`,
     withAuth(token, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
     }),
-    'Failed to get users'
+    "Failed to get users"
   );
 };
 
 // Admin: Get user by ID (admin only)
-export const getUserById = async (token: string, userId: string): Promise<UserResponse> => {
+export const getUserById = async (
+  token: string,
+  userId: string
+): Promise<UserResponse> => {
   return apiRequest<UserResponse>(
     `${API_URL}/users/${userId}`,
     withAuth(token, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
     }),
-    'Failed to get user'
+    "Failed to get user"
   );
 };
 
 // Admin: Update user (admin only)
-export const updateUser = async (token: string, userId: string, userData: Partial<UserData>): Promise<UserResponse> => {
+export const updateUser = async (
+  token: string,
+  userId: string,
+  userData: Partial<UserData>
+): Promise<UserResponse> => {
   return apiRequest<UserResponse>(
     `${API_URL}/users/${userId}`,
     withAuth(token, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      method: "PUT",
       body: JSON.stringify(userData),
     }),
-    'Failed to update user'
+    "Failed to update user"
   );
 };
 
 // Admin: Delete user (admin only)
-export const deleteUser = async (token: string, userId: string): Promise<{success: boolean, data: {}}> => {
-  return apiRequest<{success: boolean, data: {}}>(
+export const deleteUser = async (
+  token: string,
+  userId: string
+): Promise<{ success: boolean; data: {} }> => {
+  return apiRequest<{ success: boolean; data: {} }>(
     `${API_URL}/users/${userId}`,
     withAuth(token, {
-      method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      method: "DELETE",
     }),
-    'Failed to delete user'
+    "Failed to delete user"
   );
 };

@@ -17,7 +17,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { googleAuthUrl } from "@/api/auth/api";
-
+import { login } from "@/api/auth/api";
 export default function SignUpForm({
   authType,
   onSwitch,
@@ -32,7 +32,7 @@ export default function SignUpForm({
   const [error, setError] = useState<string | null>(null);
 
   // Get the redirect URL from query params (if any)
-  const from = searchParams.get('from') || '/';
+  const from = searchParams.get("from") || "/";
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -49,73 +49,78 @@ export default function SignUpForm({
     const formData = new FormData(event.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    
-    // Generating a name from email if not provided (can be updated later by user)
-    const name = email.split('@')[0];
+
+    // Generating a name from email if not provided
+    const name = email.split("@")[0];
 
     try {
-      // Call the register function from auth context
+      // 1. Register the user
       await register(name, email, password);
-      
-      // Show success message
-      toast.success("Registration failed");
 
-      
-      // Redirect to the original destination or dashboard
-      router.push("/");
+      // 2. Immediately log the user in
+      const response = await login({ email, password });
+
+      if (response.success) {
+        // Show success message
+        toast.success("Registration successful!");
+        // Redirect to homepage
+        router.push("/");
+      }
     } catch (error) {
       console.error("Registration error:", error);
-      setError(error instanceof Error ? error.message : "Failed to register. Please try again.");
-      
-      toast.success("Registration failed");
-
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Failed to register. Please try again."
+      );
+      toast.error("Registration failed");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-//   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-//   event.preventDefault();
-//   setIsSubmitting(true);
-//   setError(null);
+  //   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setIsSubmitting(true);
+  //   setError(null);
 
-//   const formData = new FormData(event.currentTarget);
-//   const email = formData.get("email") as string;
-//   const password = formData.get("password") as string;
-  
-//   // Generating a name from email if not provided (can be updated later by user)
-//   const name = email.split('@')[0];
+  //   const formData = new FormData(event.currentTarget);
+  //   const email = formData.get("email") as string;
+  //   const password = formData.get("password") as string;
 
-//   try {
-//     // Call the register function from auth context
-//     const response = await register(name, email, password);
-    
-//     // Store token in localStorage
-//     localStorage.setItem("token", response.token);
-    
-//     // Store user data
-//     localStorage.setItem("user", JSON.stringify(response.user));
-    
-//     // Show success message
-//     toast.success("Registration successful");
-    
-//     // Redirect to the original destination or dashboard
-//     router.push("/");
-//   } catch (error) {
-//     console.error("Registration error:", error);
-//     setError(error instanceof Error ? error.message : "Failed to register. Please try again.");
-    
-//     toast.error("Registration failed");
-//   } finally {
-//     setIsSubmitting(false);
-//   }
-// };
+  //   // Generating a name from email if not provided (can be updated later by user)
+  //   const name = email.split('@')[0];
+
+  //   try {
+  //     // Call the register function from auth context
+  //     const response = await register(name, email, password);
+
+  //     // Store token in localStorage
+  //     localStorage.setItem("token", response.token);
+
+  //     // Store user data
+  //     localStorage.setItem("user", JSON.stringify(response.user));
+
+  //     // Show success message
+  //     toast.success("Registration successful");
+
+  //     // Redirect to the original destination or dashboard
+  //     router.push("/");
+  //   } catch (error) {
+  //     console.error("Registration error:", error);
+  //     setError(error instanceof Error ? error.message : "Failed to register. Please try again.");
+
+  //     toast.error("Registration failed");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
 
   // Function to handle Google OAuth
   const handleGoogleSignUp = () => {
     // Store the destination URL in localStorage before redirecting
-    localStorage.setItem('authRedirectUrl', from);
-    
+    localStorage.setItem("authRedirectUrl", from);
+
     // Redirect to Google OAuth endpoint
     window.location.href = googleAuthUrl;
   };

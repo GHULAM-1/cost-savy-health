@@ -1,3 +1,4 @@
+//Cookie
 "use client";
 import React, {
   createContext,
@@ -23,33 +24,40 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuthStatus = async () => {
       setIsLoading(true);
       try {
-        if (typeof window !== 'undefined') {
+        if (typeof window !== "undefined") {
           // Parse cookies
-          const cookies = document.cookie.split(';');
-          const authTokenCookie = cookies.find(cookie => cookie.trim().startsWith('auth_token='));
-          const authUserCookie = cookies.find(cookie => cookie.trim().startsWith('auth_user='));
-          
+          const cookies = document.cookie.split(";");
+          const authTokenCookie = cookies.find((cookie) =>
+            cookie.trim().startsWith("auth_token=")
+          );
+          const authUserCookie = cookies.find((cookie) =>
+            cookie.trim().startsWith("auth_user=")
+          );
+
           let token = null;
           let userData = null;
-          
+
           if (authTokenCookie) {
+            console.log(authTokenCookie);
             // Extract token value
-            token = authTokenCookie.split('=')[1].trim();
+            token = authTokenCookie.split("=")[1].trim();
             console.log("Found auth_token cookie");
-            
-            localStorage.setItem('token', token);
-            
+
+            localStorage.setItem("token", token);
+
             if (authUserCookie) {
               try {
-                const userCookieValue = authUserCookie.split('=')[1].trim();
+                const userCookieValue = authUserCookie.split("=")[1].trim();
                 userData = JSON.parse(decodeURIComponent(userCookieValue));
                 console.log("Found user data in cookie");
-                
-                localStorage.setItem('user', JSON.stringify(userData));
-                
-                document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                document.cookie = 'auth_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-                
+
+                localStorage.setItem("user", JSON.stringify(userData));
+
+                document.cookie =
+                  "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                document.cookie =
+                  "auth_user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
                 setUser(userData);
                 setIsLoading(false);
                 return;
@@ -58,17 +66,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               }
             }
           }
-          
-          token = localStorage.getItem('token');
-          const storedUser = localStorage.getItem('user');
-          
+
+          token = localStorage.getItem("token");
+          const storedUser = localStorage.getItem("user");
+
           if (token) {
             if (storedUser) {
               setUser(JSON.parse(storedUser));
             } else {
               const userData = await getCurrentUser(token);
               setUser(userData.data);
-              localStorage.setItem('user', JSON.stringify(userData.data));
+              localStorage.setItem("user", JSON.stringify(userData.data));
             }
           } else {
             console.log("No token found, redirecting to auth");
@@ -85,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setIsLoading(false);
       }
     };
-  
+
     checkAuthStatus();
   }, [router]);
 
