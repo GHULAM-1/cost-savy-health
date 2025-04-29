@@ -37,7 +37,10 @@ export default function SignUpForm({
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push("/auth");
+      // Remove token and user data from localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      // No need to redirect since we want to show the form
     }
   }, [isAuthenticated, isLoading, router, from]);
 
@@ -57,15 +60,11 @@ export default function SignUpForm({
       // 1. Register the user
       await register(name, email, password);
 
-      // 2. Immediately log the user in
-      const response = await login({ email, password });
+      // Show success message
+      toast.success("Registration failed");
 
-      if (response.success) {
-        // Show success message
-        toast.success("Registration successful!");
-        // Redirect to homepage
-        router.push("/");
-      }
+      // Redirect to the original destination or dashboard
+      router.push("/");
     } catch (error) {
       console.error("Registration error:", error);
       setError(
@@ -73,7 +72,8 @@ export default function SignUpForm({
           ? error.message
           : "Failed to register. Please try again."
       );
-      toast.error("Registration failed");
+
+      toast.success("Registration failed");
     } finally {
       setIsSubmitting(false);
     }
@@ -125,8 +125,8 @@ export default function SignUpForm({
     window.location.href = googleAuthUrl;
   };
 
-  // If already authenticated and not loading, don't render the form
-  if (isAuthenticated && !isLoading) return null;
+  // // If already authenticated and not loading, don't render the form
+  // if (isAuthenticated && !isLoading) return null;
 
   return (
     <Card className="bg-white border border-gray-300 text-gray-900 rounded-t-lg pt-0">
@@ -177,9 +177,9 @@ export default function SignUpForm({
                 <Icon name="google" width={16} height={16} />
                 Sign up with Google
               </Button>
-            </div>
+            </div> */}
 
-            <div className="relative text-center text-xs after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-400">
+            {/* <div className="relative text-center text-xs after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-400">
               <span className="relative z-10 bg-white px-2 text-gray-600">
                 Or continue with email
               </span>

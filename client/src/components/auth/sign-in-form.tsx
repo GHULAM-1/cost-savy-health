@@ -38,7 +38,7 @@ export default function SignInForm({
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push("/auth");
+      router.push("/");
     }
   }, [isAuthenticated, isLoading, router, from]);
 
@@ -81,8 +81,8 @@ export default function SignInForm({
     window.location.href = googleAuthUrl;
   };
 
-  // If already authenticated and not loading, don't render the form
-  if (isAuthenticated && !isLoading) return null;
+  // // If already authenticated and not loading, don't render the form
+  // if (isAuthenticated && !isLoading) return null;
 
   return (
     <Card className="bg-white border border-gray-300 text-gray-900 rounded-t-lg pt-0">
@@ -132,9 +132,9 @@ export default function SignInForm({
             >
               <Icon name="google" width={16} height={16} />
               Sign in with Google
-            </Button>
+            </Button> */}
 
-            <div className="relative text-center text-xs after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-400">
+            {/* <div className="relative text-center text-xs after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-gray-400">
               <span className="relative z-10 bg-white px-2 text-gray-600">
                 Or continue with email
               </span>
