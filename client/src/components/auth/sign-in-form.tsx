@@ -35,7 +35,6 @@ export default function SignInForm({
   // Get the redirect URL from query params (if any)
   const from = searchParams.get("from") || "/";
 
-  // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
       router.push("/");
