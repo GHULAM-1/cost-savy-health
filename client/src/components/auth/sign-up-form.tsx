@@ -167,7 +167,7 @@ export default function SignUpForm({
           <input type="hidden" name="authType" value={authType ?? ""} />
 
           <div className="grid gap-4">
-            <div className="flex flex-col gap-3">
+            {/* <div className="flex flex-col gap-3">
               <Button
                 type="button"
                 variant="outline"
@@ -183,7 +183,7 @@ export default function SignUpForm({
               <span className="relative z-10 bg-white px-2 text-gray-600">
                 Or continue with email
               </span>
-            </div>
+            </div> */}
 
             <div className="grid gap-4">
               <div className="grid gap-1">

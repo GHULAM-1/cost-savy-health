@@ -123,7 +123,7 @@ export default function SignInForm({
           <input type="hidden" name="authType" value={authType ?? ""} />
 
           <div className="grid gap-4">
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               className="w-full gap-2 bg-white hover:bg-gray-50 border border-gray-400 text-gray-900 text-sm cursor-pointer"
@@ -138,7 +138,7 @@ export default function SignInForm({
               <span className="relative z-10 bg-white px-2 text-gray-600">
                 Or continue with email
               </span>
-            </div>
+            </div> */}
 
             <div className="grid gap-4">
               <div className="grid gap-1">
