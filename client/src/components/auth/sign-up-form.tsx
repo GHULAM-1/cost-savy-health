@@ -85,8 +85,8 @@ export default function SignUpForm({
     window.location.href = googleAuthUrl;
   };
 
-  // If already authenticated and not loading, don't render the form
-  if (isAuthenticated && !isLoading) return null;
+  // // If already authenticated and not loading, don't render the form
+  // if (isAuthenticated && !isLoading) return null;
 
   return (
     <Card className="bg-white border border-gray-300 text-gray-900 rounded-t-lg pt-0">
