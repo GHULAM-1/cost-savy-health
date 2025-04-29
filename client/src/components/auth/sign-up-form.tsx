@@ -37,7 +37,10 @@ export default function SignUpForm({
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push("/auth");
+      // Remove token and user data from localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      // No need to redirect since we want to show the form
     }
   }, [isAuthenticated, isLoading, router, from]);
 
@@ -58,58 +61,20 @@ export default function SignUpForm({
       await register(name, email, password);
       
       // Show success message
-      toast.success("Registration failed");
-
+      toast.success("Registration successful");
       
-      // Redirect to the original destination or dashboard
+      // Redirect to the home page
       router.push("/");
     } catch (error) {
       console.error("Registration error:", error);
       setError(error instanceof Error ? error.message : "Failed to register. Please try again.");
       
-      toast.success("Registration failed");
+      toast.error("Registration failed");
 
     } finally {
       setIsSubmitting(false);
     }
   };
-
-//   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-//   event.preventDefault();
-//   setIsSubmitting(true);
-//   setError(null);
-
-//   const formData = new FormData(event.currentTarget);
-//   const email = formData.get("email") as string;
-//   const password = formData.get("password") as string;
-  
-//   // Generating a name from email if not provided (can be updated later by user)
-//   const name = email.split('@')[0];
-
-//   try {
-//     // Call the register function from auth context
-//     const response = await register(name, email, password);
-    
-//     // Store token in localStorage
-//     localStorage.setItem("token", response.token);
-    
-//     // Store user data
-//     localStorage.setItem("user", JSON.stringify(response.user));
-    
-//     // Show success message
-//     toast.success("Registration successful");
-    
-//     // Redirect to the original destination or dashboard
-//     router.push("/");
-//   } catch (error) {
-//     console.error("Registration error:", error);
-//     setError(error instanceof Error ? error.message : "Failed to register. Please try again.");
-    
-//     toast.error("Registration failed");
-//   } finally {
-//     setIsSubmitting(false);
-//   }
-// };
 
   // Function to handle Google OAuth
   const handleGoogleSignUp = () => {
