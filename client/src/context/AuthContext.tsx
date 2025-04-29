@@ -80,14 +80,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             }
           } else {
             console.log("No token found, redirecting to auth");
-            router.push("/auth");
+            // router.push("/auth");
           }
         }
       } catch (err) {
         console.error("Auth check error:", err);
         localStorage.removeItem("token");
         localStorage.removeItem("user");
-        router.push("/auth");
+        // router.push("/auth");
         setError("Session expired. Please login again.");
       } finally {
         setIsLoading(false);
