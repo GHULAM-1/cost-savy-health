@@ -10,7 +10,7 @@ export default function BlogHero() {
             <img src="/logo-black.png" alt="" />
           </div>
 
-          <h1 className="md:text-[25px] text-[16px] sm:text-lg font-bold text-[#098481]  mb-6">
+          <h1 className="md:text-[25px] text-[16px] sm:text-lg font-bold text-[#A34E78]  mb-6">
             Blogging on Healthcare and Price Transparency
           </h1>
         </div>

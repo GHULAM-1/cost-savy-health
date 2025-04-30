@@ -6,12 +6,12 @@ import { featureCardsData } from "@/data/landing-page/features-card-data";
 const FeatureCards = () => {
   return (
     <section>
-      <div className="px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#E6FAF8]">
+      <div className="px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#F3E8EF]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {featureCardsData.map((feature, index) => (
             <div
               key={index}
-              className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg transition-shadow duration-300 border-[#e0f7f4] border-solid border-[6px] sm:border-[8px]"
+              className="bg-white rounded-2xl p-6 sm:p-8 shadow-lg transition-shadow duration-300 border-[#F3E8EF] border-solid border-[6px] sm:border-[8px]"
             >
               <div className="flex justify-center sm:justify-start mb-5 sm:mb-6">
                 <Image

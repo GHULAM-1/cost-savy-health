@@ -18,7 +18,7 @@ const EnterpriseSolutions = () => {
             </p>
             <a
               href={solution.link}
-              className="inline-block text-[#03363D] font-medium border-b-1 border-[#03363D] hover:text-[#1D5E5A] hover:border-[#1D5E5A] transition-colors duration-300"
+              className="inline-block text-[#03363D] font-medium border-b-1 border-[#03363D] hover:text-[#8C2F5D] hover:border-[#8C2F5D] transition-colors duration-300"
             >
               Learn More
             </a>

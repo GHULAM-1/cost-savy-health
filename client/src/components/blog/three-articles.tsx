@@ -51,7 +51,7 @@ export default function ThreeArticles({ articles }: ThreeArticlesProps) {
               </div>
 
               <div className="p-4 md:p-6 flex flex-col flex-grow">
-                <div className="text-[#098481] text-xs md:text-sm font-medium mb-2">
+                <div className="text-[#A34E78] text-xs md:text-sm font-medium mb-2">
                   {article.category}
                 </div>
 

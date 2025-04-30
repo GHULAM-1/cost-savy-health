@@ -4,7 +4,7 @@ import EnterpriseFeatures from "../enterprise-features";
 import serviceFeaturesData from "@/data/about/service-features-data";
 const ServiceHighlight = () => {
   return (
-    <section className="bg-[#035153]  px-2 sm:px-12 pt-20 pb-10">
+    <section className="bg-[#8C2F5D]  px-2 sm:px-12 pt-20 pb-10">
       <div className="px-6 sm:px-12 lg:pt-20 pb-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="text-left  self-start">
@@ -16,7 +16,7 @@ const ServiceHighlight = () => {
 
           <Link
             href="#"
-            className="inline-block bg-[#098481] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#5e9a9c] transition-colors duration-300 text-md font-medium"
+            className="inline-block bg-[#A34E78] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#F3E8EF] hover:text-black transition-colors duration-300 text-md font-medium"
           >
             <div className="flex items-center justify-center gap-1">
               <p>View </p>

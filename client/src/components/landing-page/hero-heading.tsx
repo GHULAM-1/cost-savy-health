@@ -19,14 +19,14 @@ export default function HeroHeading() {
   }, [rotatingWords.length]);
 
   return (
-    <h1 className="text-[#03363D] text-3xl md:text-5xl leading-15 lg:text-6xl font-bold md:leading-20 font-serif md:mb-4">
+    <h1 className="text-[#403B3D] text-3xl md:text-5xl leading-15 lg:text-6xl font-bold md:leading-20 font-serif md:mb-4">
       Know what you'll pay <span className="md:hidden">for</span>
       <br />
       <span className="flex items-center space-x-4">
-        <span className="text-[#03363D] hidden sm:flex">for</span>
+        <span className="text-[#403B3D] hidden sm:flex">for</span>
         <span
           key={rotatingWords[index]}
-          className="text-[#098481] animate-slideUp"
+          className="text-[#8C2F5D] animate-slideUp"
         >
           {rotatingWords[index]}
         </span>

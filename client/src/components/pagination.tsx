@@ -35,7 +35,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
           className="px-3 py-2 rounded-l-full focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Go to previous page"
         >
-          <span className="text-[#035153]"><ChevronsLeft/></span>
+          <span className="text-[#A34E78]"><ChevronsLeft/></span>
         </button>
 
         {getPageNumbers().map((page, index) => (
@@ -47,7 +47,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
                 onClick={() => onPageChange(page)}
                 className={`px-4 py-2 min-w-[40px] text-center ${
                   currentPage === page
-                    ? "bg-[#098481] text-white font-medium"
+                    ? "bg-[#8C2F5D] text-white font-medium"
                     : "text-gray-700 hover:bg-gray-200"
                 } focus:outline-none`}
                 aria-label={`Go to page ${page}`}
@@ -65,7 +65,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: any) => {
           className="px-3 py-2 rounded-r-full focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
           aria-label="Go to next page"
         >
-          <span className="text-[#035153]"><ChevronsRight/> </span>
+          <span className="text-[#A34E78]"><ChevronsRight/> </span>
         </button>
       </div>
     </div>

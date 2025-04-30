@@ -56,7 +56,7 @@ export default function ProviderCard({
                 </div>
               </div>
               {facility.inNetwork && (
-                <div className="flex items-center gap-2 text-[#098481] mt-2">
+                <div className="flex items-center gap-2 text-[#A34E78] mt-2">
                   <ShieldCheck size={16} className="md:size-[18px]" />
                   <span className="text-sm md:text-base">In Network</span>
                 </div>
@@ -78,7 +78,7 @@ export default function ProviderCard({
               ${facility.price.toLocaleString()}
             </span>
           </div>
-          <div className="flex justify-center md:justify-end items-center gap-1 text-[#098481] mt-1">
+          <div className="flex justify-center md:justify-end items-center gap-1 text-[#A34E78] mt-1">
             <span className="text-sm underline">Significantly lower</span>
             <span className="text-xs transform transition-transform duration-300 group-hover:-rotate-45">
               ↓
@@ -95,9 +95,9 @@ export default function ProviderCard({
               <Check
                 size={16}
                 strokeWidth={3}
-                className="md:size-[18px] text-[#2A665B]"
+                className="md:size-[18px] text-[#A34E78]"
               />
-              <span className="text-[#2A665B] text-sm md:text-base">
+              <span className="text-[#A34E78] text-sm md:text-base">
                 Insurance
               </span>
             </div>

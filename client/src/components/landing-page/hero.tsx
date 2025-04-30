@@ -16,7 +16,7 @@ export default function Hero() {
         {commonProcedures.map((procedure, index) => (
           <button
             key={index}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#098481] text-white hover:bg-[#035153] transition-colors"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#8C2F5D] text-white hover:bg-[#A34E78] transition-colors"
           >
             {procedure}
             <Search className="w-4 h-4" />

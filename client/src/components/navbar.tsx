@@ -28,7 +28,7 @@ export default function Navbar() {
 
   return (
     <div>
-      <nav className="py-3 px-2 md:px-5 bg-[#035153] w-full">
+      <nav className="py-3 px-2 md:px-5 bg-[#6B1548] w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Link href="/">
@@ -42,12 +42,12 @@ export default function Navbar() {
 
             <button
               onClick={openModal}
-              className="text-white hover:text-[#4CD7C6] transition-colors font-medium cursor-pointer"
+              className="text-white hover:text-[#F3E8EF] transition-colors font-medium cursor-pointer"
             >
               Sign Up
             </button>
             <a href="/auth">
-              <button className="bg-[#a9e6e1] text-[#0A2533] px-5 py-1 rounded-full hover:bg-teal-100 transition-colors cursor-pointer">
+              <button className="bg-[#A34E78] text-[#0A2533] px-5 py-1 rounded-full hover:bg-[#F3E8EF] transition-colors cursor-pointer">
                 Platform Sign In
               </button>
             </a>

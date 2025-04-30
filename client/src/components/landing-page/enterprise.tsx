@@ -7,31 +7,32 @@ const Enterprise = () => {
   return (
     <>
       <section className=" px-6 sm:px-12 pt-20 pb-10">
-        <FeatureIcon
+        {/* <FeatureIcon
           name={"enterprise"}
           alt={"Balancing weights"}
           width={200}
           height={200}
-        />
+        /> */}
+        <img src="/Icons/enterprise.png" alt="" />
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="text-left  self-start">
-            <h2 className="text-[#03363D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-4">
-              Turquoise for <br /> enterprise.
+            <h2 className="text-[#403B3D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-4">
+              Cost Savvy for <br /> enterprise.
             </h2>
-            <p className="text-lg text-[#03363D] leading-relaxed mb-2">
+            <p className="text-lg text-[#403B3D] leading-relaxed mb-2">
               We're proud to be working with some of the industry's newest,
-              oldest, and boldest. See how Turquoise can benefit your
+              oldest, and boldest. See how Cost Savvy can benefit your
               organization.
             </p>
           </div>
 
           <Link
             href="#"
-            className="inline-block bg-[#098481] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#035153] transition-colors duration-300 text-md font-medium"
+            className="inline-block bg-[#8C2F5D] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#A34E78] transition-colors duration-300 text-md font-medium"
           >
             <div className="flex items-center justify-center gap-1">
-              <p>Turquoise</p>
+              <p>Cost Savvy</p>
               <p>Platform</p>
             </div>
           </Link>

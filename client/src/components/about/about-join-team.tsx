@@ -4,8 +4,8 @@ import AboutUsJoin from "../../../public/JoinUS/about-us-join.webp";
 
 export function JoinTeam() {
   return (
-    <div className="lg:px-16 px-4">
-      <div className="bg-[#035153] py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+    <div className="lg:px-0 px-4">
+      <div className="bg-[#8C2F5D] py-16 md:py-24 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-8">
           <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 flex-grow self-start md:self-center">
             <Image
@@ -29,7 +29,7 @@ export function JoinTeam() {
           <div className="w-full lg:w-auto flex lg:flex lg:items-center lg:justify-end self-center">
             <a
               href="#"
-              className="inline-block bg-[#098481] text-white px-6 py-3 rounded-full font-medium hover:bg-[#86cdc0] transition-colors text-center w-full lg:w-auto"
+              className="inline-block bg-[#A34E78] text-white px-6 py-3 rounded-full font-medium hover:bg-[#A34E78] transition-colors text-center w-full lg:w-auto"
             >
               Job Openings
             </a>

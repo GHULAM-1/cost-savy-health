@@ -116,10 +116,10 @@ export function FilterBar() {
     <>
       <div className="flex flex-col md:flex-row items-center justify-start gap-6 px-4 sm:px-0">
         <button
-          className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-[#a9e6e1] rounded-full self-start"
+          className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-[#A34E78] rounded-full self-start"
           onClick={() => setIsModalOpen(true)}
         >
-          <ListFilter className="text-[#1B3B36] w-4 h-4 md:w-6 md:h-6" />
+          <ListFilter className="text-white w-4 h-4 md:w-6 md:h-6" />
         </button>
         <div className="flex flex-wrap gap-4">
           <DistanceFilter

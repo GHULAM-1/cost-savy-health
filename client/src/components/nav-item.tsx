@@ -29,7 +29,7 @@ export default function NavItem({
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button className="flex items-center text-white hover:text-[#4CD7C6] transition-colors font-semibold text-[16px] py-1">
+      <button className="flex items-center text-white hover:text-[#F3E8EF] transition-colors font-semibold text-[16px] py-1">
         {text}
       </button>
 

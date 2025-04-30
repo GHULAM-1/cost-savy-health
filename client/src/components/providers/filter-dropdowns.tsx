@@ -25,7 +25,7 @@ export function FilterDropdown({
       {!modal && (
         <button
           onClick={onToggle}
-          className="flex items-center gap-1 text-[#1B3B36] text-sm md:text-base font-medium border border-gray-200 rounded-full px-4 py-2 hover:border-[#2A665B] transition bg-[#a9e6e1]"
+          className="flex items-center gap-1 text-white text-sm md:text-base font-medium border border-gray-200 rounded-full px-4 py-2 hover:border-[#2A665B] transition bg-[#A34E78]"
         >
           {title}
           <ChevronDown

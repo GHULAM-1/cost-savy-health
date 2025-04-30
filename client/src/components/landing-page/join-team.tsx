@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const JoinTeam = () => {
   return (
-    <div className="bg-[#035153] border-t border-[#164e56] p-8 md:p-14 py-12 md:py-20">
+    <div className="bg-[#8C2F5D] border-t border-[#164e56] p-8 md:p-14 py-12 md:py-20">
       <div className=" flex flex-wrap items-center justify-center md:justify-between gap-6">
         <div className="flex flex-wrap items-center gap-6 md:gap-8 text-center md:text-left">
           <Image
@@ -23,7 +23,7 @@ const JoinTeam = () => {
             </p>
           </div>
         </div>
-        <button className="bg-[#1e6e6f] hover:bg-[#1b6364] cursor-pointer text-white px-6 py-3 rounded-full font-semibold transition-colors w-full lg:w-auto">
+        <button className="bg-[#A34E78] hover:bg-[#F3E8EF] cursor-pointer text-white px-6 py-3 rounded-full font-semibold transition-colors w-full lg:w-auto">
           Job Openings
         </button>
       </div>

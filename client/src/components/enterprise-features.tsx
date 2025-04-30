@@ -25,7 +25,7 @@ interface EnterpriseFeaturesProps {
 const EnterpriseFeatures: React.FC<EnterpriseFeaturesProps> = ({
   accordionData,
   defaultActiveItem = "item-1",
-  textColor = "text-gray-700",
+  textColor = "text-[#403B3D]",
 }) => {
   // STATE
   const [activeItem, setActiveItem] = useState<string>(defaultActiveItem);

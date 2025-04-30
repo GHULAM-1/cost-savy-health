@@ -36,7 +36,7 @@ export function SearchHeader({
           <h1 className="text-[#1B3B36] text-lg md:text-xl font-semibold">
             {resultCount} results for {searchTerm}
           </h1>
-          <p className="text-[#2A665B] text-xs sm:text-sm mt-1">
+          <p className="text-[#A34E78] text-xs sm:text-sm mt-1">
             Results show the max estimated price before your coverage is
             applied.
           </p>
@@ -53,7 +53,7 @@ export function SearchHeader({
               aria-checked={showVerification}
               onClick={onVerificationToggle}
               className={`relative inline-flex h-5 w-10 md:h-6 md:w-12 items-center rounded-full transition-colors duration-200 ease-in-out ${
-                showVerification ? "bg-[#098481]" : "bg-gray-200"
+                showVerification ? "bg-[#A34E78]" : "bg-gray-200"
               }`}
             >
               <span
