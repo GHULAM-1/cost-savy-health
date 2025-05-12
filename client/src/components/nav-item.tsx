@@ -4,7 +4,7 @@ import { useState } from "react";
 
 interface DropdownItem {
   title: string;
-  description: string;
+  description?: string;
   url: string;
 }
 

@@ -25,6 +25,7 @@ export default function NavLinks() {
         <NavItem text="Providers" hasDropdown={false} />
       </a>
 
+
       {/* <NavItem
         text="Search Care"
         hasDropdown={true}
@@ -137,6 +138,20 @@ export default function NavLinks() {
             description: "Find answers to common questions.",
             url: "#",
           },
+        ]}
+      />
+      <NavItem
+        text="Shop for Plans"
+        hasDropdown={true}
+        dropdownContent={[
+          {
+            title: "Medicare",
+            url: "#",
+          },
+          {
+            title: "Indiviual & Family Health",
+            url: "#",
+          }
         ]}
       />
     </>

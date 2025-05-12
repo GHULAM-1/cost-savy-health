@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import BlogHero from "@/components/blog/blog-hero";
 import BlogNav from "@/components/blog/blog-nav";
 import MainCard from "@/components/blog/main-card";
