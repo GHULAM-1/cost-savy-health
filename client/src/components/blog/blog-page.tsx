@@ -1,4 +1,5 @@
-export const revalidate = 60
+export const dynamic = 'force-dynamic'  
+export const fetchCache = 'force-no-store'
 
 import BlogHero from "@/components/blog/blog-hero";
 import BlogNav from "@/components/blog/blog-nav";
