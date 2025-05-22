@@ -15,7 +15,6 @@ const connectDB = async () => {
     return conn;
   } catch (error) {
     console.error(`MongoDB Connection Error: ${error.message}`);
-    // Don't crash the server in production
     if (process.env.NODE_ENV === 'production') {
       process.exit(1);
     }
