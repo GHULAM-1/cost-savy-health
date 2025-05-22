@@ -16,31 +16,27 @@ export default defineConfig({
           .items([
             S.listItem()
               .title('Blog Main Cards')
-              .child(
-                S.documentTypeList('blogMainCard')
-                  .title('Blog Main Cards')
-              ),
+              .child(S.documentTypeList('blogMainCard').title('Blog Main Cards')),
             S.listItem()
               .title('Blog Articles')
-              .child(
-                S.documentTypeList('blogArticle')
-                  .title('Blog Articles')
-              ),
+              .child(S.documentTypeList('blogArticle').title('Blog Articles')),
             S.listItem()
               .title('Other Articles')
-              .child(
-                S.documentTypeList('otherArticle')
-                  .title('Other Articles')
-              ),
+              .child(S.documentTypeList('otherArticle').title('Other Articles')),
+            S.listItem().title('Authors').child(S.documentTypeList('author')),
+            S.listItem().title('Healthcare Records').child(S.documentTypeList('healthcareRecord')),
             S.listItem()
-              .title('Authors')
-              .child(S.documentTypeList('author')),
+              .title('Procedures')
+              .child(S.documentTypeList('procedure').title('Procedures')),
             S.listItem()
-              .title('Healthcare Records')
-              .child(S.documentTypeList('healthcareRecord'))
+              .title('Providers')
+              .child(S.documentTypeList('provider').title('Providers')),
+            S.listItem()
+              .title('Health Systems')
+              .child(S.documentTypeList('healthSystem').title('Health Systems')),
           ]),
     }),
-    visionTool()
+    visionTool(),
   ],
   schema: {
     types: schemaTypes,

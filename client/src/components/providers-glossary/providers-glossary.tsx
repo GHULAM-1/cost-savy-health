@@ -10,14 +10,18 @@ import StateDropdown from "./state-dropdown";
 
 import {
   TabType,
-  GlossaryDataType,
   SearchFieldType,
+  GlossaryItem,
 } from "../../types/providers-glossary/glossary-types";
 
 import {
-  generateMockGlossaryData,
   mockStates,
 } from "@/data/providers-glossary/glossary";
+import {
+  fetchHealthSystems,
+  fetchProcedures,
+  fetchProviders,
+} from "@/api/sanity/queries";
 
 export default function ProvidersGlossaryPage() {
   const tabs: TabType[] = [
@@ -40,23 +44,19 @@ export default function ProvidersGlossaryPage() {
       hasStateFilter: false,
     },
   ];
+  const [items, setItems] = useState<GlossaryItem[]>([]);
   //CONSTANTS
   const itemsPerPage = 30;
   // States
   const [activeTab, setActiveTab] = useState<string>("providers");
+  const [loading, setLoading]         = useState<boolean>(false);
   const [activeLetter, setActiveLetter] = useState<string>("ALL");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [searchValue, setSearchValue] = useState<string>("");
   const [selectedState, setSelectedState] = useState<string>("");
-  const [glossaryData, setGlossaryData] = useState<GlossaryDataType>({
-    procedures: generateMockGlossaryData("Procedure", 150),
-    providers: generateMockGlossaryData("Provider", 200),
-    "health-systems": generateMockGlossaryData("Health System", 100),
-  });
 
-  const currentTabData = glossaryData[activeTab] || [];
 
-  const filteredData = currentTabData.filter((item) => {
+  const filteredData = items.filter((item) => {
     const matchesLetter =
       activeLetter === "ALL" ||
       item.name.charAt(0).toUpperCase() === activeLetter;
@@ -77,7 +77,26 @@ export default function ProvidersGlossaryPage() {
   //HOOKS
   useEffect(() => {
     setCurrentPage(1);
-  }, [activeTab, activeLetter, searchValue, selectedState]);
+    (async () => {
+      setLoading(true);
+      try {
+        let data: GlossaryItem[] = [];
+        if (activeTab === "procedures") {
+          data = await fetchProcedures();
+        } else if (activeTab === "providers") {
+          data = await fetchProviders();
+        } else {
+          data = await fetchHealthSystems();
+        }
+        setItems(data);
+      } catch (err) {
+        console.error("Failed loading glossary items:", err);
+        setItems([]);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [activeTab]);
 
   useEffect(() => {
     setSearchValue("");
@@ -112,7 +131,7 @@ export default function ProvidersGlossaryPage() {
               <div className="w-full md:w-3/2">
                 <SearchInput
                   field={field}
-                  searchOptions={currentTabData}
+                  searchOptions={items}
                   placeholder={`Search for ${currentTab.label.toLowerCase()}...`}
                 />
               </div>
@@ -136,11 +155,15 @@ export default function ProvidersGlossaryPage() {
               />
             </div>
             <div className="p-2">
-              <GlossaryList items={currentItems} />
+              {loading ? (
+                <p className="text-center py-10 text-lg">Loading…</p>
+              ) : (
+                <GlossaryList items={currentItems} />
+              )}
             </div>
           </div>
 
-          {currentItems.length === 0 && (
+          {!loading && currentItems.length === 0 && (
             <div className="text-center py-10">
               <p className="text-gray-500">
                 No items found matching your criteria.

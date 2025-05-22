@@ -1,4 +1,5 @@
 import client from "@/lib/sanity";
+import { GlossaryItem } from "@/types/providers-glossary/glossary-types";
 import {
   ArticleProps,
   HealthcareQueryParams,
@@ -252,3 +253,56 @@ export async function getBlogData() {
     };
   }
 }
+
+function mapToGlossary(arr: any[]): GlossaryItem[] {
+  return arr.map((doc) => ({
+    id:          doc._id,
+    name:        doc.name,
+    location:    doc.location || "",
+    description: doc.description || "",
+    state:       doc.state  || "",
+  }));
+}
+
+export async function fetchProcedures(): Promise<GlossaryItem[]> {
+  const query = groq`
+    *[_type == "procedure"]{
+      _id,
+      "name": title,
+      "location": "",                           // no location for procedures
+      "description": introduction[0].children[0].text,
+      "state": ""                               // adjust if you added state
+    }
+  `;
+  const res = await client.fetch<any[]>(query);
+  return mapToGlossary(res);
+}
+
+export async function fetchProviders(): Promise<GlossaryItem[]> {
+  const query = groq`
+    *[_type == "provider"]{
+      _id,
+      "name": name,
+      "location": address.city + ", " + address.state,
+      "description": providerType,
+      "state": address.state
+    }
+  `;
+  const res = await client.fetch<any[]>(query);
+  return mapToGlossary(res);
+}
+
+export async function fetchHealthSystems(): Promise<GlossaryItem[]> {
+  const docs = await client.fetch(`*[_type == "healthSystem"]`);
+
+  return (docs as any[]).map((doc) => ({
+    id:          doc._id,
+    name:        doc.name,
+    location:    doc.locations?.[0]
+                   ? `${doc.locations[0].city}, ${doc.locations[0].state}`
+                   : "",
+    description: doc.isVerified ? "Verified" : "Unverified",
+    state:       doc.locations?.[0]?.state || "",
+  }));
+}
+
