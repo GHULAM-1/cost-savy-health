@@ -73,7 +73,6 @@ export default function ProvidersGlossaryPage() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-
   //HOOKS
   useEffect(() => {
     setCurrentPage(1);
