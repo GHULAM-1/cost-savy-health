@@ -20,7 +20,6 @@ export interface HealthcareRecord {
   provider_city: string;
   provider_state: string;
   negotiated_rate: number;
-  // …other fields as needed
 }
 interface EntitiesResponse {
     success: boolean;

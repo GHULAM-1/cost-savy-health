@@ -1,4 +1,3 @@
-// controllers/search.controller.js
 const Healthcare = require("../models/Healthcare-Record");
 
 function escapeRegex(str = "") {
@@ -126,7 +125,6 @@ exports.getProviders = async (req, res, next) => {
       .limit(limNum)
       .lean();
 
-    // return both data & pagination
     return res.status(200).json({
       success: true,
       pagination: { total },
