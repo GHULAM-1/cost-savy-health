@@ -11,7 +11,7 @@ const connectDB = async () => {
       maxPoolSize: 10
     });
     
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(`DB name: ${conn.connection.name}, host: ${conn.connection.host}`);
     return conn;
   } catch (error) {
     console.error(`MongoDB Connection Error: ${error.message}`);

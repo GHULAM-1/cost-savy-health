@@ -2,13 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
+import { getProviders, HealthcareRecord } from "../../api/search/api";
 import ProviderCard from "@/components/providers/provider-card";
 import { SearchHeader } from "./search-header";
 import Pagination from "../pagination";
 
 import { getHealthcareRecords } from "@/api/sanity/queries";
-import { HealthcareRecord } from "@/types/sanity/sanity-types";
 
 export default function ProviderCards() {
   // STATES
@@ -18,6 +17,7 @@ export default function ProviderCards() {
   const searchCare = searchParams.get("searchCare") || "";
   const zipCode = searchParams.get("zipCode") || "";
   const insurance = searchParams.get("insurance") || "";
+
   const priceMinParam = parseFloat(searchParams.get("priceMin") || "");
   const priceMaxParam = parseFloat(searchParams.get("priceMax") || "");
   const hasMin = !isNaN(priceMinParam);
@@ -44,49 +44,17 @@ export default function ProviderCards() {
   const [showVerification, setShowVerification] = useState(true);
   const [sortOrder, setSortOrder] = useState("lowest");
 
-  useEffect(() => {
+useEffect(() => {
     setLoading(true);
-
-    getHealthcareRecords({
+    getProviders({
+      searchCare,
+      zipCode,
+      insurance,
       page: currentPage,
       limit: cardsPerPage,
-      state: "",
-      zipCode,
-      providerName: searchCare,
-      insurance,
     })
       .then((res) => {
-        let filtered = res.data.filter((prov: HealthcareRecord) => {
-          const price = prov.negotiated_rate;
-          if (hasMin && price < priceMinParam) return false;
-          if (hasMax && price > priceMaxParam) return false;
-
-          // if (maxDistance !== null && (prov.distance ?? Infinity) > maxDistance)
-          //   return false;
-
-          // if (minRating !== null && (prov.rating ?? 0) < minRating)
-          //   return false;
-
-          // if (verificationParam && verificationParam !== prov.verification)
-          //   return false;
-
-          return true;
-        });
-
-        // Apply sorting based on sortOrder
-        if (sortOrder === "lowest") {
-          filtered.sort((a, b) => a.negotiated_rate - b.negotiated_rate);
-        } else if (sortOrder === "highest") {
-          filtered.sort((a, b) => b.negotiated_rate - a.negotiated_rate);
-        } else if (sortOrder === "distance") {
-          // Sort by distance
-          // filtered.sort((a, b) => (a.distance ?? 0) - (b.distance ?? 0));
-        } else if (sortOrder === "rating") {
-          // Sort by rating
-          // filtered.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
-        }
-
-        setProviders(filtered);
+        setProviders(res.data);
         setTotalCount(res.pagination.total);
       })
       .catch((err) => {
@@ -95,18 +63,7 @@ export default function ProviderCards() {
         setTotalCount(0);
       })
       .finally(() => setLoading(false));
-  }, [
-    searchCare,
-    zipCode,
-    insurance,
-    currentPage,
-    priceMinParam,
-    priceMaxParam,
-    distanceParam,
-    scoreParam,
-    verificationParam,
-    sortOrder,
-  ]);
+  }, [searchCare, zipCode, insurance, currentPage]);
 
   const totalPages = Math.ceil(totalCount / cardsPerPage);
 
