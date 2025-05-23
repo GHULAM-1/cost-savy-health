@@ -157,7 +157,7 @@ export default function ProvidersGlossaryPage() {
               {loading ? (
                 <p className="text-center py-10 text-lg">Loading…</p>
               ) : (
-                <GlossaryList items={currentItems} />
+                <GlossaryList items={currentItems}  />
               )}
             </div>
           </div>

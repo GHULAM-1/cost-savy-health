@@ -254,13 +254,14 @@ export async function getBlogData() {
   }
 }
 
-function mapToGlossary(arr: any[]): GlossaryItem[] {
+function mapToGlossary(arr: any[], tab: GlossaryItem["tab"]): GlossaryItem[] {
   return arr.map((doc) => ({
-    id:          doc._id,
-    name:        doc.name,
-    location:    doc.location || "",
+    id: doc._id,
+    name: doc.name,
+    location: doc.location || "",
     description: doc.description || "",
-    state:       doc.state  || "",
+    state: doc.state || "",
+    tab,
   }));
 }
 
@@ -271,11 +272,11 @@ export async function fetchProcedures(): Promise<GlossaryItem[]> {
       "name": title,
       "location": "",                           // no location for procedures
       "description": introduction[0].children[0].text,
-      "state": ""                               // adjust if you added state
+      "state": "" ,                             // adjust if you added state
     }
   `;
   const res = await client.fetch<any[]>(query);
-  return mapToGlossary(res);
+  return mapToGlossary(res, "procedures");
 }
 
 export async function fetchProviders(): Promise<GlossaryItem[]> {
@@ -285,24 +286,66 @@ export async function fetchProviders(): Promise<GlossaryItem[]> {
       "name": name,
       "location": address.city + ", " + address.state,
       "description": providerType,
-      "state": address.state
+      "state": address.state,
     }
   `;
   const res = await client.fetch<any[]>(query);
-  return mapToGlossary(res);
+  return mapToGlossary(res,"dynProviders");
 }
 
 export async function fetchHealthSystems(): Promise<GlossaryItem[]> {
   const docs = await client.fetch(`*[_type == "healthSystem"]`);
 
   return (docs as any[]).map((doc) => ({
-    id:          doc._id,
-    name:        doc.name,
-    location:    doc.locations?.[0]
-                   ? `${doc.locations[0].city}, ${doc.locations[0].state}`
-                   : "",
+    id: doc._id,
+    name: doc.name,
+    location: doc.locations?.[0]
+      ? `${doc.locations[0].city}, ${doc.locations[0].state}`
+      : "",
     description: doc.isVerified ? "Verified" : "Unverified",
-    state:       doc.locations?.[0]?.state || "",
+    state: doc.locations?.[0]?.state || "",
+    tab: "healthSystems",
   }));
 }
 
+export const getProviderByIdQuery = groq`
+  *[_type == "provider" && _id == $id][0] {
+    _id,
+    name,
+    address,
+    phone,
+    medicareProviderId,
+    npi,
+    website,
+    providerType,
+    ownership,
+    beds,
+    nearbyProviders,
+    clinicalServices
+  }
+`;
+
+export async function getProviderById(id: string) {
+  return await client.fetch(getProviderByIdQuery, { id });
+}
+
+export const getHealthSystemByIdQuery = groq`
+  *[_type == "healthSystem" && _id == $id][0] {
+    _id,
+    name,
+    isVerified,
+    claimUrl,
+    locations[] {
+      facilityName,
+      street,
+      city,
+      state,
+      zip
+    },
+    services
+  }
+`;
+
+export async function getHealthSystemById(id: string) {
+  return await client.fetch(getHealthSystemByIdQuery, { id });
+}

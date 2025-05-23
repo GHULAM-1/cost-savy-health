@@ -4,6 +4,7 @@ export interface GlossaryItem {
     name: string;
     location?: string;
     description?: string;
+    tab: "procedures" | "dynProviders" | "healthSystems";
     state?: string;
   }
   

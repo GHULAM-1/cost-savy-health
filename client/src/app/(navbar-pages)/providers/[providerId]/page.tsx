@@ -4,8 +4,6 @@ import { ProviderFaqs } from "@/components/providers/provider-faqs";
 import EstimatedCost from "@/components/providers/estimated-cost";
 import { Summary } from "@/components/providers/summary";
 
-
-
 export default function page() {
   return (
     <div className="px-[16px]">

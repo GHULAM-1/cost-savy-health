@@ -19,19 +19,18 @@ export async function generateStaticParams() {
   return allIds.map((id) => ({ id }));
 }
 
-export default async function ProcedurePage({
-  params,
-}: {
-  params: { id: string };
+export default async function ProcedurePage(props: {
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await props.params;
+
   const proc: Procedure | null = await client.fetch(
     groq`
-      *[_type == "procedure" && _id == $id][0]{
-        _id, title, averageCashPrice,
-        introduction, sections[]{heading, content}, conclusion
-      }
-    `,
+        *[_type == "procedure" && _id == $id][0]{
+          _id, title, averageCashPrice,
+          introduction, sections[]{heading, content}, conclusion
+        }
+      `,
     { id }
   );
 
@@ -40,6 +39,7 @@ export default async function ProcedurePage({
   }
 
   return (
+    <>
     <article className="mx-auto max-w-3xl p-8 space-y-8">
       <div className="flex md:flex-row flex-col md:gap-2 gap-0 justify-between ">
         <header className="flex flex-col mb-0 items-center">
@@ -55,7 +55,6 @@ export default async function ProcedurePage({
           </div>
         </div>
       </div>
-
       <section className="space-y-6">
         <h2 className="text-xl font-bold">Procedure Information</h2>
         {proc.sections.map((sec, i) => (
@@ -65,11 +64,26 @@ export default async function ProcedurePage({
           </div>
         ))}
       </section>
-
       <section className="prose">
         <h2 className="text-2xl font-bold">Conclusion</h2>
         <PortableText value={proc.conclusion} />
       </section>
     </article>
+    <section className="bg-[#6B1548] py-16 px-4">
+        <div className="max-w-xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-white mb-4">
+            Are you a transparent provider or payer?
+          </h2>
+          <p className="text-white mb-8">
+            There is a market for transparency. Let patients find you by
+            claiming your provider page and listing your services. It only takes
+            10 minutes.
+          </p>
+          <button className="bg-[#8C2F5D]  text-white font-medium rounded-full px-6 py-3 transition">
+            Get Started
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
