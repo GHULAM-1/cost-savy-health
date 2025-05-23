@@ -4,9 +4,10 @@ import Link from "next/link";
 export default async function HealthSystemPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const healthSystem = await getHealthSystemById(params.id);
+  const { id } = await params;
+  const healthSystem = await getHealthSystemById(id);
 
   if (!healthSystem) {
     return (

@@ -3,17 +3,18 @@ import { getProviderById } from "@/api/sanity/queries";
 import Link from "next/link";
 
 export default async function ProviderPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const provider = await getProviderById(params.id);
-
-  if (!provider) {
-    return (
-      <div className="p-10 text-center text-red-500">Provider not found</div>
-    );
-  }
+    params,
+  }: {
+    params: Promise<{ id: string }>;
+  }) {
+    const { id } = await params;
+    const provider = await getProviderById(id);
+  
+    if (!provider) {
+      return (
+        <div className="p-10 text-center text-red-500">Provider not found</div>
+      );
+    }
 
   return (
     <div className="min-h-screen bg-gray-50">

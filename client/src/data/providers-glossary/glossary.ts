@@ -13,7 +13,8 @@ export function generateMockGlossaryData(type: string, count: number): GlossaryI
       name: `${letter}${type} ${i}`,
       location: `City ${i % 20 + 1}, ${state}`,
       description: `This is a sample ${type.toLowerCase()} description.`,
-      state: state
+      state: state,
+      tab : "dynProviders"
     });
   }
   
