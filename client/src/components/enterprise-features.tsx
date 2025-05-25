@@ -15,7 +15,7 @@ export type AccordionItemType = {
   value: string           // unique ID per item
   title: string
   content: string
-  imageUrl: string        // URL from CMS
+  imageUrl: string        
 }
 
 interface EnterpriseFeaturesProps {
