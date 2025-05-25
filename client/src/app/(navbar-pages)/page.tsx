@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'  
+export const fetchCache = 'force-no-store'
+
 import React from 'react'
 import { getHomePage } from '@/api/sanity/queries'
 import Hero from '@/components/landing-page/hero'

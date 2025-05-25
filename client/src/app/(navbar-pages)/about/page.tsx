@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'  
+export const fetchCache = 'force-no-store'
+
 import React from 'react'
 import AboutHero from '@/components/about/about-hero'
 import Vision from '@/components/about/vision'
