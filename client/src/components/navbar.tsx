@@ -36,7 +36,7 @@ export default function Navbar() {
             </Link>
           </div>
 
-          <div className="hidden lg:flex items-center gap-5 text-[16px]">
+          <div className="hidden lg:flex  items-center gap-5 text-[16px]">
             <NavLinks />
             <div className="flex items-center justify-center text-white">|</div>
 

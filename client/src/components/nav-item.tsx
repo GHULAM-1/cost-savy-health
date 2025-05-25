@@ -29,13 +29,13 @@ export default function NavItem({
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
-      <button className="flex items-center text-white hover:text-[#F3E8EF] transition-colors font-semibold text-[16px] py-1">
+      <button className="flex items-center hover:cursor-pointer text-white hover:text-[#F3E8EF] transition-colors font-semibold text-[16px] py-1">
         {text}
       </button>
 
       {hasDropdown && (
         <div
-          className={`absolute top-full lg:w-[500px] left-[-150px] bg-white rounded-lg shadow-lg py-4 px-6 z-50 transition-all duration-300 ease-out transform origin-top ${
+          className={`absolute top-full lg:w-[500px]  left-[-150px] bg-white rounded-lg shadow-lg py-4 px-6 z-50 transition-all duration-300 ease-out transform origin-top ${
             isOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-2 pointer-events-none"

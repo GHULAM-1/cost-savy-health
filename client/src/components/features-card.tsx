@@ -3,7 +3,7 @@ import { Check } from "lucide-react";
 import Image from "next/image";
 
 export interface FeatureCardProps {
-  imageUrl:string;
+  image:string;
   title: string;
   points: string[];
 }
@@ -25,7 +25,7 @@ const FeatureCards: React.FC<FeatureCardsProps> = ({ cards }) => {
             >
               <div className="flex justify-center sm:justify-start mb-5 sm:mb-6">
                 <Image
-                  src={feature.imageUrl}
+                  src={feature.image}
                   alt={feature.title}
                   width={124}
                   height={124}
