@@ -7,6 +7,9 @@ import otherArticle from './otherArticle'
 import procedure from './procedure'
 import healthSystem from './healthSystem'
 import provider from './provider'
+import aboutSchemas from './about'
+import homeSchemas from './home'
+
 export const schemaTypes = [
   author,
   blogPostAuthor,
@@ -16,5 +19,7 @@ export const schemaTypes = [
   healthcareRecord,
   provider,
   procedure,
-  healthSystem
+  healthSystem,
+  ...aboutSchemas,
+  ...homeSchemas
 ]

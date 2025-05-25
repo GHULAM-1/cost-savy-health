@@ -4,7 +4,7 @@ import Image from "next/image";
 interface Advisor {
   name: string;
   title: string;
-  image: string;
+  imageUrl: string;
   linkedin: string;
 }
 
@@ -14,6 +14,7 @@ interface Props {
 }
 
 const PeopleGrid: React.FC<Props> = ({ data, heading }) => {
+  console.log(data)
   return (
     <div className="py-12 sm:px-6 lg:px-6 px-2 ">
       <h2 className="text-2xl font-extrabold text-gray-800 mx-auto mb-8 lg:text-left mt-6 lg:ml-12 text-center">
@@ -27,7 +28,7 @@ const PeopleGrid: React.FC<Props> = ({ data, heading }) => {
             border-transparent transition-all duration-300 ease-in-out hover:border-[#1B4B43] hover:shadow-2xl"
           >
             <Image
-              src={item.image}
+              src={item.imageUrl}
               alt={item.name}
               width={64}
               height={64}

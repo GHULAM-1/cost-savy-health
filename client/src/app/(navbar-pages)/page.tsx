@@ -1,27 +1,30 @@
-import FeatureCards from "@/components/features-card";
-import Hero from "@/components/landing-page/hero";
-import ShopHealthcare from "@/components/landing-page/shop-health-care";
-import PriceTransparency from "@/components/landing-page/price-transparency";
-import Testimonial from "@/components/testimonial";
-import Enterprise from "@/components/landing-page/enterprise";
-import EnterpriseSolutions from "@/components/enterprise-solution";
-import JoinTeam from "@/components/landing-page/join-team";
-import quotation from "../../../public/Testimonial/Quotation.webp";
-import "@/app/globals.css";
-export default function Home() {
+import React from 'react'
+import { getHomePage } from '@/api/sanity/queries'
+import Hero from '@/components/landing-page/hero'
+import FeatureCards from '@/components/features-card'
+import ShopHealthcare from '@/components/landing-page/shop-health-care'
+import PriceTransparency from '@/components/landing-page/price-transparency'
+import Testimonial from '@/components/testimonial'
+import Enterprise from '@/components/landing-page/enterprise'
+import EnterpriseSolutions from '@/components/enterprise-solution'
+import JoinTeam from '@/components/landing-page/join-team'
+
+export default async function HomePage() {
+  const homeData = await getHomePage()
+  console.log(homeData)
   return (
     <>
-      <Hero />
-      <FeatureCards />
-      <ShopHealthcare />
-      <PriceTransparency />
+      <Hero {...homeData.hero} />
+      <FeatureCards cards={homeData.featureCards.cards} />
+      <ShopHealthcare {...homeData.shopHealthcare} />
+      <PriceTransparency {...homeData.priceTransparency} />
       <Testimonial
-        image={quotation}
-        testimonial="I recently got a few confusing bills from a hospital, and the tool gave me confidence that I wasn't being overcharged for certain procedures."
+        testimonial={homeData.testimonial.testimonial}
+        image={homeData.testimonial.image}
       />
-      <Enterprise />
-      <EnterpriseSolutions />
-      <JoinTeam />
+      <Enterprise {...homeData.enterprise} />
+      <EnterpriseSolutions solutions={homeData.enterpriseSolutions.solutions} />
+      <JoinTeam {...homeData.joinTeam} />
     </>
-  );
+  )
 }

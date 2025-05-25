@@ -290,7 +290,7 @@ export async function fetchProviders(): Promise<GlossaryItem[]> {
     }
   `;
   const res = await client.fetch<any[]>(query);
-  return mapToGlossary(res,"dynProviders");
+  return mapToGlossary(res, "dynProviders");
 }
 
 export async function fetchHealthSystems(): Promise<GlossaryItem[]> {
@@ -348,4 +348,98 @@ export const getHealthSystemByIdQuery = groq`
 
 export async function getHealthSystemById(id: string) {
   return await client.fetch(getHealthSystemByIdQuery, { id });
+}
+
+export async function getAboutPage() {
+  // Query for the 'about' object itself, not wrapped in an extra field
+  const query = groq`
+    *[_type == "aboutPage"][0].about{
+      hero { badgeText, title, description, buttonText, buttonLink, "imageUrl": image.asset->url },
+      vision { headline, subtext, "imageUrl": image.asset->url },
+      transparency { introTitle, introText, values[]{ type, text }, "roleImageUrl": roleImage.asset->url, imageCaption },
+      serviceHighlight { heading, ctaText, ctaLink, features[]{ value, title, content, "imageUrl": image.asset->url } },
+      collaborativePanel { heading, subtext, ctaText, ctaLink, features[]{ title, description, iconName } },
+      testimonial { testimonial, reference, "imageUrl": image.asset->url },
+      leadership { title, description, members[]->{ name, role, "defaultImage": defaultImage.asset->url, "hoverImage": hoverImage.asset->url, linkedin } },
+      joinTeam { heading, description, "imageUrl": image.asset->url, ctaText, ctaLink },
+      advisors[]->{ name, title, "imageUrl": image.asset->url, linkedin },
+      investors[]->{ name, title, "imageUrl": image.asset->url, linkedin }
+    }
+  `;
+
+  // This will now return the shell of your about object directly
+  const about = await client.fetch(query);
+  if (!about) {
+    throw new Error("About page content not found in Sanity");
+  }
+  return about;
+}
+
+export async function getHomePage() {
+  const query = groq`
+    *[_type == "homePage"][0]{
+      hero,
+      featureCards { cards[] { title, points, "image": image.asset->url } },
+      shopHealthcare {
+        heading,
+        description,
+        "iconImage": iconImage.asset->url,
+        services {
+          sectionTitle,
+          items[] {
+            name,
+            link
+          }
+        }
+      },
+      priceTransparency {
+        heading,
+        description,
+        ctaText,
+        ctaLink,
+        features[] {
+          icon,
+          title,
+          description
+        }
+      },
+      testimonial {
+        testimonial,
+        "image": image.asset->url
+      },
+      enterprise {
+        heading,
+        description,
+        ctaText,
+        ctaLink,
+        "iconImage": iconImage.asset->url,
+        features[] {
+          value,
+          title,
+          content,
+          "image": image.asset->url
+        }
+      },
+enterpriseSolutions {
+  solutions[] {
+    title,
+    description,
+    link,
+    "iconImage": iconImage.asset->url
+  }
+},
+
+      joinTeam {
+        heading,
+        description,
+        ctaText,
+        "image": image.asset->url
+      }
+    }
+  `;
+  const data = await client.fetch(query);
+  if (!data) {
+    throw new Error("Home page content not found in Sanity");
+  }
+  return data;
 }

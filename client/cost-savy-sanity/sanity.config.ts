@@ -15,6 +15,12 @@ export default defineConfig({
           .title('Content')
           .items([
             S.listItem()
+              .title('Home Page')
+              .child(S.document().schemaType('homePage').documentId('homePage')),
+            S.listItem()
+              .title('About Page')
+              .child(S.document().schemaType('aboutPage').documentId('aboutPage')),
+            S.listItem()
               .title('Blog Main Cards')
               .child(S.documentTypeList('blogMainCard').title('Blog Main Cards')),
             S.listItem()

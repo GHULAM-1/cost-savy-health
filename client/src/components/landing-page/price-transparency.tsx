@@ -1,35 +1,49 @@
 import React from "react";
-import FeatureIcon from "../svg-icon";
-import features from "../../data/landing-page/price-transperency-data";
+import Image from "next/image";
 
-export default function PriceTransparency() {
+interface FeatureItem {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface PriceTransparencyProps {
+  heading: string;
+  description: string;
+  ctaText: string;
+  ctaLink: string;
+  features: FeatureItem[];
+}
+
+export default function PriceTransparency({
+  heading,
+  description,
+  ctaText,
+  ctaLink,
+  features,
+}: PriceTransparencyProps) {
   return (
     <section className="px-8 md:px-12 bg-gradient-to-b from-[#e9f8f8] to-white py-12 md:py-20 mb-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 py-12">
         <div>
           <h2 className="text-[#403B3D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-6">
-            What the health is price transparency?
+            {heading}
           </h2>
           <p className="text-lg text-[#403B3D] leading-relaxed mb-8">
-            For the first time in the history of US healthcare, hospitals and
-            health plans are required by law to make their prices publicly
-            available. Turquoise Health gives you the power and intelligence to
-            take action, determine a price, and make cost-conscious decisions
-            about your healthcare.
+            {description}
           </p>
           <a
-            href="#"
+            href={ctaLink}
             className="inline-block bg-[#8C2F5D] text-white px-6 py-3 rounded-full hover:bg-[#035153] transition-colors duration-300"
           >
-            Resource Hub
+            {ctaText}
           </a>
         </div>
         <div className="space-y-12">
           {features.map((feature, index) => (
             <div key={index} className="flex gap-6">
               <div className="flex-shrink-0">
-                {/* <FeatureIcon name={feature.icon} alt={feature.title} /> */}
-                <img src={`Icons/${feature.icon}.png`} alt="" />
+                <img src={`/Icons/${feature.icon}.png`} alt={feature.title} />
               </div>
               <div>
                 <h3 className="text-[#403B3D] text-2xl font-bold mb-2">

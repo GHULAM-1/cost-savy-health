@@ -1,35 +1,40 @@
-import AboutHero from "@/components/about/about-hero";
-import Transparency from "@/components/about/transparency";
-import Vision from "@/components/about/vision";
-import React from "react";
-import ServiceHighlight from "@/components/about/service-highlights";
-import CollaborativePannel from "@/components/about/collaborative-pannel";
-import quotation from "../../../../public/Testimonial/Quotation.webp";
-import Testimonial from "@/components/testimonial";
-import LeadershipShowcase from "@/components/about/leadership-showcase";
-import { JoinTeam } from "@/components/about/about-join-team";
-import PeopleGrid from "@/components/about/people-grid";
-import advisors from "@/data/about/advisors";
-import investors from "@/data/about/investors";
-export default function About() {
+import React from 'react'
+import AboutHero from '@/components/about/about-hero'
+import Vision from '@/components/about/vision'
+import Transparency from '@/components/about/transparency'
+import ServiceHighlight from '@/components/about/service-highlights'
+import CollaborativePannel from '@/components/about/collaborative-pannel'
+import Testimonial from '@/components/testimonial'
+import LeadershipShowcase from '@/components/about/leadership-showcase'
+import JoinTeam from '@/components/about/about-join-team'
+import PeopleGrid from '@/components/about/people-grid'
+import { getAboutPage } from '@/api/sanity/queries'
+
+export default async function AboutPage() {
+  const about = await getAboutPage()
+
   return (
     <div>
-      <AboutHero />
-      <Vision />
-      <Transparency />
-      <ServiceHighlight />
-      <CollaborativePannel />
+      <AboutHero {...about.hero} />
+      <Vision {...about.vision} />
+      <Transparency {...about.transparency} />
+      <ServiceHighlight {...about.serviceHighlight} />
+      <CollaborativePannel {...about.collaborativePanel} />
       <Testimonial
-        image={quotation}
-        testimonial="Turquoise Health allowed us to unlock access to the data we needed to help better understand market dynamics as we prepare for an important commercial launch."
-        reference="—VP, Payer Relations at a Healthcare Technology Company"
+        image={about.testimonial.imageUrl}
+        testimonial={about.testimonial.testimonial}
+        reference={about.testimonial.reference}
       />
       <div className="bg-[#f8f7fa] border-b-2 pb-20">
-        <LeadershipShowcase />
-        <JoinTeam />
-        <PeopleGrid data={advisors} heading="Advisors" />
-        <PeopleGrid data={investors} heading="Investors" />
+        <LeadershipShowcase
+          title={about.leadership.title}
+          description={about.leadership.description}
+          members={about.leadership.members}
+        />
+        <JoinTeam {...about.joinTeam} />
+        <PeopleGrid data={about.advisors} heading="Advisors" />
+        <PeopleGrid data={about.investors} heading="Investors" />
       </div>
     </div>
-  );
+  )
 }
