@@ -10,7 +10,6 @@ import { Map } from "lucide-react";
 export default function AllProviders() {
   //STATES
   const [isMapVisible, setIsMapVisible] = useState(false);
-
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
