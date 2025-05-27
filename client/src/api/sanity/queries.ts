@@ -568,7 +568,6 @@ export async function sanityFetchOtherBySlug(
   return client.fetch<OtherArticle>(query, { slug });
 }
 
-// Helper that picks the right fetcher by type
 export async function fetchPostBySlug(
   slug: string,
   type: "mainCard" | "article" | "other"
