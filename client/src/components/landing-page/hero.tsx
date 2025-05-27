@@ -2,6 +2,8 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { Search } from "lucide-react";
 import SearchBar from "./landing-form";
+import { getEntityRecords, HealthcareRecord } from "@/api/search/api";
+import { useRouter } from "next/navigation";
 
 interface HeroProps {
   tagline: string;
@@ -11,6 +13,7 @@ interface HeroProps {
 
 export default function Hero({ tagline, rotatingWords, commonProcedures }: HeroProps) {
   const [index, setIndex] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -18,6 +21,9 @@ export default function Hero({ tagline, rotatingWords, commonProcedures }: HeroP
     }, 2000);
     return () => clearInterval(interval);
   }, [rotatingWords]);
+
+ 
+
 
   return (
     <main className="px-6 sm:px-12 py-10 sm:py-20">
@@ -40,7 +46,8 @@ export default function Hero({ tagline, rotatingWords, commonProcedures }: HeroP
         {commonProcedures.map((procedure, index) => (
           <button
             key={index}
-            className="flex items-center gap-2 px-4 py-2 rounded-full bg-[#8C2F5D] text-white hover:bg-[#A34E78] transition-colors"
+            className="flex hover:cursor-pointer items-center gap-2 px-4 py-2 rounded-full bg-[#8C2F5D] text-white hover:bg-[#A34E78] transition-colors"
+            onClick={() => router.push(`/providers?searchCare=${encodeURIComponent(procedure)}`)}
           >
             {procedure}
             <Search className="w-4 h-4" />

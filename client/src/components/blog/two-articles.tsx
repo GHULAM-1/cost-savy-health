@@ -15,6 +15,7 @@ interface Article {
   description: string;
   authors: Author[];
   date: string;
+  slug:string;
   readTime: string;
 }
 
@@ -28,7 +29,7 @@ export default function TwoArticles({ articles }: TwoArticlesProps) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
         {articles.map((article, index) => (
           <Link
-            href="#"
+            href={`/blog/article/${article.slug}`} 
             key={index}
             className="cursor-pointer flex flex-col bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
           >

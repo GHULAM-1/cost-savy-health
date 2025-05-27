@@ -7,6 +7,53 @@ import {
   HealthcareRecord,
 } from "@/types/sanity/sanity-types";
 import { groq } from "next-sanity";
+interface Author {
+  name: string;
+  image: string;
+}
+export interface BlogMainCard {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  image?: string;
+  category: string;
+  description: string;
+  bulletPoints: string[];
+  author: Author[];
+  date: string;
+  content: any[];
+  readTime: string;
+  sortOrder: number;
+}
+
+export interface OtherArticle {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  image?: string;
+  category: string;
+  content: any[];
+  description: string;
+  authors: Author[];
+  date: string;
+  readTime: string;
+}
+export interface BlogArticle {
+  _id: string;
+  title: string;
+  slug: { current: string };
+  image: string;
+  category: string;
+  content: any[];
+  description: string;
+  body: any[];
+  author: Author[];
+  firstSocialLink?: string;
+  secondSocialLink?: string;
+  estimatedReadingTime: string;
+  publishedAt: string;
+  readNextArticles?: string[];
+}
 
 export async function searchReportingEntities(
   searchTerm: string,
@@ -142,6 +189,7 @@ export async function getBlogData() {
         "image": authors[0].author->image.asset->url
       },
       date,
+      slug,
       readTime,
       sortOrder
     },
@@ -156,6 +204,7 @@ export async function getBlogData() {
         "image": author->image.asset->url
       },
       date,
+      slug,
       readTime,
       "mainCardId": mainCardRef->_id
     },
@@ -169,6 +218,7 @@ export async function getBlogData() {
         "name": author->name,
         "image": author->image.asset->url
       },
+      slug,
       date,
       readTime
     }
@@ -192,6 +242,7 @@ export async function getBlogData() {
         day: "numeric",
         year: "numeric",
       }),
+      slug: card.slug.current,
       readTime: card.readTime,
       sortOrder: card.sortOrder,
     }));
@@ -217,6 +268,7 @@ export async function getBlogData() {
           day: "numeric",
           year: "numeric",
         }),
+        slug: article.slug.current,
         readTime: article.readTime,
       });
     });
@@ -236,6 +288,7 @@ export async function getBlogData() {
         day: "numeric",
         year: "numeric",
       }),
+      slug: article.slug.current,
       readTime: article.readTime,
     }));
 
@@ -442,4 +495,90 @@ enterpriseSolutions {
     throw new Error("Home page content not found in Sanity");
   }
   return data;
+}
+
+// Fetch mainCard by slug
+export async function sanityFetchMainCardBySlug(
+  slug: string
+): Promise<BlogMainCard | null> {
+  const query = groq`*[_type == "blogMainCard" && slug.current == $slug][0]{
+    _id,
+    title,
+    description,
+    "image": image.asset->url,
+    category,
+    bulletPoints,
+    "authors": authors[]{
+      "name": author->name,
+      "image": author->image.asset->url
+    },
+    content,
+    date,
+    slug,
+    readTime,
+    sortOrder
+  }`;
+  return client.fetch<BlogMainCard>(query, { slug });
+}
+
+// Fetch article by slug
+export async function sanityFetchArticleBySlug(
+  slug: string
+): Promise<BlogArticle | null> {
+  console.log("hi");
+  const query = groq`*[_type == "blogArticle" && slug.current == $slug][0]{
+    _id,
+    title,
+    "image": image.asset->url,
+    category,
+    description,
+    "authors": authors[]{
+      "name": author->name,
+      "image": author->image.asset->url
+    },
+    content,
+    date,
+    slug,
+    readTime,
+    "mainCardId": mainCardRef->_id,
+    slug
+  }`;
+  return client.fetch<BlogArticle>(query, { slug });
+}
+
+// Fetch otherArticle by slug
+export async function sanityFetchOtherBySlug(
+  slug: string
+): Promise<OtherArticle | null> {
+  const query = groq`*[_type == "otherArticle" && slug.current == $slug][0]{
+    _id,
+    title,
+    "image": image.asset->url,
+    category,
+    description,
+    "authors": authors[]{
+      "name": author->name,
+      "image": author->image.asset->url
+    },
+    date,
+    slug,
+    readTime,
+    slug
+  }`;
+  return client.fetch<OtherArticle>(query, { slug });
+}
+
+// Helper that picks the right fetcher by type
+export async function fetchPostBySlug(
+  slug: string,
+  type: "mainCard" | "article" | "other"
+) {
+  switch (type) {
+    case "mainCard":
+      return sanityFetchMainCardBySlug(slug);
+    case "article":
+      return sanityFetchArticleBySlug(slug);
+    case "other":
+      return sanityFetchOtherBySlug(slug);
+  }
 }

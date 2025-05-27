@@ -133,11 +133,6 @@ export default function NavLinks() {
           //   description: "Learn how others are succeeding.",
           //   url: "#",
           // },
-          {
-            title: "FAQs",
-            description: "Find answers to common questions.",
-            url: "#",
-          },
         ]}
       />
       <NavItem

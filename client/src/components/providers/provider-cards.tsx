@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getProviders, HealthcareRecord } from "../../api/search/api";
+import { getEntityRecords, getProviders, HealthcareRecord } from "../../api/search/api";
 import ProviderCard from "@/components/providers/provider-card";
 import { SearchHeader } from "./search-header";
 import Pagination from "../pagination";
@@ -18,10 +18,7 @@ export default function ProviderCards() {
   const zipCode = searchParams.get("zipCode") || "";
   const insurance = searchParams.get("insurance") || "";
 
-  const priceMinParam = parseFloat(searchParams.get("priceMin") || "");
-  const priceMaxParam = parseFloat(searchParams.get("priceMax") || "");
-  const hasMin = !isNaN(priceMinParam);
-  const hasMax = !isNaN(priceMaxParam);
+
 
   const distanceParam = searchParams.get("distance") || "Any";
   const distanceMatch = distanceParam.match(/\d+/);
@@ -44,26 +41,56 @@ export default function ProviderCards() {
   const [showVerification, setShowVerification] = useState(true);
   const [sortOrder, setSortOrder] = useState("lowest");
 
-useEffect(() => {
+  useEffect(() => {
     setLoading(true);
-    getProviders({
-      searchCare,
-      zipCode,
-      insurance,
-      page: currentPage,
-      limit: cardsPerPage,
-    })
-      .then((res) => {
-        setProviders(res.data);
-        setTotalCount(res.pagination.total);
+
+    // Check if only searchCare is in the URL
+    const queryParams = Array.from(searchParams.keys());
+    const onlySearchCare = queryParams.length === 1 && queryParams[0] === 'searchCare';
+
+    if (onlySearchCare && searchCare) {
+      // Call getEntityRecords if only searchCare is present
+      // Assuming getEntityRecords should return an array based on linter error context
+      getEntityRecords(searchCare, 1, 50) // Pass searchCare as entity
+        .then((res: any) => { // Use 'any' temporarily if return type is uncertain
+          if (res && Array.isArray(res)) { // Check if the response is an array
+            setProviders(res);
+            setTotalCount(res.length);
+          } else {
+             console.error("getEntityRecords did not return an array:", res);
+             setProviders([]);
+             setTotalCount(0);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching entity records:", err);
+          setProviders([]);
+          setTotalCount(0);
+        })
+        .finally(() => setLoading(false));
+
+    } else {
+      // Continue with getProviders if other parameters are present or no searchCare
+      getProviders({
+        searchCare,
+        zipCode,
+        insurance,
+        page: currentPage,
+        limit: cardsPerPage,
       })
-      .catch((err) => {
-        console.error(err);
-        setProviders([]);
-        setTotalCount(0);
-      })
-      .finally(() => setLoading(false));
-  }, [searchCare, zipCode, insurance, currentPage]);
+        .then((res) => {
+          setProviders(res.data);
+          setTotalCount(res.pagination.total);
+        })
+        .catch((err) => {
+          console.error(err);
+          setProviders([]);
+          setTotalCount(0);
+        })
+        .finally(() => setLoading(false));
+    }
+
+  }, [searchCare, zipCode, insurance, currentPage, searchParams]); // Add searchParams to dependencies
 
   const totalPages = Math.ceil(totalCount / cardsPerPage);
 

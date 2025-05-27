@@ -14,12 +14,13 @@ interface MainCardProps {
       name: string;
     };
     date: string;
+    slug:string;
     readTime: string;
   };
 }
 export default function MainCard({ mainCardData }: MainCardProps) {
   return (
-    <Link href="#" className="cursor-pointer">
+    <Link href={`/blog/mainCard/${mainCardData.slug}`} className="cursor-pointer">
       <div className="p-4 sm:p-6 md:p-13 md:px-7 lg:p-12 xl:px-25">
         <div className="grid grid-cols-1 lg:grid-cols-[63%_37%] rounded-2xl">
           <div className="bg-white overflow-hidden shadow-sm relative h-[250px] sm:h-[300px] lg:h-[450px] selection:bg-transparent">

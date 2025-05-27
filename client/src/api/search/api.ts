@@ -105,20 +105,49 @@ interface EntitiesResponse {
   };
 
   export const getZipCodesByEntityName = async (
-    entity: string
+    params: { entity?: string, query?: string }
   ): Promise<ZipsResponse> => {
-    const url = `${API_URL}/search/zips?entity=${encodeURIComponent(
-      entity
-    )}`;
-    return apiRequest<ZipsResponse>(url, { ...fetchOptions, method: "GET" }, "Failed to load ZIP codes");
+    const qs = new URLSearchParams();
+    if (params.entity) qs.set("entity", params.entity);
+    if (params.query) qs.set("search", params.query);
+    
+    console.log('========== ZIP API DEBUG ==========');
+    console.log('1. Parameters:', params);
+    console.log('2. Query String:', qs.toString());
+    
+    const url = `${API_URL}/search/zips?${qs.toString()}`;
+    console.log('3. Full URL:', url);
+    
+    const response = await apiRequest<ZipsResponse>(url, { ...fetchOptions, method: "GET" }, "Failed to load ZIP codes");
+    console.log('4. API Response:', response);
+    return response;
   };
   
   export const getInsurersByBillingCode = async (
     code: number | string
   ): Promise<InsurersResponse> => {
-    const url = `${API_URL}/search/insurers?code=${encodeURIComponent(
-      String(code)
-    )}`;
+    const [searchCare, zipCode] = String(code).split("|");
+    const qs = new URLSearchParams();
+    if (searchCare) qs.set("searchCare", searchCare);
+    if (zipCode) qs.set("zipCode", zipCode);
+    
+    const url = `${API_URL}/search/insurers?${qs.toString()}`;
     return apiRequest<InsurersResponse>(url, { ...fetchOptions, method: "GET" }, "Failed to load insurers");
   };
+  export const getEntityRecords = async (
+    entity: string,
+    page: number = 1,
+    limit: number = 50
+  ): Promise<HealthcareRecord> => {
+    const params = new URLSearchParams();
+    params.set("entity", entity);
+    params.set("page",   String(page));
+    params.set("limit",  String(limit));
   
+    const url = `${API_URL}/search/entity-records?${params.toString()}`;
+    return apiRequest<HealthcareRecord>(
+      url,
+      { ...fetchOptions, method: "GET" },
+      "Failed to load entity records"
+    );
+  };

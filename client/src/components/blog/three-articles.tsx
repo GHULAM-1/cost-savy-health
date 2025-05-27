@@ -13,6 +13,8 @@ interface Article {
     image: string;
     name: string;
   }[];
+  content: any[];
+  slug: string;
   date: string;
   readTime: string;
 }
@@ -36,7 +38,7 @@ export default function ThreeArticles({ articles }: ThreeArticlesProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           {firstThreeArticles.map((article, index) => (
             <Link
-              href="#"
+              href={`/blog/article/${article.slug}`}
               key={index}
               className="cursor-pointer flex flex-col bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
             >

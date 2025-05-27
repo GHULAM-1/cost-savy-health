@@ -11,7 +11,7 @@ import { getBlogData } from "@/api/sanity/queries";
 
 export default async function BlogPage() {
   const { mainCards, articleGroups, otherArticles } = await getBlogData();
-
+  console.log(articleGroups)
   return (
     <div className="bg-[#f6fbfc] pb-20">
       <BlogNav />

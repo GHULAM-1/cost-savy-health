@@ -10,10 +10,13 @@ import {
 } from "recharts";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
-import { maxPrice, midpointPrice, minPrice, priceData } from "@/data/graph/price-data";
+import { maxPrice, minPrice, priceData } from "@/data/graph/price-data";
 
-export function PriceDistributionChart() {
-
+interface PriceDistributionChartProps{
+  midpointPrice:number;
+}
+export function PriceDistributionChart({midpointPrice}:PriceDistributionChartProps) {
+  
   const chartConfig = {
     value: {
       label: "Frequency",
