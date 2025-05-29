@@ -427,7 +427,27 @@ export async function getAboutPage() {
   }
   return about;
 }
-
+export async function medicare() {
+  const medicareQuery = groq`
+  *[_type == "medicare"]{
+    _id,
+    heading,
+    description,
+    number,
+    "imageUrl": image.asset->url,
+    featuresGrid[]{
+      heading,
+      description,
+      "imageUrl": image.asset->url
+    }
+  }
+`;
+  const data = await client.fetch(medicareQuery);
+  if (!data) {
+    throw new Error("Home page content not found in Sanity");
+  }
+  return data;
+}
 export async function getHomePage() {
   const query = groq`
     *[_type == "homePage"][0]{

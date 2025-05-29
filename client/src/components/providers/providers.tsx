@@ -1,15 +1,68 @@
 "use client";
-import React, { Suspense, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import ProvidersSearch from "./providers-search";
 import ProcedureInfoDetails from "./procedure-info-details";
 import ProviderCards from "./provider-cards";
 import ProviderMap from "./provider-map";
 import { FilterBar } from "./filter";
 import { Map } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import {
+  getEntityRecords,
+  getProviders,
+  HealthcareRecord,
+} from "@/api/search/api";
 
 export default function AllProviders() {
   //STATES
+  const searchParams = useSearchParams();
   const [isMapVisible, setIsMapVisible] = useState(false);
+  const [providers, setProviders] = useState<HealthcareRecord[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  // URL params
+  const searchCare = searchParams.get("searchCare") || "";
+  const zipCode = searchParams.get("zipCode") || "";
+  const insurance = searchParams.get("insurance") || "";
+  const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  useEffect(() => {
+    setLoading(true);
+    const queryKeys = Array.from(searchParams.keys());
+    const onlySearchCare =
+      queryKeys.length === 1 && queryKeys[0] === "searchCare";
+
+    const fetchData =
+      onlySearchCare && searchCare
+        ? getEntityRecords(searchCare, 1, 50).then((res) => {
+            if (Array.isArray(res)) {
+              setProviders(res as HealthcareRecord[]);
+              setTotalCount(res.length);
+            } else {
+              setProviders([]);
+              setTotalCount(0);
+            }
+          })
+        : getProviders({
+            searchCare,
+            zipCode,
+            insurance,
+            page: currentPage,
+            limit: 10,
+          }).then((res) => {
+            setProviders(res.data);
+            setTotalCount(res.pagination.total);
+          });
+
+    fetchData.finally(() => setLoading(false));
+  }, [searchCare, zipCode, insurance, currentPage]);
+
+  // derive map props
+  const zipCodes = providers.map((p) => p.provider_zip_code);
+  const names = providers.map((p) => p.provider_name);
+  console.log(names)
+
   return (
     <>
       <Suspense fallback={<div>Loading...</div>}>
@@ -32,7 +85,12 @@ export default function AllProviders() {
               isMapVisible ? "hidden lg:block" : "block"
             } w-full lg:w-2/3`}
           >
-            <ProviderCards />
+            <ProviderCards
+              providers={providers}
+              loading={loading}
+              totalCount={totalCount}
+              searchCare={searchCare}
+            />
           </div>
 
           <div
@@ -41,7 +99,7 @@ export default function AllProviders() {
             } w-full lg:w-1/3 lg:sticky lg:top-4 lg:h-[calc(100vh-530px)] mt-10`}
           >
             <div className="">
-              <ProviderMap />
+              <ProviderMap zipCodes={zipCodes} names={names} />
             </div>
           </div>
         </div>

@@ -115,12 +115,12 @@ export default function NavLinks() {
         dropdownContent={[
           {
             title: "About Us",
-            description: "Industry insights and analysis.",
+            description: "Consumer healthcare marketing",
             url: "/about",
           },
           {
             title: "Blog",
-            description: "Latest updates and news.",
+            description: "Healthcare news and information",
             url: "/blog",
           },
           // {

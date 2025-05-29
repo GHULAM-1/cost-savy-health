@@ -3,8 +3,8 @@ import { Source_Serif_4 } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
-import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
+import { Toaster } from "@/components/ui/sonner"
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
@@ -29,6 +29,7 @@ export default function RootLayout({
         <AuthProvider>
           <Navbar />
           {children}
+          <Toaster />
           <Footer />
           <Toaster richColors position="top-center" />
         </AuthProvider>

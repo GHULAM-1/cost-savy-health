@@ -1,3 +1,22 @@
+import { Metadata } from 'next';
+import { generateMetadataTemplate } from '@/lib/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadataTemplate({
+    title: 'About Us | Cost Savy Health',
+    description: 'Learn about Cost Savy Health\'s mission to bring transparency to healthcare costs and help patients make informed decisions about their medical care.',
+    keywords: [
+      'about Cost Savy Health',
+      'healthcare transparency',
+      'medical cost transparency',
+      'healthcare mission',
+      'healthcare cost comparison',
+      'patient advocacy'
+    ],
+    url: 'https://costsavyhealth.com/about',
+  });
+}
+
 export const dynamic = 'force-dynamic'  
 export const fetchCache = 'force-no-store'
 

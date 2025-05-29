@@ -1,6 +1,39 @@
 // app/providers/[id]/page.tsx
+import { Metadata } from 'next';
+import { generateMetadataTemplate } from '@/lib/metadata';
 import { getProviderById } from "@/api/sanity/queries";
 import Link from "next/link";
+
+export async function generateMetadata({
+  params,
+}: { params: { id: string } }): Promise<Metadata> {
+  const provider = await getProviderById(params.id);
+
+  if (!provider) {
+    return generateMetadataTemplate({ title: 'Provider Not Found' });
+  }
+
+  const title = `${provider.name} | Healthcare Provider | Cost Savy Health`;
+  const description = `Find detailed information about ${provider.name}, a healthcare provider located in ${provider.address.city}, ${provider.address.state}. Compare costs and services.`;
+  const keywords = [
+    provider.name,
+    'healthcare provider',
+    'medical provider',
+    'healthcare costs',
+    'medical procedures',
+    'healthcare pricing',
+    provider.address.city,
+    provider.address.state,
+    provider.providerType,
+  ].filter(Boolean);
+
+  return generateMetadataTemplate({
+    title,
+    description,
+    keywords,
+    url: `https://costsavyhealth.com/providers/${params.id}`,
+  });
+}
 
 export default async function ProviderPage({
     params,
@@ -49,7 +82,7 @@ export default async function ProviderPage({
 
             <div className="mb-4">
               <p className="text-xs font-semibold text-gray-500 mb-1">
-                TURQUOISE VERIFICATION
+                Cost Savvy VERIFICATION
               </p>
               <p className="text-sm text-gray-700 mb-2">
                 {provider.isVerified

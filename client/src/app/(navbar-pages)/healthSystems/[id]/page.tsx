@@ -1,5 +1,39 @@
+import { Metadata } from 'next';
+import { generateMetadataTemplate } from '@/lib/metadata';
 import { getHealthSystemById } from "@/api/sanity/queries";
 import Link from "next/link";
+
+export async function generateMetadata({
+  params,
+}: { params: { id: string } }): Promise<Metadata> {
+  const { id } = params;
+  const healthSystem = await getHealthSystemById(id);
+
+  if (!healthSystem) {
+    return generateMetadataTemplate({ title: 'Health System Not Found' });
+  }
+
+  const title = `${healthSystem.name} | Health System | Cost Savy Health`;
+  const description = `Find detailed information about ${healthSystem.name}, a healthcare system with locations in ${healthSystem.locations.map((loc: any) => loc.city).join(', ')}.`;
+  const keywords = [
+    healthSystem.name,
+    'health system',
+    'healthcare network',
+    'medical facilities',
+    'healthcare costs',
+    'medical procedures',
+    'healthcare pricing',
+    ...(healthSystem.locations ? healthSystem.locations.map((loc: any) => loc.city) : []),
+    ...(healthSystem.services ? healthSystem.services : []),
+  ].filter(Boolean);
+
+  return generateMetadataTemplate({
+    title,
+    description,
+    keywords,
+    url: `https://costsavyhealth.com/healthSystems/${id}`,
+  });
+}
 
 export default async function HealthSystemPage({
   params,

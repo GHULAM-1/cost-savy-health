@@ -1,5 +1,7 @@
 // api/authApi.ts
 
+import { ContactFormValues } from "@/components/quote/quote";
+
 // Types
 interface UserData {
   name: string;
@@ -68,12 +70,17 @@ const apiRequest = async <T>(
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error((data as ErrorResponse).message || errorMessage);
+      // Create an error object and add the status code
+      const error = new Error((data as ErrorResponse).message || errorMessage) as any; // Use 'any' to add status property
+      error.status = response.status; // Add the status code
+      console.error(`API error (${url}): Status ${response.status}`, data);
+      throw error;
     }
 
     return data as T;
   } catch (error) {
-    console.error(`API error (${url}):`, error);
+    console.error(`API fetch error (${url}):`, error);
+    // Re-throw the error so functions calling apiRequest can catch it
     throw error;
   }
 };
@@ -200,3 +207,22 @@ export const deleteUser = async (
     "Failed to delete user"
   );
 };
+
+export async function sendQuoteRequest(values: ContactFormValues): Promise<{ success: boolean } | number> {
+  try {
+    const response = await apiRequest<{ success: boolean }>(
+      `${API_URL}/quote`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      },
+      "Failed to send mail"
+    );
+    return response;
+  } catch (error: any) {
+    console.error('Error sending quote request:', error);
+    return error.status || 500; 
+  }
+}

@@ -6,6 +6,8 @@ import Image from "next/image";
 import { fetchPostBySlug } from "@/api/sanity/queries";
 import BlogNav from "@/components/blog/blog-nav";
 import BlogHero from "@/components/blog/blog-hero";
+import { Metadata } from 'next';
+import { generateMetadataTemplate } from '@/lib/metadata';
 
 interface Authors {
   name: string;
@@ -28,18 +30,36 @@ interface Post {
 
 export async function generateMetadata({
   params,
-  searchParams,
-}: {
-  params: Promise<{ slug: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = params;
+  const post = (await fetchPostBySlug(slug, "article")) as Post | null;
 
-}) {
-  const { slug } = await params;
-  const post = await fetchPostBySlug(slug, "article");
-  return {
-    title: post?.title ?? "Blog Post",
-    openGraph: { images: post?.image ? [post.image] : [] },
-  };
+  if (!post) {
+    return generateMetadataTemplate({ title: 'Blog Post Not Found' });
+  }
+
+  const title = `${post.title} | Cost Savy Health Blog`;
+  const description = post.description || 'Read the latest articles and insights on healthcare costs and procedures on the Cost Savy Health blog.';
+  const keywords = [
+    'healthcare blog',
+    'medical news',
+    'healthcare tips',
+    'medical costs',
+    'healthcare insights',
+    'medical procedures',
+    'healthcare pricing',
+    post.title,
+    post.category,
+    ...(post.authors ? post.authors.map(author => author.name) : []),
+  ].filter(Boolean);
+
+  return generateMetadataTemplate({
+    title,
+    description,
+    keywords,
+    image: post.image,
+    url: `https://costsavyhealth.com/blog/article/${post.slug.current}`,
+  });
 }
 
 export default async function BlogPostPage({
@@ -122,11 +142,11 @@ export default async function BlogPostPage({
   
     // ← NEW: handle list wrappers
     list: {
-      // for “bullet” lists
+      // for "bullet" lists
       bullet: ({ children }: any) => (
         <ul className="list-disc ml-6 my-4 space-y-2">{children}</ul>
       ),
-      // for “numbered” lists
+      // for "numbered" lists
       number: ({ children }: any) => (
         <ol className="list-decimal ml-6 my-4 space-y-2">{children}</ol>
       ),

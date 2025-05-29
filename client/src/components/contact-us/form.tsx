@@ -51,7 +51,7 @@ export default function MyForm() {
 
   function onSubmit(values: FormSchemaType) {
     try {
-      console.log(values)
+      console.log(values);
       toast(
         <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
           <code className="text-white">{JSON.stringify(values, null, 2)}</code>
@@ -70,7 +70,7 @@ export default function MyForm() {
         className="space-y-8 w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-7 bg-white shadow-xl"
       >
         <div className="text-center text-[#02363D] text-3xl lg:text-4xl font-bold">
-          Connect with Turquoise
+          Connect with Cost Savvy
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
           <div className="lg:col-span-6">
@@ -124,30 +124,32 @@ export default function MyForm() {
             />
           </div>
         </div>
-        <FormField
-          control={form.control}
-          name="emailaddress"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
-                Email
-                <span className="ml-1" style={{ color: "#098481" }}>
-                  *
-                </span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter email address"
-                  type="text"
-                  {...field}
-                  className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-4">
+          <div className="lg:col-span-6">
+            <FormField
+              control={form.control}
+              name="emailaddress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
+                    Email
+                    <span className="ml-1" style={{ color: "#098481" }}>
+                      *
+                    </span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter email address"
+                      type="text"
+                      {...field}
+                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div className="lg:col-span-6">
             <FormField
               control={form.control}
@@ -173,123 +175,7 @@ export default function MyForm() {
               )}
             />
           </div>
-          <div className="lg:col-span-6">
-            <FormField
-              control={form.control}
-              name="jobtitle"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
-                    Job Title
-                    <span className="ml-1" style={{ color: "#098481" }}>
-                      *
-                    </span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter job title"
-                      type="text"
-                      {...field}
-                      className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
         </div>
-        <FormField
-          control={form.control}
-          name="organization"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
-                Organization
-                <span className="ml-1" style={{ color: "#098481" }}>
-                  *
-                </span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Enter organization name"
-                  type="text"
-                  {...field}
-                  className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[#098481]"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="organizationtype"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
-                Organization Type
-                <span className="ml-1" style={{ color: "#098481" }}>
-                  *
-                </span>
-              </FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-full rounded-full border border-gray-300 px-4 py-3 justify-between text-left focus:outline-none focus:ring-0",
-                        !field.value && "text-gray-400"
-                      )}
-                    >
-                      {field.value
-                        ? organization.find(
-                            (item) => item.value === field.value
-                          )?.label
-                        : "------"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-[200px] p-0 rounded-lg border border-gray-200"
-                  align="start"
-                >
-                  <Command>
-                    <CommandInput placeholder="Search..." />
-                    <CommandList>
-                      <CommandEmpty>No option found.</CommandEmpty>
-                      <CommandGroup>
-                        {organization.map((item) => (
-                          <CommandItem
-                            key={item.value}
-                            value={item.value}
-                            onSelect={() =>
-                              form.setValue("organizationtype", item.value)
-                            }
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                item.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {item.label}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="hear"

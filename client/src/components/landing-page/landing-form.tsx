@@ -244,6 +244,7 @@ export default function SearchBar() {
             <FormField control={form.control} name="searchCare" render={({ field }) => (
               <FormItem className="text-[#03363d] w-full">
                 <div className="px-2 py-3 flex items-center cursor-pointer w-full overflow-hidden" onClick={() => setOpenCare(true)}>
+                  {/* Show loader or Search icon based on loadingCare */}
                   {loadingCare ? (
                     <Loader2 size={24} className="animate-spin mr-2 text-[#03363d] flex-shrink-0" />
                   ) : (
@@ -270,14 +271,10 @@ export default function SearchBar() {
                         />
                         <CommandGroup>
                           <div className="max-h-48 w-full overflow-y-auto">
-                            {loadingCare ? (
-                              <div className="flex justify-center items-center h-24">
-                                <Loader2 size={24} className="animate-spin text-[#03363d]" />
-                              </div>
-                            ) : careLoaded && careOptions.length === 0 ? (
+                            {careLoaded && careOptions.length === 0 ? (
                               <div className="text-center py-4 text-gray-500">No care found.</div>
                             ) : (
-                              careOptions.map(name => (
+                              !loadingCare && careOptions.map(name => (
                                 <CommandItem key={name} value={name}
                                   onSelect={() => {
                                     field.onChange(name);
@@ -311,6 +308,7 @@ export default function SearchBar() {
             <FormField control={form.control} name="zipCode" render={({ field }) => (
               <FormItem className="text-[#03363d] w-full">
                 <div className="px-2 py-3 flex items-center cursor-pointer w-full overflow-hidden" onClick={() => setOpenZip(true)}>
+                  {/* Show loader or MapPin icon based on loadingZip */}
                   {loadingZip ? (
                     <Loader2 size={24} className="animate-spin mr-2 text-[#03363d] flex-shrink-0" />
                   ) : (
@@ -337,14 +335,10 @@ export default function SearchBar() {
                         />
                         <CommandGroup>
                           <div className="max-h-48 w-full overflow-y-auto">
-                            {loadingZip ? (
-                              <div className="flex justify-center items-center h-24">
-                                <Loader2 size={24} className="animate-spin text-[#03363d]" />
-                              </div>
-                            ) : zipLoaded && zipOptions.length === 0 ? (
+                            {zipLoaded && zipOptions.length === 0 ? (
                               <div className="text-center py-4 text-gray-500">No ZIPs found.</div>
                             ) : (
-                              zipOptions.map(zip => (
+                              !loadingZip && zipOptions.map(zip => (
                                 <CommandItem key={zip} value={zip}
                                   onSelect={() => {
                                     field.onChange(zip);
@@ -377,6 +371,7 @@ export default function SearchBar() {
             <FormField control={form.control} name="insurance" render={({ field }) => (
               <FormItem className="text-[#03363d] w-full">
                 <div className="px-2 py-3 flex items-center cursor-pointer w-full overflow-hidden" onClick={() => setOpenIns(true)}>
+                  {/* Show loader or ShieldPlus icon based on loadingIns */}
                   {loadingIns ? (
                     <Loader2 size={24} className="animate-spin mr-2 text-[#03363d] flex-shrink-0" />
                   ) : (
@@ -404,9 +399,8 @@ export default function SearchBar() {
                         <CommandGroup>
                           <div className="max-h-48 w-full overflow-y-auto">
                             {loadingIns ? (
-                              <div className="flex justify-center items-center h-24">
-                                <Loader2 size={24} className="animate-spin text-[#03363d]" />
-                              </div>
+                              // Show a temporary text indicator if loading inside the dropdown
+                              <div className="text-center py-4 text-gray-500">Loading...</div>
                             ) : insLoaded && insOptions.length === 0 ? (
                               <div className="text-center py-4 text-gray-500">No insurers found.</div>
                             ) : (

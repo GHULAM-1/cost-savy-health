@@ -43,7 +43,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
+                <Link href="/providers-glossary" className="text-gray-600 hover:text-[#A34E78]">
                   Providers
                 </Link>
               </li>
@@ -52,27 +52,17 @@ const Footer = () => {
 
           <div>
             <h3 className="text-[#0F172A] text-[22px] font-semibold mb-4">
-              Solutions
+              Providers
             </h3>
             <ul className="space-y-3 text-lg">
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Providers
+                <Link href="/providers-glossary" className="text-gray-600 hover:text-[#A34E78]">
+                  Procedures
                 </Link>
               </li>
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Payers
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  ASCs
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Employers
+                <Link href="/providers-glossary" className="text-gray-600 hover:text-[#A34E78]">
+                  Health System
                 </Link>
               </li>
             </ul>
@@ -80,35 +70,7 @@ const Footer = () => {
 
           <div>
             <h3 className="text-[#0F172A] text-[22px] font-semibold mb-4">
-              Platform
-            </h3>
-            <ul className="space-y-3 text-lg">
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Data
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Contracting
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Compliance
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  All Features
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-[#0F172A] text-[22px] font-semibold mb-4">
-              More
+              Resources
             </h3>
             <ul className="space-y-3 text-lg">
               <li>
@@ -132,39 +94,14 @@ const Footer = () => {
                   Blog
                 </Link>
               </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Press & Media
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Partnerships
-                </Link>
-              </li>
             </ul>
           </div>
 
-          <div className="self-end ">
+          <div className="self-start ">
             <ul className="space-y-3 text-lg ">
               <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Reports
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  MRF Resources
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  Research Datasets
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-600 hover:text-[#A34E78]">
-                  TQU
+                <Link href="/contact-us" className="text-[#0F172A] text-[22px] font-semibold mb-4">
+                  Contact Us
                 </Link>
               </li>
             </ul>

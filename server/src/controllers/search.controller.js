@@ -95,6 +95,7 @@ exports.getZipCodes = async (req, res, next) => {
   }
 };
 
+// controllers/providersController.js
 exports.getProviders = async (req, res, next) => {
   res.set("Cache-Control", "no-store");
   try {
@@ -112,7 +113,12 @@ exports.getProviders = async (req, res, next) => {
     }
     if (zipCode) {
       const zip = parseInt(zipCode, 10);
-      if (!isNaN(zip)) filter.provider_zip_code = zip;
+      if (!isNaN(zip)) {
+        const base = Math.floor(zip / 10000);
+        const lower = base * 10000;
+        const upper = lower + 9999;
+        filter.provider_zip_code = { $gte: lower, $lte: upper };
+      }
     }
     if (insurance) {
       filter.reporting_entity_name_in_network_files = new RegExp(
@@ -137,6 +143,7 @@ exports.getProviders = async (req, res, next) => {
     next(err);
   }
 };
+
 
 exports.getEntityRecords = async (req, res, next) => {
   res.set("Cache-Control", "no-store");
