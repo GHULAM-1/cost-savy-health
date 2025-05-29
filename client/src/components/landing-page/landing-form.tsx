@@ -238,7 +238,6 @@ export default function SearchBar() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full py-10">
         <div className="flex flex-col lg:flex-row w-full border-2 border-gray-200 rounded-lg overflow-hidden">
-
           {/* Care */}
           <div className="relative flex-1 min-w-0 border-r border-gray-200 overflow-hidden" ref={careRef}>
             <FormField control={form.control} name="searchCare" render={({ field }) => (
