@@ -27,7 +27,6 @@ interface Post {
   sortOrder: number;
 }
 
-
 export async function generateMetadata({
   params,
   searchParams,
