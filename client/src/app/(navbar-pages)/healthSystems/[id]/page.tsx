@@ -5,9 +5,13 @@ import Link from "next/link";
 
 export async function generateMetadata({
   params,
-}: { params: { id: string } }): Promise<Metadata> {
-  const { id } = params;
-  const healthSystem = await getHealthSystemById(id);
+  searchParams,
+}: {
+  params: Promise<{ id: string }>
+  searchParams: Promise<Record<string,string|string[]>>
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const healthSystem = await getHealthSystemById(resolvedParams.id);
 
   if (!healthSystem) {
     return generateMetadataTemplate({ title: 'Health System Not Found' });
@@ -31,14 +35,17 @@ export async function generateMetadata({
     title,
     description,
     keywords,
-    url: `https://costsavyhealth.com/healthSystems/${id}`,
+    url: `https://costsavyhealth.com/healthSystems/${healthSystem.id}`,
   });
 }
 
-export default async function HealthSystemPage({
+
+export default async function ProviderPage({
   params,
+  searchParams,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
   const { id } = await params;
   const healthSystem = await getHealthSystemById(id);

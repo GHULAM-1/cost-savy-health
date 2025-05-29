@@ -6,6 +6,7 @@ import Image from "next/image";
 import { fetchPostBySlug } from "@/api/sanity/queries";
 import BlogNav from "@/components/blog/blog-nav";
 import BlogHero from "@/components/blog/blog-hero";
+import { Metadata } from "next";
 
 interface Authors {
   name: string;
@@ -28,10 +29,11 @@ interface Post {
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
-  params: Promise<{ slug: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<Record<string,string|string[]>>
+}): Promise<Metadata> {
   const { slug } = await params;
 
   const post = await fetchPostBySlug(slug, "mainCard");

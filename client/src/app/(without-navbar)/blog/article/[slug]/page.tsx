@@ -30,8 +30,12 @@ interface Post {
 
 export async function generateMetadata({
   params,
-}: { params: { slug: string } }): Promise<Metadata> {
-  const { slug } = params;
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>
+  searchParams: Promise<Record<string,string|string[]>>
+}): Promise<Metadata> {
+  const { slug } = await params;
   const post = (await fetchPostBySlug(slug, "article")) as Post | null;
 
   if (!post) {
