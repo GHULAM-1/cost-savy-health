@@ -18,7 +18,7 @@ function FeatureCard({
   image,
   heading,
   description,
-}: FeatureCardProps): JSX.Element {
+}: FeatureCardProps) {
   return (
     <div className="  overflow-hidden flex flex-col md:flex-row">
       {/* Image Section */}
@@ -41,7 +41,7 @@ interface FeaturesGridProps {
   items: MedicareDoc;
 }
 
-function FeaturesGrid({ items }: FeaturesGridProps): JSX.Element {
+function FeaturesGrid({ items }: FeaturesGridProps) {
   return (
     <section className="py-12 bg-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

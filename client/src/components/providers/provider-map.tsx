@@ -11,7 +11,7 @@ const Map = dynamic<ProviderMapProps>(
   { ssr: false }
 );
 
-export default function ProviderMap(props: ProviderMapProps): JSX.Element {
+export default function ProviderMap(props: ProviderMapProps) {
   // Just forward everything you receive down to the actual Map
   return <Map {...props} />;
 }

@@ -42,7 +42,7 @@ const contactSchema = z.object({
 
 export type ContactFormValues = z.infer<typeof contactSchema>;
 
-export default function ContactPage(): JSX.Element {
+export default function ContactPage() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     defaultValues: {

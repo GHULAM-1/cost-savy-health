@@ -45,7 +45,7 @@ export default function Map({
   names,
   center = [51.505, -0.09],
   zoom   = 13,
-}: ProviderMapProps): JSX.Element {
+}: ProviderMapProps) {
   const [locations, setLocations] = useState<GeoLocation[]>([]);
   const [loading,  setLoading]   = useState(true);
 
