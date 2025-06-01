@@ -26,9 +26,25 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
   values.forEach((price) => {
     priceCounts[price] = (priceCounts[price] || 0) + 1;
   });
-  const priceData = Object.entries(priceCounts)
+  let priceData = Object.entries(priceCounts)
     .map(([price, count]) => ({ price: Number(price), value: count }))
     .sort((a, b) => a.price - b.price);
+
+  // If only one value, pad with min/max for better axis rendering
+  let padded = false;
+  let min = minPrice;
+  let max = maxPrice;
+  if (values.length === 1) {
+    const single = values[0];
+    priceData = [
+      { price: single - 1, value: 0 },
+      { price: single, value: 1 },
+      { price: single + 1, value: 0 },
+    ];
+    padded = true;
+    min = single - 1;
+    max = single + 1;
+  }
 
   const chartConfig = {
     value: {
@@ -38,6 +54,12 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
   } satisfies ChartConfig;
 
   const customTickFormatter = (value: any) => {
+    if (padded) {
+      if (value === min) return "min.";
+      if (value === max) return "max.";
+      if (value === values[0]) return "Price";
+      return "";
+    }
     if (value === minPrice) return "min.";
     if (value === maxPrice) return "max.";
     if (value === Math.round((minPrice + maxPrice) / 2)) return "Price";
@@ -47,6 +69,61 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
     const { x, y, payload } = props;
     const value = payload.value;
   
+    if (padded) {
+      if (value === min) {
+        return (
+          <g transform={`translate(${x},${y})`}>
+            <text
+              x={0}
+              y={0}
+              dy={10}
+              textAnchor="middle"
+              fill="#6B7280"
+              fontSize={12}
+            >
+              min.
+            </text>
+            <text
+              x={0}
+              y={15}
+              dy={13}
+              textAnchor="middle"
+              style={{ fill: "#000000", fontSize: "16px", fontWeight: 500 }}
+            >
+              ${min.toLocaleString()}
+            </text>
+          </g>
+        );
+      }
+      if (value === max) {
+        return (
+          <g transform={`translate(${x},${y})`}>
+            <text
+              x={0}
+              y={0}
+              dy={10}
+              textAnchor="middle"
+              fill="#6B7280"
+              fontSize={12}
+            >
+              max.
+            </text>
+            <text
+              x={0}
+              y={15}
+              dy={13}
+              textAnchor="middle"
+              style={{ fill: "#000000", fontSize: "16px", fontWeight: 500 }}
+            >
+              ${max.toLocaleString()}
+            </text>
+          </g>
+        );
+      }
+      // Do not render the center tick (value === values[0])
+      return null;
+    }
+
     if (
       value !== minPrice &&
       value !== maxPrice &&
@@ -134,13 +211,9 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
                   offset: -18,
                   style: { fill: "#6B7280", fontSize: 16 },
                 }}
-                ticks={[
-                  minPrice,
-                  Math.round((minPrice + maxPrice) / 2),
-                  maxPrice,
-                ]}
+                ticks={padded ? [min, values[0], max] : [minPrice, Math.round((minPrice + maxPrice) / 2), maxPrice]}
                 tick={<CustomTick />}
-                domain={[minPrice, maxPrice]}
+                domain={padded ? [min, max] : [minPrice, maxPrice]}
               />
 
               <ReferenceLine

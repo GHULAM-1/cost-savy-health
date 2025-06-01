@@ -16,11 +16,7 @@ export default function ServiceHighlight({
   ctaLink,
   features,
 }: ServiceHighlightProps) {
-<<<<<<< HEAD
   const [firstWord, ...restWords] = (ctaText ?? "").split(" ");
-=======
-  const [firstWord, ...restWords] = (ctaText || "Learn More").split(" ");
->>>>>>> 476f20623a02c13685dbc31331904640ba376ebf
   const rest = restWords.join(" ");
   return (
     <section className="bg-[#8C2F5D] px-2 sm:px-12 pt-20 pb-10">
@@ -31,7 +27,6 @@ export default function ServiceHighlight({
               {heading}
             </h2>
           </div>
-<<<<<<< HEAD
           {ctaText && (
           <Link
             href={ctaLink}
@@ -43,16 +38,6 @@ export default function ServiceHighlight({
               </div>
             </Link>
           )}
-=======
-          {ctaLink && (
-  <Link
-    href={ctaLink}
-    className="inline-block bg-[#A34E78] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#F3E8EF] hover:text-black transition-colors duration-300 text-md font-medium"
-  >
-    {ctaText}
-  </Link>
-)}
->>>>>>> 476f20623a02c13685dbc31331904640ba376ebf
         </div>
       </div>
       <EnterpriseFeatures accordionData={features} className="text-white" />

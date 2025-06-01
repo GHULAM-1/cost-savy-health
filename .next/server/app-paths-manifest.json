@@ -1,5 +1,0 @@
-{
-  "/(navbar-pages)/page": "app/(navbar-pages)/page.js",
-  "/(navbar-pages)/providers-glossary/page": "app/(navbar-pages)/providers-glossary/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
-}
