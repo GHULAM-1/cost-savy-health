@@ -13,13 +13,15 @@ const JoinTeam: React.FC<JoinTeamProps> = ({ heading, description, ctaText, imag
     <div className="bg-[#8C2F5D] border-t border-[#164e56] p-8 md:p-14 py-12 md:py-20">
       <div className="flex flex-wrap items-center justify-center md:justify-between gap-6">
         <div className="flex flex-wrap items-center gap-6 md:gap-8 text-center md:text-left">
-          <Image
-            src={image}
-            alt="Join illustration"
-            width={96}
-            height={128}
-            className="md:mx-0"
-          />
+        {image && (
+  <Image 
+    src={image} 
+    alt="Join illustration"
+    width={96}
+    height={128}
+    className="md:mx-0"
+  />
+)}
           <div>
             <h2 className="text-white text-start text-3xl md:text-5xl font-bold mb-2">
               {heading}

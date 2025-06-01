@@ -5,18 +5,18 @@ import EnterpriseFeatures, { AccordionItemType } from "../enterprise-features";
 
 export interface ServiceHighlightProps {
   heading: string;
-  ctaText: string;
+  ctaText?: string;
   ctaLink: string;
   features: AccordionItemType[];
 }
 
 export default function ServiceHighlight({
   heading,
-  ctaText,
+  ctaText = "Learn More",
   ctaLink,
   features,
 }: ServiceHighlightProps) {
-  const [firstWord, ...restWords] = ctaText.split(" ");
+  const [firstWord, ...restWords] = (ctaText || "Learn More").split(" ");
   const rest = restWords.join(" ");
   return (
     <section className="bg-[#8C2F5D] px-2 sm:px-12 pt-20 pb-10">
@@ -27,15 +27,14 @@ export default function ServiceHighlight({
               {heading}
             </h2>
           </div>
-          <Link
-            href={ctaLink}
-            className="inline-block bg-[#A34E78] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#F3E8EF] hover:text-black transition-colors duration-300 text-md font-medium"
-          >
-            <div className="flex items-center justify-center gap-1">
-              <p>{firstWord} </p>
-              <p>{rest}</p>
-            </div>
-          </Link>
+          {ctaLink && (
+  <Link
+    href={ctaLink}
+    className="inline-block bg-[#A34E78] self-start lg:self-end rounded-full text-white px-7 py-3 hover:bg-[#F3E8EF] hover:text-black transition-colors duration-300 text-md font-medium"
+  >
+    {ctaText}
+  </Link>
+)}
         </div>
       </div>
       <EnterpriseFeatures accordionData={features} />

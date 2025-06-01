@@ -173,7 +173,16 @@ export default function SearchBar() {
     setLoadingIns(true);
     const searchCare = form.getValues("searchCare");
     const zipCode = form.getValues("zipCode");
-    getInsurersByBillingCode(searchCare && zipCode ? `${searchCare}|${zipCode}` : "")
+    
+    // Only fetch if we have both searchCare and zipCode
+    if (!searchCare || !zipCode) {
+      setInsOptions(defaultInsOptions);
+      setLoadingIns(false);
+      setInsLoaded(true);
+      return;
+    }
+
+    getInsurersByBillingCode(`${searchCare}|${zipCode}`)
       .then(res => active && setInsOptions(res.data))
       .catch(() => active && setInsOptions(defaultInsOptions))
       .finally(() => {
@@ -181,7 +190,7 @@ export default function SearchBar() {
           setTimeout(() => {
             setLoadingIns(false);
             setInsLoaded(true);
-          }, 3000);
+          }, 1000);
         }
       });
     return () => { active = false; };
@@ -204,26 +213,6 @@ export default function SearchBar() {
       });
     return () => { active = false; };
   }, [localCareQuery, openCare]);
-
-  useEffect(() => {
-    if (!openIns) return;
-    let active = true;
-    setLoadingIns(true);
-    const searchCare = form.getValues("searchCare");
-    const zipCode = form.getValues("zipCode");
-    getInsurersByBillingCode(localInsQuery)
-      .then(res => active && setInsOptions(res.data))
-      .catch(() => active && setInsOptions(defaultInsOptions))
-      .finally(() => {
-        if (active) {
-          setTimeout(() => {
-            setLoadingIns(false);
-            setInsLoaded(true);
-          }, 1000);
-        }
-      });
-    return () => { active = false; };
-  }, [localInsQuery, openIns]);
 
   function onSubmit(vals: ProvidersSchemaType) {
     setIsSubmitting(true);

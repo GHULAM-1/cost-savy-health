@@ -1,0 +1,3 @@
+{
+  "/(news)/auth/page": "app/(news)/auth/page.js"
+}
