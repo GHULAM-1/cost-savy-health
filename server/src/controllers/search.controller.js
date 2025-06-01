@@ -45,12 +45,25 @@ exports.getCareOptions = async (req, res, next) => {
 exports.getInsuranceOptions = async (req, res, next) => {
   res.set("Cache-Control", "no-store");
   try {
-    const q = req.query.search?.trim() || "";
+    const searchCare = req.query.searchCare?.trim() || "";
+    const zipCode = req.query.zipCode?.trim();
     const lim = parseInt(req.query.limit, 10) || 20;
-    const regex = q ? new RegExp(escapeRegex(q), "i") : null;
-    const filter = regex
-      ? { reporting_entity_name_in_network_files: regex }
-      : {};
+    
+    const filter = {};
+    
+    if (searchCare) {
+      filter.billing_code_name = new RegExp(escapeRegex(searchCare), "i");
+    }
+    
+    if (zipCode) {
+      const zip = parseInt(zipCode, 10);
+      if (!isNaN(zip)) {
+        const base = Math.floor(zip / 10000);
+        const lower = base * 10000;
+        const upper = lower + 9999;
+        filter.provider_zip_code = { $gte: lower, $lte: upper };
+      }
+    }
 
     let values = await Healthcare.distinct(
       "reporting_entity_name_in_network_files",
@@ -133,7 +146,7 @@ exports.getProviders = async (req, res, next) => {
 
     const total = await Healthcare.countDocuments(filter);
     const docs = await Healthcare.find(filter).skip(skip).limit(limNum).lean();
-
+    console.log("for insurance",docs)
     return res.status(200).json({
       success: true,
       pagination: { total },
