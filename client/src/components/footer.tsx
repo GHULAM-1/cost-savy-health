@@ -110,7 +110,7 @@ const Footer = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-t pt-8">
           <div className="text-sm text-gray-600 mb-4 md:mb-0">
-            © 2025 Turquoise Health. All Rights Reserved. CPT® © 2024 American
+            © 2025 Cost Savvy Health. All Rights Reserved. CPT® © 2024 American
             Medical Association. All Rights Reserved.
           </div>
           <div className="flex flex-wrap gap-6">

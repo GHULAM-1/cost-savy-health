@@ -93,7 +93,7 @@ export default async function ProviderPage({
 
             <div className="mb-4">
               <p className="text-xs font-semibold text-black mb-1">
-                TURQUOISE VERIFICATION
+                COST SAVVY VERIFICATION
               </p>
               <p className="text-sm text-gray-700 mb-2">
                 {healthSystem.isVerified
@@ -224,9 +224,11 @@ export default async function ProviderPage({
             claiming your provider page and listing your services. It only takes
             10 minutes.
           </p>
-          <button className="bg-[#8C2F5D]  text-white font-medium rounded-full px-6 py-3 transition">
-            Get Started
-          </button>
+          <a href="/contact-us">
+            <button className="bg-[#8C2F5D] hover:cursor-pointer text-white font-medium rounded-full px-6 py-3 transition">
+              Get Started
+            </button>
+          </a>
         </div>
       </section>
     </div>

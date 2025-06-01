@@ -10,7 +10,7 @@ export default function WorkTogether() {
             Let's work together.
           </h1>
           <p className="text-gray-600 text-lg">
-            Turquoise Health is on a mission to simplify reimbursement. For
+            Cost Savvy Health is on a mission to simplify reimbursement. For
             media, partnerships, or general inquiries, don't hesitate to reach
             out.
           </p>

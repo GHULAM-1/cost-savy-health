@@ -4,7 +4,8 @@ import "@/app/globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { AuthProvider } from "@/context/AuthContext";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
 
 const sourceSerif = Source_Serif_4({
   variable: "--font-source-serif",
@@ -26,12 +27,14 @@ export default function RootLayout({
       <body
         className={`${sourceSerif.variable} antialiased max-w-[1660px] w-full mx-auto `}
       >
+        <NextTopLoader color="#C85990" height={3} showSpinner={false} />
+
         <AuthProvider>
           <Navbar />
           {children}
           <Toaster />
           <Footer />
-          <Toaster richColors position="top-center" />
+          <Toaster richColors />
         </AuthProvider>
       </body>
     </html>

@@ -18,7 +18,7 @@ export default defineType({
       name: 'isVerified',
       title: 'Verification Status',
       type: 'boolean',
-      description: 'Turquoise verification badge (true = verified)',
+      description: 'Cost Savvy verification badge (true = verified)',
       initialValue: false
     }),
 

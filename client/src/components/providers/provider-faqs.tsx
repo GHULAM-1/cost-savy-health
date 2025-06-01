@@ -13,7 +13,7 @@ import Icon from "../svg-icon";
 export function ProviderFaqs() {
   return (
     <div className="w-full max-w-[1600px] p-2 border-b-2 py-8 pb-20">
-      <Icon name="think" alt="Thinking Illustration" width={104} height={104} />
+      <img src="/cloud.jpg" alt="" className="w-28 h-24" />
       <h2 className="text-4xl font-bold  text-[#03363D] mt-10 mb-10">
         Frequently Asked Questions
       </h2>

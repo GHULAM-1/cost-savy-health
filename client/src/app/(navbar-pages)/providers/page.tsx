@@ -16,7 +16,7 @@ export default function Providers() {
       </Suspense>
       <FeedbackSection />
       <ProviderFaqs />
-      <HealthcareDataTable />
+      {/* <HealthcareDataTable /> */}
     </div>
   );
 }

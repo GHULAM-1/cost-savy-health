@@ -5,10 +5,15 @@ interface JoinTeamProps {
   heading: string;
   description: string;
   ctaText: string;
-  image: string
+  image: string;
 }
 
-const JoinTeam: React.FC<JoinTeamProps> = ({ heading, description, ctaText, image }) => {
+const JoinTeam: React.FC<JoinTeamProps> = ({
+  heading,
+  description,
+  ctaText,
+  image,
+}) => {
   return (
     <div className="bg-[#8C2F5D] border-t border-[#164e56] p-8 md:p-14 py-12 md:py-20">
       <div className="flex flex-wrap items-center justify-center md:justify-between gap-6">
@@ -29,9 +34,11 @@ const JoinTeam: React.FC<JoinTeamProps> = ({ heading, description, ctaText, imag
             </p>
           </div>
         </div>
-        <button className="bg-[#A34E78] hover:bg-[#F3E8EF] cursor-pointer text-white px-6 py-3 rounded-full font-semibold transition-colors w-full lg:w-auto">
-          {ctaText}
-        </button>
+        <a href="/">
+          <button className="bg-[#A34E78] hover:bg-[#C85990] cursor-pointer text-white px-6 py-3 rounded-full font-semibold transition-colors w-full lg:w-auto">
+            {ctaText}
+          </button>
+        </a>
       </div>
     </div>
   );

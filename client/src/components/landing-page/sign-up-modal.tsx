@@ -27,7 +27,7 @@ export default function SignUpModal({
         </button>
 
         <h1 className="text-[2.5rem] leading-tight font-semibold text-[#1B3B36] mb-4">
-          I want to use Turquoise...
+          I want to use Cost Savvy...
         </h1>
         <p className="text-2xl text-gray-500 mb-8">
           Select an option to continue.
@@ -78,7 +78,7 @@ export default function SignUpModal({
           onClick={() => selected && onSelection(selected)}
           className={`w-full py-4 rounded-full text-xl font-medium transition-all cursor-pointer ${
             selected
-              ? "bg-[#2A665B] text-white hover:bg-[#1B3B36]"
+              ? "bg-[#8C2F5D] hover:bg-[#C85990] text-white "
               : "bg-gray-100 text-gray-400 cursor-not-allowed"
           }`}
           disabled={!selected}

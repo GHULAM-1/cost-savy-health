@@ -14,9 +14,22 @@ import { maxPrice, minPrice, priceData } from "@/data/graph/price-data";
 
 interface PriceDistributionChartProps{
   midpointPrice:number;
+  values: number[];
 }
-export function PriceDistributionChart({midpointPrice}:PriceDistributionChartProps) {
-  
+export function PriceDistributionChart({midpointPrice, values}:PriceDistributionChartProps) {
+  // Calculate min, max, and build priceData
+  const minPrice = Math.min(...values);
+  const maxPrice = Math.max(...values);
+
+  // Build histogram data: count frequency of each price
+  const priceCounts: Record<number, number> = {};
+  values.forEach((price) => {
+    priceCounts[price] = (priceCounts[price] || 0) + 1;
+  });
+  const priceData = Object.entries(priceCounts)
+    .map(([price, count]) => ({ price: Number(price), value: count }))
+    .sort((a, b) => a.price - b.price);
+
   const chartConfig = {
     value: {
       label: "Frequency",

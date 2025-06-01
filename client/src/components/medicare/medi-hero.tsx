@@ -19,8 +19,8 @@ type MedicareDoc = {
   };
 export default function MediHero({medicareItems}:Props) {
   return (
-    <section className="bg-white">
-      <div className="max-w-7xl mx-auto px-1 sm:px-6 lg:px-0 py-12 lg:py-24">
+    <section className="bg-white overflow-hidden">
+      <div className="">
         <div className="relative">
           <div>
             <img
@@ -39,13 +39,13 @@ export default function MediHero({medicareItems}:Props) {
             <div className="mt-3 sm:mt-6 flex flex-row justify-start gap-4">
               <a
                 href="/quote"
-                className="px-2 sm:px-3 md:px-6 py-1 md:py-3 bg-purple-700 text-white rounded-md hover:bg-purple-800 transition-colors"
+                className="px-2 sm:px-3 md:px-6 py-1 md:py-3 bg-[#A34E78] text-white rounded-md hover:bg-[#C85990] transition-colors"
               >
                 Get a Quote
               </a>
               <a
                 href="tel:8888888888"
-                className="inline-block px-2 sm:px-3 md:px-6 py-1 md:py-3 border-2 text-white border-purple-700 hover:text-purple-700 rounded-md hover:bg-purple-50 transition-colors"
+                className="inline-block px-2 sm:px-3 md:px-6 py-1 md:py-3 border-2 text-white border-[#A34E78]  rounded-md hover:bg-[#C85990] transition-colors"
               >
                 {medicareItems.number}
               </a>

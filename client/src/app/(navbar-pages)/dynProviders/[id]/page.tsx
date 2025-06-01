@@ -1,6 +1,6 @@
 // app/providers/[id]/page.tsx
-import { Metadata } from 'next';
-import { generateMetadataTemplate } from '@/lib/metadata';
+import { Metadata } from "next";
+import { generateMetadataTemplate } from "@/lib/metadata";
 import { getProviderById } from "@/api/sanity/queries";
 import Link from "next/link";
 
@@ -8,25 +8,25 @@ export async function generateMetadata({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>
-  searchParams: Promise<Record<string,string|string[]>>
+  params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | string[]>>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const provider = await getProviderById(resolvedParams.id);
 
   if (!provider) {
-    return generateMetadataTemplate({ title: 'Provider Not Found' });
+    return generateMetadataTemplate({ title: "Provider Not Found" });
   }
 
   const title = `${provider.name} | Healthcare Provider | Cost Savy Health`;
   const description = `Find detailed information about ${provider.name}, a healthcare provider located in ${provider.address.city}, ${provider.address.state}. Compare costs and services.`;
   const keywords = [
     provider.name,
-    'healthcare provider',
-    'medical provider',
-    'healthcare costs',
-    'medical procedures',
-    'healthcare pricing',
+    "healthcare provider",
+    "medical provider",
+    "healthcare costs",
+    "medical procedures",
+    "healthcare pricing",
     provider.address.city,
     provider.address.state,
     provider.providerType,
@@ -44,17 +44,17 @@ export default async function ProviderPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-    const { id } =  await params;
-    const provider = await getProviderById(id);
-  
-    if (!provider) {
-      return (
-        <div className="p-10 text-center text-red-500">Provider not found</div>
-      );
-    }
+  const { id } = await params;
+  const provider = await getProviderById(id);
+
+  if (!provider) {
+    return (
+      <div className="p-10 text-center text-red-500">Provider not found</div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -96,9 +96,9 @@ export default async function ProviderPage({
                   ? "Verified status for this provider ✓"
                   : "Unverified status for this provider"}
               </p>
-              <button className="text-sm font-semibold text-[#6B1548]">
+              {/* <button className="text-sm font-semibold text-[#6B1548]">
                 Claim This Provider
-              </button>
+              </button> */}
             </div>
 
             <div className="border-[1px] mb-4"></div>
@@ -175,8 +175,8 @@ export default async function ProviderPage({
               <h2 className="text-xl font-bold text-[#6B1548]">
                 Provider Information
               </h2>
-              <button className="bg-[#6B1548] text-white px-4 py-2 rounded-full text-sm hover:bg-teal-600 transition">
-                Claim This Provider
+              <button className="bg-[#6B1548] text-white px-4 py-2 rounded-full text-sm hover:bg-[#C85990] transition">
+                Get Started
               </button>
             </div>
 
@@ -252,9 +252,14 @@ export default async function ProviderPage({
 
               {/* Send Us Feedback Button */}
               <div className="mt-8 text-center">
-                <button className="bg-[#6B1548] text-white px-6 py-2 rounded-full text-sm hover:bg-teal-600 transition">
+                <a
+                  href="https://mail.google.com/mail/?view=cm&to=Chat@costsavvy.health&su=Feedback&body=Hello!"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#6B1548] text-white px-6 py-2 rounded-full text-sm hover:bg-[#C85990] transition"
+                >
                   Send Us Feedback
-                </button>
+                </a>
               </div>
             </div>
           )}
@@ -270,9 +275,11 @@ export default async function ProviderPage({
             claiming your provider page and listing your services. It only takes
             10 minutes.
           </p>
-          <button className="bg-[#8C2F5D]  text-white font-medium rounded-full px-6 py-3 transition">
-            Get Started
-          </button>
+          <a href="/contact-us">
+            <button className="bg-[#8C2F5D] hover:cursor-pointer text-white font-medium rounded-full px-6 py-3 transition">
+              Get Started
+            </button>
+          </a>
         </div>
       </section>
     </div>

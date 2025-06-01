@@ -48,6 +48,15 @@ interface ErrorResponse {
   }>;
 }
 
+export interface ContactMessageValues {
+  firstname: string;
+  lastname: string;
+  emailaddress: string;
+  phonenumber: string;
+  hear: string;
+  problemsolve: string;
+}
+
 // API URL
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
 
@@ -224,5 +233,33 @@ export async function sendQuoteRequest(values: ContactFormValues): Promise<{ suc
   } catch (error: any) {
     console.error('Error sending quote request:', error);
     return error.status || 500; 
+  }
+}
+
+export async function sendContactMessage(values: ContactMessageValues): Promise<{ success: boolean } | number> {
+  // Map frontend keys to backend keys
+  const payload = {
+    firstName: values.firstname,
+    lastName: values.lastname,
+    email: values.emailaddress,
+    phone: values.phonenumber,
+    howHeard: values.hear,
+    problem: values.problemsolve,
+  };
+  try {
+    const response = await apiRequest<{ success: boolean }>(
+      `${API_URL}/contact`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      },
+      "Failed to send contact message"
+    );
+    return response;
+  } catch (error: any) {
+    console.error('Error sending contact message:', error);
+    return error.status || 500;
   }
 }

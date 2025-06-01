@@ -177,3 +177,50 @@ exports.getEntityRecords = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getRecordBySingleCare = async (req, res, next) => {
+  res.set("Cache-Control", "no-store");
+
+  try {
+    const searchCare = (req.query.searchCare || "").trim();
+    if (!searchCare) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required `searchCare` param" });
+    }
+
+    const billingCodeRegex = new RegExp(escapeRegex(searchCare), "i");
+    const filter = { billing_code_name: billingCodeRegex };
+
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit, 10) || 100, 1);
+    const skip = (page - 1) * limit;
+
+    const [total, docs] = await Promise.all([
+      Healthcare.countDocuments(filter),
+      Healthcare.find(filter)
+        .select({
+          billing_code_name: 1,
+          reporting_entity_name_in_network_files: 1,
+          provider_zip_code: 1,
+          negotiated_rate: 1,
+          provider_name: 1,
+          provider_address: 1,
+          provider_city: 1,
+          provider_state: 1,
+          _id: 0
+        })
+        .skip(skip)
+        .limit(limit)
+        .lean(),
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      pagination: { total, page, limit },
+      data: docs,
+    });
+  } catch (err) {
+    next(err);
+  }
+};

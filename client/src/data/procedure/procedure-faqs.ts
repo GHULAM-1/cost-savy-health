@@ -38,7 +38,7 @@ export const faqData: FAQItem[] = [
   },
   {
     id: "faq-6",
-    question: "How does Turquoise determine price accuracy?",
+    question: "How does Cost Savvy determine price accuracy?",
     answer:
       "We gather pricing data from various sources, including providers, insurers, and public datasets. We use proprietary methods to analyze and present the most accurate estimates possible. For the most precise information, we recommend confirming with the provider.",
   },
@@ -52,8 +52,8 @@ export const faqData: FAQItem[] = [
   {
     id: "faq-8",
     question:
-      "I enrolled in a government-sponsored healthcare program. Can I use Turquoise to find prices for care?",
+      "I enrolled in a government-sponsored healthcare program. Can I use Cost Savvy to find prices for care?",
     answer:
-      "You should not use Turquoise Health to compare prices if you are enrolled in a Medicare or Medicaid plan. Contact Medicare or your state’s Medicaid program directly for more information about coverage and costs.",
+      "You should not use Cost Savvy Health to compare prices if you are enrolled in a Medicare or Medicaid plan. Contact Medicare or your state’s Medicaid program directly for more information about coverage and costs.",
   },
 ];

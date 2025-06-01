@@ -14,7 +14,7 @@ const features = [
   {
     title: "Where we fit in.",
     description:
-      "Turquoise Health is on a mission to make prices transparent and easy to understand for everyone. That starts with making this information available, accessible, and actionable.",
+      "Cost Savvy Health is on a mission to make prices transparent and easy to understand for everyone. That starts with making this information available, accessible, and actionable.",
     icon: "fit-in",
   },
 ];

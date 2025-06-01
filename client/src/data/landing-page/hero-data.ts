@@ -1,6 +1,6 @@
 export const commonProcedures: string[] = [
-  "Colonoscopy",
-  "Knee Repair - Arthroscopic",
-  "MRI with Contrast",
-  "Tonsil and/or Adenoid Removal",
+  "Bone marrow",
+  "eye transplant",
+  "hand transplant",
+  "hair transplant",
 ];

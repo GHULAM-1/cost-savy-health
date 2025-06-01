@@ -36,9 +36,9 @@ export default function AllProviders() {
     const fetchData =
       onlySearchCare && searchCare
         ? getEntityRecords(searchCare, 1, 50).then((res) => {
-            if (Array.isArray(res)) {
-              setProviders(res as HealthcareRecord[]);
-              setTotalCount(res.length);
+            if (res) {
+              setProviders(res.data);
+              setTotalCount(res.pagination.total);
             } else {
               setProviders([]);
               setTotalCount(0);

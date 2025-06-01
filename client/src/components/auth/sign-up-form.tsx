@@ -209,7 +209,7 @@ export default function SignUpForm({
 
               <Button
                 type="submit"
-                className="w-full bg-[#098481] hover:bg-teal-700 text-white text-sm font-medium uppercase flex items-center justify-center gap-2 h-9 cursor-pointer"
+                className="w-full bg-[#8C2F5D] hover:bg-[#C85990] text-white text-sm font-medium uppercase flex items-center justify-center gap-2 h-9 cursor-pointer"
                 disabled={isLoading}
               >
                 {isLoading ? (

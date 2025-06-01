@@ -174,7 +174,7 @@ export default function SignInForm({
 
               <Button
                 type="submit"
-                className="w-full bg-[#098481] hover:bg-teal-700 text-white text-sm font-medium uppercase gap-2 h-9"
+                className="w-full bg-[#8C2F5D] hover:bg-[#C85990] text-white text-sm font-medium uppercase gap-2 h-9"
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (

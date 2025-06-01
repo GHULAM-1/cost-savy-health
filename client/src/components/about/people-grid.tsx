@@ -25,7 +25,7 @@ const PeopleGrid: React.FC<Props> = ({ data, heading }) => {
           <div
             key={index}
             className="group flex flex-col items-start bg-white shadow-md rounded-lg p-6 border 
-            border-transparent transition-all duration-300 ease-in-out hover:border-[#1B4B43] hover:shadow-2xl"
+            border-transparent transition-all duration-300 ease-in-out hover:border-[#8C2F5D] hover:shadow-2xl"
           >
             <Image
               src={item.imageUrl}
@@ -42,7 +42,7 @@ const PeopleGrid: React.FC<Props> = ({ data, heading }) => {
               href={item.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 text-gray-800 transition-colors group-hover:text-[#098481]"
+              className="mt-4 text-gray-800 transition-colors group-hover:text-[#8C2F5D]"
             >
               LinkedIn Profile
             </a>

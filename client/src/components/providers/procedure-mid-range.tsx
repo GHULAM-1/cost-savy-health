@@ -31,8 +31,8 @@ export default function ProcedureMidRange() {
     if (onlySearchCare && searchCare) {
       getEntityRecords(searchCare, 1, 50)
         .then((res: any) => {
-          if (res && Array.isArray(res)) {
-            setProviders(res);
+          if (res) {
+            setProviders(res.data);
           } else {
             console.error("getEntityRecords did not return an array:", res);
             setProviders([]);
@@ -82,7 +82,7 @@ export default function ProcedureMidRange() {
       }
     }
   }
-
+  const values = providers.map((p) => p.negotiated_rate);
   console.log({ minPrice, maxPrice, midpointPrice });
 
   return (
@@ -96,7 +96,7 @@ export default function ProcedureMidRange() {
           </p>
         </div>
         <div className="w-full max-w-[350px] min-w-[300px]">
-          <PriceDistributionChart midpointPrice={midpointPrice} />
+          <PriceDistributionChart midpointPrice={midpointPrice} values={values} />
         </div>
       </div>
     </div>

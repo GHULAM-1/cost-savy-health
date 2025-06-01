@@ -8,7 +8,7 @@ export default function PromotionBar() {
         <Sparkle color="#288c8a" size={14} fill="#288c8a" />
         <Sparkle color="#3ac4bb" size={18} fill="#3ac4bb" />
         <span className="font-medium text-sm sm:text-base text-center">
-          Turquoise for organizations.
+          Cost Savvy for organizations.
         </span>
         <Sparkle color="#288c8a" size={14} fill="#288c8a" />
         <Sparkle color="#3ac4bb" size={18} fill="#3ac4bb" />

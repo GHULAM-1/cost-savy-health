@@ -27,13 +27,16 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formSchema, FormSchemaType } from "@/schema/contact-form-schema";
 import { organization } from "@/data/contact-us/organization"; // Now using correct content for Organization Type
 import { hearAboutUs } from "@/data/contact-us/hear-about-us"; // Correct data for Hear About Us
+import { sendContactMessage } from "@/api/auth/api";
+import { useState } from "react";
 
 export default function MyForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<FormSchemaType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,25 +44,28 @@ export default function MyForm() {
       lastname: "",
       emailaddress: "",
       phonenumber: "",
-      jobtitle: "",
-      organization: "",
-      organizationtype: "",
       hear: "",
       problemsolve: "",
     },
   });
 
-  function onSubmit(values: FormSchemaType) {
+  async function onSubmit(values: FormSchemaType) {
+    setIsSubmitting(true);
     try {
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
+      const safeValues = { ...values, phonenumber: values.phonenumber || "" };
+      const res = await sendContactMessage(safeValues);
+      if (typeof res === "object" && res.success) {
+        toast("Your message has been sent! We'll get back to you soon.");
+        form.reset();
+      } else {
+        console.log("failed");
+        toast("Failed to send your message. Please try again later.");
+      }
     } catch (error) {
       console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
+      toast("Failed to submit the form. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -266,9 +272,17 @@ export default function MyForm() {
 
         <Button
           type="submit"
-          className="bg-[#098481] text-white px-16 py-6 mx-auto flex items-center justify-center rounded-4xl"
+          className="bg-[#6B1548] hover:bg-[#C85990] text-white px-16 py-6 mx-auto flex items-center justify-center rounded-4xl"
+          disabled={isSubmitting}
         >
-          Submit
+          {isSubmitting ? (
+            <div className="flex items-center justify-center gap-1">
+              <span>Submitting</span>
+              <span>
+                <Loader2 className="animate-spin mr-2" />
+              </span>
+            </div>
+          ) : "Submit"}
         </Button>
       </form>
     </Form>

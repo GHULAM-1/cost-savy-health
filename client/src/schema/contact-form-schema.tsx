@@ -5,9 +5,6 @@ export const formSchema = z.object({
   lastname: z.string().max(45),
   emailaddress: z.string().email().max(60),
   phonenumber: z.string().optional(),
-  jobtitle: z.string().max(50),
-  organization: z.string().min(1).max(50),
-  organizationtype: z.string().min(1),
   hear: z.string(),
   problemsolve: z.string(),
 });

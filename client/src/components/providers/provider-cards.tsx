@@ -70,7 +70,7 @@ export default function ProviderCards({ providers, loading, totalCount,searchCar
         {loading ? (
           <p>Loading providers…</p>
         ) : providers.length > 0 ? (
-          providers.map((prov) => (
+          providers?.map((prov) => (
             <ProviderCard
               key={prov._id}
               facility={{

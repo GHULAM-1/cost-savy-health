@@ -75,7 +75,7 @@ export default function ProviderCard({
           <div className="text-sm text-gray-600">
             up to{" "}
             <span className="text-lg md:text-xl font-semibold text-[#1B3B36]">
-              ${facility.price.toLocaleString()}
+              ${facility?.price?.toLocaleString()}
             </span>
           </div>
           <div className="flex justify-center md:justify-end items-center gap-1 text-[#A34E78] mt-1">

@@ -13,11 +13,16 @@ interface HeroProps {
 
 export default function Hero({ tagline, rotatingWords, commonProcedures }: HeroProps) {
   const [index, setIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setIndex((prev) => (prev === rotatingWords.length - 1 ? 0 : prev + 1));
+      setIsFading(true);
+      setTimeout(() => {
+        setIndex((prev) => (prev === rotatingWords.length - 1 ? 0 : prev + 1));
+        setIsFading(false);
+      }, 400); // fade out duration
     }, 2000);
     return () => clearInterval(interval);
   }, [rotatingWords]);
@@ -32,7 +37,7 @@ export default function Hero({ tagline, rotatingWords, commonProcedures }: HeroP
         <br />
         <span className="flex items-center space-x-4">
           <span className="hidden sm:inline-block">for</span>
-          <span className="text-[#8C2F5D] animate-slideUp">
+          <span className={`text-[#8C2F5D] transition-opacity duration-400 ${isFading ? 'fade-out' : 'fade-in'}`}>
             {rotatingWords[index]}
           </span>
         </span>

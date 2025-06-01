@@ -7,11 +7,7 @@ export function FeedbackSection() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6">
         <div className="flex items-start md:items-center gap-3 md:gap-4 w-full">
           <div className="shrink-0">
-            <Icon
-              name="megaphone"
-              className="w-12 h-12 md:w-16 md:h-16"
-              alt="Megaphone"
-            />
+            <img src="/siren.png" className="w-16 h-16" alt="" />
           </div>
 
           <div className="flex-1">
@@ -23,10 +19,16 @@ export function FeedbackSection() {
             </p>
           </div>
         </div>
-
-        <button className="md:self-start px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base text-[#A34E78] border-2 border-[#A34E78] rounded-full hover:bg-[#A34E78] hover:text-white transition-colors duration-200 cursor-pointer whitespace-nowrap">
-          Send us feedback
-        </button>
+        <a
+          href="https://mail.google.com/mail/?view=cm&to=Chat@costsavvy.health&su=Feedback&body="
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block"
+        >
+          <button className="md:self-start px-3 py-1.5 md:px-4 md:py-2 text-sm md:text-base text-[#A34E78] border-2 border-[#A34E78] rounded-full hover:bg-[#A34E78] hover:text-white transition-colors duration-200 cursor-pointer whitespace-nowrap">
+            Send us feedback
+          </button>
+        </a>
       </div>
     </div>
   );
