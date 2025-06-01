@@ -22,8 +22,6 @@ L.Icon.Default.mergeOptions({ iconRetinaUrl, iconUrl, shadowUrl });
 export interface ProviderMapProps {
   zipCodes:  number[];
   names:     string[];
-  center?:   [number, number];
-  zoom?:     number;
 }
 
 interface GeoLocation { lat: number; lng: number; name: string; }
@@ -43,31 +41,43 @@ function FitMarkers({ locations }: { locations: GeoLocation[] }) {
 export default function Map({
   zipCodes,
   names,
-  center = [51.505, -0.09],
-  zoom   = 13,
 }: ProviderMapProps) {
   const [locations, setLocations] = useState<GeoLocation[]>([]);
-  const [loading,  setLoading]   = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchLocations() {
       const results: GeoLocation[] = [];
+      setError(null);
+      
       for (let i = 0; i < zipCodes.length; i++) {
         try {
-          const res  = await fetch(`/api/geocode?zip=${zipCodes[i]}`);
+          const res = await fetch(`/api/geocode?zip=${zipCodes[i]}`);
+          if (!res.ok) {
+            throw new Error(`Failed to fetch location for ZIP ${zipCodes[i]}`);
+          }
+          
           const data = await res.json();
+          console.log(`Raw geocode response for ZIP ${zipCodes[i]}:`, data);
+          
           if (Array.isArray(data) && data.length > 0) {
             const { lat, lon } = data[0];
+            console.log(`Extracted Lat: ${lat}, Lng: ${lon} for ZIP ${zipCodes[i]}`);
             results.push({
-              lat:  parseFloat(lat),
-              lng:  parseFloat(lon),
+              lat: parseFloat(lat),
+              lng: parseFloat(lon),
               name: names[i],
             });
+          } else {
+            console.warn(`No location data found for ZIP ${zipCodes[i]}`);
           }
         } catch (err) {
           console.error(`Failed to geocode ZIP ${zipCodes[i]}`, err);
+          setError(`Unable to locate some providers. Please try a different ZIP code.`);
         }
       }
+      
       setLocations(results);
       setLoading(false);
     }
@@ -76,9 +86,10 @@ export default function Map({
       setLoading(true);
       fetchLocations();
     } else {
-      // no ZIPs → no map
+      setLocations([]);
       setLoading(false);
     }
+    console.log("zip codes and name",zipCodes, names)
   }, [zipCodes, names]);
 
   if (loading) {
@@ -89,10 +100,29 @@ export default function Map({
     );
   }
 
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-[50vh] w-full">
+        <span className="text-red-600">{error}</span>
+      </div>
+    );
+  }
+
+  if (!locations.length) {
+    return (
+      <div className="flex items-center justify-center h-[50vh] w-full">
+        <span className="text-gray-600">No locations to display</span>
+      </div>
+    );
+  }
+
+  // Use the first location as the initial center
+  const initialCenter: [number, number] = [locations[0].lat, locations[0].lng];
+
   return (
     <MapContainer
-      center={center}
-      zoom={zoom}
+      center={initialCenter}
+      zoom={13}
       style={{ height: "50vh", width: "100%", borderRadius: "15px" }}
     >
       <TileLayer
@@ -100,7 +130,6 @@ export default function Map({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      {/* auto‐fit all markers */}
       <FitMarkers locations={locations} />
 
       {locations.map((loc, idx) => (

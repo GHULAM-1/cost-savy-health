@@ -1,0 +1,13 @@
+{
+  "app": {
+    "[project]/src/app/(navbar-pages)/page": [
+      "static/media/vEFF2_tTDB4M7_auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4Y3qwzQ-s.p.102d0f83.woff2"
+    ],
+    "[project]/src/app/(navbar-pages)/providers-glossary/page": [
+      "static/media/vEFF2_tTDB4M7_auWDN0ahZJW3IX2ih5nk3AucvUHf6kDXr4Y3qwzQ-s.p.102d0f83.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}
