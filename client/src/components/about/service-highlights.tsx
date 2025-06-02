@@ -23,7 +23,7 @@ export default function ServiceHighlight({
       <div className="px-6 sm:px-12 lg:pt-20 pb-10">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="text-left self-start">
-            <h2 className="text-white lg:text-[48px] md:text-5xl text-3xl font-bold leading-[1.1] mb-4">
+            <h2 className="text-white font-tiempos lg:text-[48px] md:text-5xl text-3xl font-bold leading-[1.1] mb-4">
               {heading}
             </h2>
           </div>

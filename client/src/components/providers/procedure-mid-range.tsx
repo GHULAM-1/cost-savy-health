@@ -85,6 +85,10 @@ export default function ProcedureMidRange() {
   const values = providers.map((p) => p.negotiated_rate);
   console.log({ minPrice, maxPrice, midpointPrice });
 
+  if (!providers.length) {
+    return null;
+  }
+
   return (
     <div className="p-[8px] mt-2">
       <div className="border-[1px] rounded-md px-[15px] flex flex-col xl:flex-row items-center gap-4">

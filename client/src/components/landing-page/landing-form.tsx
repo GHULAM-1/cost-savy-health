@@ -268,6 +268,9 @@ export default function SearchBar() {
     if (vals.zipCode) q.set("zipCode", vals.zipCode);
     if (vals.insurance) q.set("insurance", vals.insurance);
     router.push(`/providers?${q.toString()}`);
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 1000);
   }
 
   const handleZipSelect = (value: string) => {
@@ -302,12 +305,44 @@ export default function SearchBar() {
                         : "cursor-pointer"
                     }`}
                   >
-                    <DropdownMenu open={openCare} onOpenChange={setOpenCare}>
+                    <DropdownMenu 
+                      open={openCare} 
+                      onOpenChange={(open) => {
+                        setOpenCare(open);
+                        if (open) {
+                          form.reset({
+                            searchCare: "",
+                            zipCode: "",
+                            insurance: ""
+                          });
+                          setLocalCareQuery("");
+                          setLocalZipQuery("");
+                          setLocalInsQuery("");
+                          setZipOptions([]);
+                          setInsOptions([]);
+                          setZipLoaded(false);
+                          setInsLoaded(false);
+                        }
+                      }}
+                    >
                       <DropdownMenuTrigger asChild>
                         <Button
                           variant="outline"
                           className="w-full no-focus-outline hover:cursor-pointer justify-between text-lg font-normal px-0 border-none shadow-none hover:bg-transparent truncate focus:outline-none focus:ring-0"
                           disabled={loadingZip || loadingIns}
+                          onClick={() => {
+                            // Reset all fields
+                            form.setValue("searchCare", "");
+                            form.setValue("zipCode", "");
+                            form.setValue("insurance", "");
+                            setLocalCareQuery("");
+                            setLocalZipQuery("");
+                            setLocalInsQuery("");
+                            setZipOptions([]);
+                            setInsOptions([]);
+                            setZipLoaded(false);
+                            setInsLoaded(false);
+                          }}
                         >
                           <span className="flex items-center gap-2">
                             {loadingCare ? (

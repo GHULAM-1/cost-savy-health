@@ -59,6 +59,8 @@ export default function AllProviders() {
   }, [searchCare, zipCode, insurance, currentPage]);
 
   // derive map props
+  console.log(providers)
+  const type = providers[0]?.billing_code_type
   const zipCodes = providers.map((p) => p.provider_zip_code);
   const names = providers.map((p) => p.provider_name);
   console.log(names)
@@ -67,8 +69,8 @@ export default function AllProviders() {
     <>
       <Suspense fallback={<div>Loading...</div>}>
         <ProvidersSearch />
-        <FilterBar />
-        <ProcedureInfoDetails />
+        {providers.length > 0 && <FilterBar />}
+        <ProcedureInfoDetails type={type}/>
         <div className="lg:hidden flex items-center justify-start my-4 ml-4">
           <button
             onClick={() => setIsMapVisible(!isMapVisible)}
@@ -96,7 +98,7 @@ export default function AllProviders() {
           <div
             className={`${
               isMapVisible ? "block" : "hidden lg:block"
-            } w-full lg:w-1/3 lg:sticky lg:top-4 lg:h-[calc(100vh-530px)] mt-10`}
+            } w-full lg:w-1/3 lg:sticky lg:top-4 ${providers.length > 0 ? 'lg:h-[calc(100vh-530px)]' : ''} mt-10`}
           >
             <div className="">
               <ProviderMap zipCodes={zipCodes} names={names} />

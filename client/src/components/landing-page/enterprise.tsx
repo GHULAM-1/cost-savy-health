@@ -40,7 +40,7 @@ const Enterprise: React.FC<EnterpriseProps> = ({
 
         <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
           <div className="text-left self-start">
-            <h2 className="text-[#403B3D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-4">
+            <h2 className="text-[#403B3D] font-tiempos text-4xl md:text-5xl font-bold leading-[1.1] mb-4">
               {heading}
             </h2>
             <p className="text-lg text-[#403B3D] leading-relaxed mb-2">

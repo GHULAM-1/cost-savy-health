@@ -24,7 +24,7 @@ export default function RootLayout({
       <body
         className={`${sourceSerif.variable} antialiased max-w-[1660px] w-full mx-auto `}
       >
-        <NextTopLoader color="#C85990" height={3} showSpinner={false} />
+        <NextTopLoader color="#FFFFFF" height={3} showSpinner={false} />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

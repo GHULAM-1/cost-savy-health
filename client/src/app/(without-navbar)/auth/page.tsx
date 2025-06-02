@@ -1,3 +1,24 @@
+import { Metadata } from 'next';
+import { generateMetadataTemplate } from '@/lib/metadata';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return generateMetadataTemplate({
+    title: 'Sign In | Cost Savy Health',
+    description: 'Sign in to your Cost Savy Health account to access healthcare cost comparisons, save procedures, and manage your healthcare journey.',
+    keywords: [
+      'sign in',
+      'login',
+      'healthcare account',
+      'medical cost comparison',
+      'healthcare transparency',
+      'patient portal',
+      'healthcare savings'
+    ],
+    url: 'https://costsavyhealth.com/auth',
+  });
+}
+
+
 import React, { Suspense } from "react";
 import { AuthSlider } from "@/components/auth/auth-slider";
 

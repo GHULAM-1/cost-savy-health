@@ -63,7 +63,7 @@ export default async function ProviderPage({
       {/* Header */}
       <div className="bg-[#8C2F5D] text-white p-4">
         <div className="max-w-[1200px] mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold">{healthSystem.name}</h1>
+          <h1 className="text-xl font-semibold font-tiempos">{healthSystem.name}</h1>
           <div className="flex gap-2">
             <button className="bg-[#6B1548] px-4 py-2 rounded text-sm">
               Get A Complementary Review
@@ -181,7 +181,7 @@ export default async function ProviderPage({
               {/* All Services Section */}
               {healthSystem.services?.length > 0 && (
                 <div>
-                  <h3 className="text-3xl font-bold text-gray-800 mb-4">
+                  <h3 className="text-3xl font-tiempos font-bold text-gray-800 mb-4">
                     All Services
                   </h3>
                   <div className="space-y-3">

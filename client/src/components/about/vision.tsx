@@ -12,7 +12,7 @@ export default function Vision({ headline, subtext, imageUrl }: VisionProps) {
   return (
     <div className="mx-auto">
       <div className="px-4 md:px-8 lg:px-16 py-16 md:py-20 lg:py-28">
-        <p className="text-[32px] sm:text-[40px] md:text-[48px] lg:text-[64px] mb-6 md:mb-8 lg:mb-12 tracking-tight font-semibold max-w-[700px] leading-[1.2]">
+        <p className="text-[32px] sm:text-[40px] font-tiempos md:text-[48px] lg:text-[64px] mb-6 md:mb-8 lg:mb-12 tracking-tight font-semibold max-w-[700px] leading-[1.2]">
           {headline.split('<br>').map((line, idx) => (
             <React.Fragment key={idx}>
               {line}

@@ -27,7 +27,7 @@ function FeatureCard({
       </div>
       {/* Text Section */}
       <div className="md:w-1/2 p-6 flex flex-col justify-center">
-        <h3 className="text-3xl font-semibold mb-4 text-gray-900">{heading}</h3>
+        <h3 className="text-3xl font-semibold mb-4 text-gray-900 font-tiempos">{heading}</h3>
         <p className="text-gray-600 mb-6">{description}</p>
         <button className="w-max px-5 py-3 bg-[#A34E78] text-white rounded-md hover:bg-[#C85990] transition-colors">
           Read more

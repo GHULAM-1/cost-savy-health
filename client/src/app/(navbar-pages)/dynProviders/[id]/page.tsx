@@ -61,7 +61,7 @@ export default async function ProviderPage({
       {/* Header */}
       <div className="bg-[#8C2F5D] text-white p-4">
         <div className="max-w-[1200px] mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold">{provider.name}</h1>
+          <h1 className="text-xl font-semibold font-tiempos">{provider.name}</h1>
           <div className="flex gap-2">
             <button className="bg-[#6B1548] px-4 py-2 rounded text-sm">
               Add to Comparative Analysis
@@ -172,7 +172,7 @@ export default async function ProviderPage({
           {/* Provider Information */}
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-[#6B1548]">
+              <h2 className="text-2xl font-tiempos font-bold text-[#6B1548]">
                 Provider Information
               </h2>
               <button className="bg-[#6B1548] text-white px-4 py-2 rounded-full text-sm hover:bg-[#C85990] transition">
@@ -232,7 +232,7 @@ export default async function ProviderPage({
           {/* Clinical Services */}
           {provider.clinicalServices?.length > 0 && (
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h2 className="text-xl font-bold text-[#6B1548] mb-6">
+              <h2 className="text-2xl font-tiempos font-bold text-[#6B1548] mb-6">
                 Clinical Services
               </h2>
               <div className="mb-4">

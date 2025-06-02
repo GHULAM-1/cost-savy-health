@@ -2,7 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getEntityRecords, getProviders, HealthcareRecord } from "../../api/search/api";
+import {
+  getEntityRecords,
+  getProviders,
+  HealthcareRecord,
+} from "../../api/search/api";
 import ProviderCard from "@/components/providers/provider-card";
 import { SearchHeader } from "./search-header";
 import Pagination from "../pagination";
@@ -13,13 +17,15 @@ interface ProviderCardsProps {
   totalCount: number;
   searchCare: string;
 }
-export default function ProviderCards({ providers, loading, totalCount,searchCare }: ProviderCardsProps) {
+export default function ProviderCards({
+  providers,
+  loading,
+  totalCount,
+  searchCare,
+}: ProviderCardsProps) {
   // STATES
   const searchParams = useSearchParams();
   const router = useRouter();
-
-
-
 
   const distanceParam = searchParams.get("distance") || "Any";
   const distanceMatch = distanceParam.match(/\d+/);
@@ -38,7 +44,6 @@ export default function ProviderCards({ providers, loading, totalCount,searchCar
   const cardsPerPage = 10;
   const [showVerification, setShowVerification] = useState(true);
   const [sortOrder, setSortOrder] = useState("lowest");
-
 
   const totalPages = Math.ceil(totalCount / cardsPerPage);
 
@@ -91,9 +96,7 @@ export default function ProviderCards({ providers, loading, totalCount,searchCar
               onClick={() => handleCardClick(prov._id)}
             />
           ))
-        ) : (
-          <p>No providers match your filters.</p>
-        )}
+        ) : null}
 
         {totalPages > 1 && (
           <Pagination

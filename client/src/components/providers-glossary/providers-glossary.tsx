@@ -113,7 +113,7 @@ export default function ProvidersGlossaryPage() {
   return (
     <div className="">
       <div className=" px-[10px] md:px-20 bg-[#8C2F5D] relative">
-        <h1 className="text-[40px] md:text-[48px] font-bold text-white  pt-[45px] pb-[137px]">
+        <h1 className="text-[40px] font-tiempos md:text-[48px] font-bold text-white  pt-[45px] pb-[137px]">
           Browse All
         </h1>
       </div>

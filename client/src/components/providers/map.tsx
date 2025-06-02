@@ -95,7 +95,9 @@ export default function Map({
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[50vh] w-full">
-        <span className="text-gray-600">Loading map…</span>
+        <div className="w-full h-full bg-gray-100 animate-pulse rounded-lg">
+          <div className="w-full h-full bg-gray-200 rounded-lg"></div>
+        </div>
       </div>
     );
   }
@@ -109,11 +111,7 @@ export default function Map({
   }
 
   if (!locations.length) {
-    return (
-      <div className="flex items-center justify-center h-[50vh] w-full">
-        <span className="text-gray-600">No locations to display</span>
-      </div>
-    );
+    return null;
   }
 
   // Use the first location as the initial center

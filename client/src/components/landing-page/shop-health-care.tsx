@@ -25,7 +25,7 @@ const ShopHealthcare: React.FC<ShopHealthcareProps> = ({
     <section className="px-6 sm:px-12 py-16 sm:py-20 mb-8">
       <div className="flex flex-col md:flex-row justify-between items-center gap-12 md:gap-20 lg:gap-32 xl:gap-96">
         <div className="md:text-left flex flex-col">
-          <h2 className="text-[#403B3D] text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
+          <h2 className="text-[#403B3D] font-tiempos text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-6">
             {heading}
           </h2>
           <p className="text-lg sm:text-xl text-[#403B3D] leading-relaxed">

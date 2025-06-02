@@ -168,5 +168,10 @@ html {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-hanken-grotesk), serif;
   }
+}
+
+.font-tiempos {
+  font-family: var(--font-tiempos), serif !important;
 }

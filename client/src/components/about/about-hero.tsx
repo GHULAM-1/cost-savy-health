@@ -29,7 +29,7 @@ export default function AboutHero({
           </p>
         </div>
         <div className="text-white">
-          <h1 className="text-[32px] sm:text-[40px] md:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 leading-[1.2]">
+          <h1 className="text-[32px] font-tiempos sm:text-[40px] md:text-7xl font-bold mb-4 sm:mb-6 md:mb-8 leading-[1.2]">
             {title}
           </h1>
           <p className="text-[16px] sm:text-[18px] opacity-90 max-w-md sm:max-w-lg mb-6 sm:mb-8">

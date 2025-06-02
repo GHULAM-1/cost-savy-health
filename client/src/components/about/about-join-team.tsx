@@ -34,7 +34,7 @@ export default function JoinTeam({
               />
             )}
             <div>
-              <h2 className="text-white text-3xl sm:text-4xl font-semibold mb-4 text-start md:text-center lg:text-left">
+              <h2 className="text-white font-tiempos text-3xl sm:text-4xl font-semibold mb-4 text-start md:text-center lg:text-left">
                 {heading}
               </h2>
               <p className="text-[#9DB5B0] text-base sm:text-lg max-w-md text-left md:text-center lg:text-left">

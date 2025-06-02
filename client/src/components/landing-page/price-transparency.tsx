@@ -26,7 +26,7 @@ export default function PriceTransparency({
     <section className="px-8 md:px-12 bg-gradient-to-b from-[#F7C2D7] to-white py-12 md:py-20 mb-8">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 py-12">
         <div>
-          <h2 className="text-[#403B3D] text-4xl md:text-5xl font-serif font-bold leading-[1.1] mb-6">
+          <h2 className="text-[#403B3D] font-tiempos text-4xl md:text-5xl font-bold leading-[1.1] mb-6">
             {heading}
           </h2>
           <p className="text-lg text-[#403B3D] leading-relaxed mb-8">

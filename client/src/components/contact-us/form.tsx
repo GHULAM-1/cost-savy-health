@@ -75,7 +75,7 @@ export default function MyForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 w-full max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-7 bg-white shadow-xl"
       >
-        <div className="text-center text-[#02363D] text-3xl lg:text-4xl font-bold">
+        <div className="text-center font-tiempos text-[#02363D] text-3xl lg:text-4xl font-medium">
           Connect with Cost Savvy
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">

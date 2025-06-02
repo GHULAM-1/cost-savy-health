@@ -16,7 +16,7 @@ const FeatureCards: React.FC<FeatureCardsProps> = ({ cards }) => {
   console.log(cards)
   return (
     <section>
-      <div className="px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#F3E8EF]">
+      <div className=" px-6 py-12 sm:py-14 mb-8 sm:px-12 bg-gradient-to-b from-white to-[#F3E8EF]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {cards.map((feature, index) => (
             <div
@@ -31,7 +31,7 @@ const FeatureCards: React.FC<FeatureCardsProps> = ({ cards }) => {
                   height={124}
                 />
               </div>
-              <h3 className="text-[#03363D] text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center sm:text-start">
+              <h3 className=" text-[#03363D]  text-xl sm:text-2xl font-bold mb-3 sm:mb-4 text-center sm:text-start">
                 {feature.title}
               </h3>
               <div className="space-y-2 sm:space-y-3">

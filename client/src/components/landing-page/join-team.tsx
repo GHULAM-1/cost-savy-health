@@ -28,7 +28,7 @@ const JoinTeam: React.FC<JoinTeamProps> = ({
   />
 )}
           <div>
-            <h2 className="text-white text-start text-3xl md:text-5xl font-bold mb-2">
+            <h2 className="text-white font-tiempos text-start text-3xl md:text-5xl font-bold mb-2">
               {heading}
             </h2>
             <p className="text-gray-100 text-start text-base md:text-lg">

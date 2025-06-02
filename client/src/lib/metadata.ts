@@ -8,13 +8,19 @@ interface MetadataTemplateProps {
   url?: string;
 }
 
+const DEFAULT_OG_IMAGE = '/icon.png';
+const BASE_URL = 'https://costsavyhealth.com';
+
 export function generateMetadataTemplate({
   title = 'Cost Savy Health',
   description = 'Find and compare healthcare costs across providers. Get transparent pricing for medical procedures and services.',
   keywords = ['healthcare', 'medical costs', 'health insurance', 'medical procedures', 'healthcare pricing'],
-  image = '/icon.png', // Default OG image
-  url = 'https://costsavyhealth.com', // Your domain
+  image = DEFAULT_OG_IMAGE,
+  url = BASE_URL,
 }: MetadataTemplateProps = {}): Metadata {
+  // Ensure image URL is absolute
+  const imageUrl = image.startsWith('http') ? image : `${BASE_URL}${image}`;
+
   return {
     title,
     description,
@@ -26,7 +32,7 @@ export function generateMetadataTemplate({
       siteName: 'Cost Savy Health',
       images: [
         {
-          url: image,
+          url: imageUrl,
           width: 1200,
           height: 630,
           alt: title,
@@ -39,7 +45,7 @@ export function generateMetadataTemplate({
       card: 'summary_large_image',
       title,
       description,
-      images: [image],
+      images: [imageUrl],
     },
     robots: {
       index: true,

@@ -382,6 +382,7 @@ export async function getProviderById(id: string) {
   return await client.fetch(getProviderByIdQuery, { id });
 }
 
+
 export const getHealthSystemByIdQuery = groq`
   *[_type == "healthSystem" && _id == $id][0] {
     _id,
@@ -600,4 +601,19 @@ export async function fetchPostBySlug(
     case "other":
       return sanityFetchOtherBySlug(slug);
   }
+}
+
+export async function getProcedureByTitle(title: string) {
+  const query = groq`
+    *[_type == "procedure" && title match $title][0]{
+      _id,
+      title,
+      averageCashPrice,
+      introduction,
+      sections[]{heading, content},
+      conclusion
+    }
+  `;
+  
+  return client.fetch(query, { title: `*${title}*` });
 }

@@ -17,7 +17,7 @@ const PeopleGrid: React.FC<Props> = ({ data, heading }) => {
   console.log(data)
   return (
     <div className="py-12 sm:px-6 lg:px-6 px-2 ">
-      <h2 className="text-2xl font-extrabold text-gray-800 mx-auto mb-8 lg:text-left mt-6 lg:ml-12 text-center">
+      <h2 className="text-2xl font-tiempos font-extrabold text-gray-800 mx-auto mb-8 lg:text-left mt-6 lg:ml-12 text-center">
         {heading}
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto ">

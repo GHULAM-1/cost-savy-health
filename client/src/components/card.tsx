@@ -17,7 +17,7 @@ export default function Card({
         <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-white" />
       </div>
 
-      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">
+      <h2 className="text-xl font-tiempos sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">
         {title}
       </h2>
 

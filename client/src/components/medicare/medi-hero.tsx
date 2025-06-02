@@ -30,7 +30,7 @@ export default function MediHero({medicareItems}:Props) {
             />
           </div>
           <div className="top-2 sm:top-5 md:top-15 lg:top-30 left-2 sm:left-5 text-white absolute  flex w-full items-start flex-col text-left">
-            <h1 className="text-base sm:text-xl sm:w-[75%] md:text-3xl lg:text-5xl md:mb-5 font-bold ">
+            <h1 className="text-base sm:text-xl font-tiempos sm:w-[75%] md:text-3xl lg:text-5xl md:mb-5 font-bold ">
               {medicareItems.heading}
             </h1>
             <p className="mt-2 sm:mt-4 text-sm md:text-lg lg:text-2xl text-wrap  md:mb-5">

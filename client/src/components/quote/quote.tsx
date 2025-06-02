@@ -258,7 +258,7 @@ export default function ContactPage() {
           <div className="text-center">
             <Button
               type="submit"
-              className="w-full bg-orange-500 hover:bg-orange-600"
+              className="w-full bg-[#8C2F5D] hover:bg-[#C85990]"
               disabled={loading}
             >
               {loading ? (

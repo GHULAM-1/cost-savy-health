@@ -32,7 +32,7 @@ export default function Transparency({ introTitle, introText, values, roleImageU
     <>
       <div className="flex flex-col items-center py-[64px] md:py-[40px] px-4 sm:px-6">
         <div className="flex gap-[24px] mb-[24px] flex-col max-w-[700px] text-center">
-          <p className="text-4xl md:text-5xl tracking-tight font-bold text-left md:text-center">
+          <p className="text-4xl font-tiempos md:text-5xl tracking-tight font-bold text-left md:text-center">
             {introTitle}
           </p>
           <p className="text-lg sm:text-xl text-left md:text-center">

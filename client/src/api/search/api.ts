@@ -14,6 +14,7 @@ export interface ProvidersResponse<T> {
 export interface HealthcareRecord {
   _id: string;
   billing_code_name: string;
+  billing_code_type: string;
   reporting_entity_name_in_network_files: string;
   provider_zip_code: number;
   provider_name: string;
@@ -150,3 +151,20 @@ interface EntitiesResponse {
       "Failed to load entity records"
     );
   };
+
+  export async function getCoordinates(zipCode: string): Promise<[number, number] | null> {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&format=json`
+      );
+      const data = await response.json();
+      
+      if (data && data.length > 0) {
+        return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+      }
+      return null;
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+      return null;
+    }
+  }

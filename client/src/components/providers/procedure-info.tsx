@@ -1,72 +1,76 @@
 "use client";
-import { fullDescription } from "@/data/procedure/procedure-info";
 import { useSearchParams } from "next/navigation";
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
+import { getProcedureByTitle } from "@/api/sanity/queries";
+import { PortableText } from "@portabletext/react";
 
-export default function ProcedureInfo() {
+export default function ProcedureInfo({ type }: { type: string }) {
   //STATES
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  
+  const [procedure, setProcedure] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
   //HOOKS
   const searchParams = useSearchParams();
 
   //CONSTANTS
-  const searchCare = searchParams.get("searchCare") || "Forearm/Wrist Repair - Non-Surgical";
+  const searchCare = searchParams.get("searchCare") || "";
 
-  //FUNCTIONS
-  const { shortDescription } = useMemo(() => {
-    const firstParagraph = fullDescription.split("\n")[0];
+  // Fetch procedure data
+  useEffect(() => {
+    const fetchProcedure = async () => {
+      if (!searchCare) return;
 
-    const targetLength = 250;
-    let cutoffPoint = firstParagraph.indexOf(". ", targetLength - 30);
-    if (cutoffPoint === -1 || cutoffPoint < targetLength / 2) {
-      cutoffPoint = firstParagraph.indexOf(". ", targetLength);
-    }
-    if (cutoffPoint === -1) {
-      cutoffPoint = firstParagraph.indexOf(" ", targetLength);
-    }
-    if (cutoffPoint === -1) cutoffPoint = targetLength;
-
-    return {
-      shortDescription: firstParagraph.substring(0, cutoffPoint + 1),
+      setLoading(true);
+      try {
+        const data = await getProcedureByTitle(searchCare);
+        setProcedure(data);
+      } catch (error) {
+        console.error("Error fetching procedure:", error);
+      } finally {
+        setLoading(false);
+      }
     };
-  }, [fullDescription]);
+
+    fetchProcedure();
+  }, [searchCare]);
+
+  if (loading) {
+    return (
+      <div className="w-fit p-[16px]">
+        <div className="animate-pulse">
+          <div className="h-8 bg-gray-200 rounded w-3/4 mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-full mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-[750px] p-[16px]">
+    <div className="w-fit p-[16px]">
       <div className="flex items-center gap-2 mb-3">
-        <h1 className="font-semibold text-[28px] text-[#03363D]">
+        <h1 className="font-semibold text-[28px] text-[#03363D] whitespace-wrap">
           {searchCare}
         </h1>
         <div>
-          <span className="bg-[#f3f4f3] border-[1px] border-gray-200 rounded-[2px] text-[14px] py-[2px] px-[8px] text-gray-600">
-            MS019
+          <span className="bg-[#f3f4f3] border-[1px] border-gray-200 rounded-[2px] text-[14px] py-[2px] px-[8px] text-gray-600 whitespace-nowrap">
+            {type}
           </span>
         </div>
       </div>
-
-      <div className="text-[15px] leading-relaxed text-gray-700">
-        {showFullDescription ? (
-          <div className="space-y-6">
-            {fullDescription.split("\n").map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
+      {procedure ? (
+        <div className="text-[15px] leading-relaxed text-gray-700">
+          <div className="prose">
+            <PortableText value={procedure.introduction} />
           </div>
-        ) : (
-          <p>
-            {shortDescription}
-            <span className="text-gray-400">...</span>
-          </p>
-        )}
-
-        <button
-          onClick={() => setShowFullDescription(!showFullDescription)}
-          className="text-[#176F6F] hover:text-[#176F6F] font-medium mt-2 focus:outline-none focus:underline"
-          aria-expanded={showFullDescription}
-        >
-          {showFullDescription ? "Show less" : "Show more"}
-        </button>
-      </div>
+        </div>
+      ) : (
+        <div className="text-[15px] leading-relaxed text-gray-700">
+          <div className="prose">
+            <p>No procedure information found.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
