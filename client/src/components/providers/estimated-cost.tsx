@@ -8,6 +8,8 @@ import {
   ChevronUp,
   CheckCircle,
   ShieldCheck,
+  CircleDollarSign,
+  ShieldPlus,
 } from "lucide-react";
 
 import Icon from "../svg-icon";
@@ -156,12 +158,7 @@ export default function EstimatedCost() {
             <div className="bg-[#A34E78] text-white w-full max-w-3xl rounded-xl p-2 sm:px-4 flex flex-col lg:flex-row items-center justify-between gap-4 mx-auto">
               <div className="flex gap-4 items-center">
                 <div className="p-3 rounded-full flex items-center justify-center">
-                  <Icon
-                    name="Dollar"
-                    alt="Dollar Sign"
-                    width={48}
-                    height={48}
-                  />
+                  <CircleDollarSign size={34} className="" />
                 </div>
                 <div>
                   <h2 className=" text-lg font-semibold">Estimated Cost</h2>
@@ -194,7 +191,7 @@ export default function EstimatedCost() {
               <div className="flex flex-col md:flex-row items-center justify-between gap-4 rounded-2xl p-4 bg-gray-50">
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <div className="p-3 rounded-full flex items-center justify-center">
-                    <Icon name="Shield-2" alt="Shield" width={48} height={48} />
+                    <ShieldPlus size={34}/>
                   </div>
                   <div>
                     <h2 className="text-[#2d3c3b] text-lg font-semibold">
@@ -226,7 +223,7 @@ export default function EstimatedCost() {
               </div>
               {isUsingInsurance && isCalculatorOpen && (
                 <div className="mt-4 border-t border-gray-200 pt-4">
-                  <Calculator procedureCost={procedure.averageCashPrice} />
+                  <Calculator procedureCost={procedure?.averageCashPrice} />
                 </div>
               )}
             </div>
@@ -234,12 +231,12 @@ export default function EstimatedCost() {
 
           <div className="px-4 mb-4">
             <button
-              className="w-full bg-[#A34E78] mt-5 text-white py-3 text-sm px-6 rounded-4xl font-medium hover:bg-[#6B1548] transition-colors duration-200 flex items-center justify-center gap-3"
+              className="w-full bg-[#A34E78] hover:cursor-pointer mt-5 text-white py-3 text-sm px-6 rounded-4xl font-medium hover:bg-[#6B1548] transition-colors duration-200 flex items-center justify-center gap-3"
               onClick={openModal}
             >
               Contact Provider to Verify
             </button>
-            <ContactProviderModal isOpen={isModalOpen} onClose={closeModal} />
+            {/* <ContactProviderModal isOpen={isModalOpen} onClose={closeModal} /> */}
           </div>
         </div>
       </div>

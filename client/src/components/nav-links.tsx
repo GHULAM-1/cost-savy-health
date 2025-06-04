@@ -2,27 +2,42 @@ import React from "react";
 import NavItem from "./nav-item";
 import { useAuth } from "@/context/AuthContext";
 
-export default function NavLinks() {
+interface NavLinksProps {
+  onLinkClick?: () => void;
+  isMobileMenuOpen?: boolean;
+}
+
+export default function NavLinks({
+  onLinkClick,
+  isMobileMenuOpen,
+}: NavLinksProps) {
   const { user, isAuthenticated } = useAuth();
   const isAdmin = user?.role === "admin";
 
   const handleAdminDashboardClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    onLinkClick?.();
+
     if (isAdmin) {
       window.open("https://cost-savy.sanity.studio/structure", "_blank");
     }
   };
+
+  const handleRegularLinkClick = () => {
+    onLinkClick?.();
+  }
+
   return (
     <>
       {isAdmin && (
         <a href="/" onClick={handleAdminDashboardClick}>
-          <NavItem text="Dashboard" hasDropdown={false} />
+          <NavItem text="Dashboard" hasDropdown={false} isMobileMenuOpen={isMobileMenuOpen} />
         </a>
       )}
-      <a href="/">
-        <NavItem text="Search Care" hasDropdown={false} />
+      <a href="/" onClick={handleRegularLinkClick}>
+        <NavItem text="Search Care" hasDropdown={false} isMobileMenuOpen={isMobileMenuOpen} />
       </a>
-      <a href="/providers-glossary">
-        <NavItem text="Providers" hasDropdown={false} />
+      <a href="/providers-glossary" onClick={handleRegularLinkClick}>
+        <NavItem text="Providers" hasDropdown={false} isMobileMenuOpen={isMobileMenuOpen} />
       </a>
 
 
@@ -134,6 +149,8 @@ export default function NavLinks() {
           //   url: "#",
           // },
         ]}
+        onItemClick={onLinkClick}
+        isMobileMenuOpen={isMobileMenuOpen}
       />
       <NavItem
         text="Shop for Plans"
@@ -148,6 +165,8 @@ export default function NavLinks() {
             url: "/indiviual",
           }
         ]}
+        onItemClick={onLinkClick}
+        isMobileMenuOpen={isMobileMenuOpen}
       />
     </>
   );

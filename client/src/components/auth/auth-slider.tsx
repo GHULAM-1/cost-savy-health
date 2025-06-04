@@ -15,7 +15,7 @@ export function AuthSlider() {
       : null;
 
   return (
-    <div className="overflow-hidden relative h-[700px] w-full flex items-center justify-center">
+    <div className="overflow-hidden relative h-[600px] w-full flex items-center justify-center">
       <div
         className={cn(
           "flex w-[200%] absolute left-0 transition-all duration-300 ease-in-out",

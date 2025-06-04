@@ -24,7 +24,7 @@ export default function MobileMenu({
         <X size={30} />
       </button>
       <div className="flex flex-col items-center justify-center h-full text-white space-y-6">
-        <NavLinks />
+        <NavLinks onLinkClick={toggleMenu} isMobileMenuOpen={isMenuOpen} />
         <button className="text-white hover:text-[#C85990] transition-colors font-medium">
           Sign Up
         </button>
