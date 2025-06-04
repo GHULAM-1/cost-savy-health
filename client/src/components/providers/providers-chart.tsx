@@ -34,16 +34,17 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
   let padded = false;
   let min = minPrice;
   let max = maxPrice;
-  if (values.length === 1) {
-    const single = values[0];
+  if (values.length === 1 || minPrice === maxPrice) {
+    const single = values.length === 1 ? values[0] : minPrice;
+    const padding = Math.abs(single * 0.2); // Use 20% of the value for padding
     priceData = [
-      { price: single - 1, value: 0 },
+      { price: single - padding, value: 0 },
       { price: single, value: 1 },
-      { price: single + 1, value: 0 },
+      { price: single + padding, value: 0 },
     ];
     padded = true;
-    min = single - 1;
-    max = single + 1;
+    min = single - padding;
+    max = single + padding;
   }
 
   const chartConfig = {
@@ -90,7 +91,7 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
               textAnchor="middle"
               style={{ fill: "#000000", fontSize: "16px", fontWeight: 500 }}
             >
-              ${min.toLocaleString()}
+              ${minPrice.toLocaleString()}
             </text>
           </g>
         );
@@ -115,7 +116,7 @@ export function PriceDistributionChart({midpointPrice, values}:PriceDistribution
               textAnchor="middle"
               style={{ fill: "#000000", fontSize: "16px", fontWeight: 500 }}
             >
-              ${max.toLocaleString()}
+              ${maxPrice.toLocaleString()}
             </text>
           </g>
         );

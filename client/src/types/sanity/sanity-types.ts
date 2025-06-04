@@ -7,6 +7,30 @@ export interface HealthcareRecord {
   provider_city: string;
   provider_state: string;
   provider_zip_code: string;
+  billing_code_type:string;
+}
+// Nested address structure
+interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+// Main provider payload
+export interface Provider {
+  _id: string;
+  name: string;
+  address: Address;
+  phone: string;
+  providerType: string;
+  ownership: string;
+  npi: string;
+  website: string;
+  beds: number;
+  medicareProviderId: string | null;
+  clinicalServices: string[];
+  nearbyProviders: string[];
 }
 
 export interface Pagination {

@@ -11,7 +11,15 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().custom(async (value, context) => {
+        if (!context.document) return true;
+        const { getClient } = context;
+        const client = getClient({ apiVersion: '2023-05-03' });
+        const id = context.document._id.replace(/^drafts\./, '');
+        const query = `*[_type == "procedure" && title == $value && _id != $id][0]`;
+        const existingDoc = await client.fetch(query, { value, id });
+        return existingDoc ? 'Title must be unique' : true;
+      }),
     }),
 
     // 2. Average Cash Price
@@ -58,7 +66,7 @@ export default defineType({
           ],
         },
       ],
-      description: 'Add “What is…?”, “Why would I…?”, etc.',
+      description: 'Add "What is…?", "Why would I…?" etc.',
     }),
 
     // 5. Conclusion block

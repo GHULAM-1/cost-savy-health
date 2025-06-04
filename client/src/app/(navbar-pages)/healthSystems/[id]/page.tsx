@@ -1,33 +1,38 @@
-import { Metadata } from 'next';
-import { generateMetadataTemplate } from '@/lib/metadata';
+
+import { Metadata } from "next";
+import { generateMetadataTemplate } from "@/lib/metadata";
 import { getHealthSystemById } from "@/api/sanity/queries";
 import Link from "next/link";
+import ShareButton from "@/components/providers/share-button";
+import HealthSystemSearch from '@/components/health-systems/health-system-search';
 
 export async function generateMetadata({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>
-  searchParams: Promise<Record<string,string|string[]>>
+  params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | string[]>>;
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const healthSystem = await getHealthSystemById(resolvedParams.id);
 
   if (!healthSystem) {
-    return generateMetadataTemplate({ title: 'Health System Not Found' });
+    return generateMetadataTemplate({ title: "Health System Not Found" });
   }
 
   const title = `${healthSystem.name} | Health System | Cost Savy Health`;
-  const description = `Find detailed information about ${healthSystem.name}, a healthcare system with locations in ${healthSystem.locations.map((loc: any) => loc.city).join(', ')}.`;
+  const description = `Find detailed information about ${healthSystem.name}, a healthcare system with locations in ${healthSystem.locations.map((loc: any) => loc.city).join(", ")}.`;
   const keywords = [
     healthSystem.name,
-    'health system',
-    'healthcare network',
-    'medical facilities',
-    'healthcare costs',
-    'medical procedures',
-    'healthcare pricing',
-    ...(healthSystem.locations ? healthSystem.locations.map((loc: any) => loc.city) : []),
+    "health system",
+    "healthcare network",
+    "medical facilities",
+    "healthcare costs",
+    "medical procedures",
+    "healthcare pricing",
+    ...(healthSystem.locations
+      ? healthSystem.locations.map((loc: any) => loc.city)
+      : []),
     ...(healthSystem.services ? healthSystem.services : []),
   ].filter(Boolean);
 
@@ -39,13 +44,12 @@ export async function generateMetadata({
   });
 }
 
-
 export default async function ProviderPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { id } = await params;
   const healthSystem = await getHealthSystemById(id);
@@ -63,14 +67,11 @@ export default async function ProviderPage({
       {/* Header */}
       <div className="bg-[#8C2F5D] text-white p-4">
         <div className="max-w-[1200px] mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-semibold font-tiempos">{healthSystem.name}</h1>
+          <h1 className="text-xl font-semibold font-tiempos">
+            {healthSystem.name}
+          </h1>
           <div className="flex gap-2">
-            <button className="bg-[#6B1548] px-4 py-2 rounded text-sm">
-              Get A Complementary Review
-            </button>
-            <button className="bg-white text-[#8C2F5D] px-4 py-2 rounded text-sm flex items-center gap-1">
-              🔒 Share
-            </button>
+            <ShareButton />
           </div>
         </div>
       </div>
@@ -153,30 +154,7 @@ export default async function ProviderPage({
 
             <div className="p-6">
               {/* Search Bar */}
-              <div className="mb-6">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Enter service name or code..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6B1548] focus:border-[#6B1548]"
-                  />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg
-                      className="h-5 w-5 text-gray-400"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+              <HealthSystemSearch />
 
               {/* All Services Section */}
               {healthSystem.services?.length > 0 && (
@@ -224,7 +202,7 @@ export default async function ProviderPage({
             claiming your provider page and listing your services. It only takes
             10 minutes.
           </p>
-          <a href="/contact-us">
+          <a href="/quote">
             <button className="bg-[#8C2F5D] hover:cursor-pointer text-white font-medium rounded-full px-6 py-3 transition">
               Get Started
             </button>

@@ -1,55 +1,61 @@
-import { Metadata } from 'next';
-import { generateMetadataTemplate } from '@/lib/metadata';
-import { getProviderById } from '@/api/sanity/queries';
+import { Metadata } from "next";
+import { generateMetadataTemplate } from "@/lib/metadata";
+import { getEntityRecordsById } from "@/api/search/api";
 
 export async function generateMetadata({
   params,
 }: {
   params: { providerId: string };
 }): Promise<Metadata> {
-  const provider = await getProviderById(params.providerId);
-
-  if (!provider) {
+  const provider = await getEntityRecordsById(params.providerId);
+  
+  if (!provider || !provider.data || provider.data.length === 0) {
     return generateMetadataTemplate({
-      title: 'Provider Not Found | Cost Savy Health',
-      description: 'The requested healthcare provider could not be found.',
-      keywords: ['healthcare provider', 'medical provider', 'provider not found'],
-      url: 'https://costsavyhealth.com/providers',
+      title: "Provider Not Found | Cost Savy Health",
+      description: "The requested healthcare provider could not be found.",
+      keywords: [
+        "healthcare provider",
+        "medical provider",
+        "provider not found",
+      ],
+      url: "https://costsavyhealth.com/providers",
     });
   }
 
+  const providerData = provider.data[0];
   return generateMetadataTemplate({
-    title: `${provider.name} | Healthcare Provider | Cost Savy Health`,
-    description: `View detailed information about ${provider.name}, a ${provider.providerType} located in ${provider.address.city}, ${provider.address.state}. Compare costs, services, and quality metrics.`,
+    title: `${providerData.provider_name} | Healthcare Provider | Cost Savy Health`,
+    description: `View detailed information about ${providerData.provider_name}, located in ${providerData.provider_city}, ${providerData.provider_state}. Compare costs, services, and quality metrics.`,
     keywords: [
-      provider.name,
-      provider.providerType,
-      'healthcare provider',
-      'medical provider',
-      'healthcare costs',
-      'provider services',
-      'healthcare transparency',
-      provider.address.city,
-      provider.address.state,
-      'medical facilities'
+      providerData.provider_name,
+      "healthcare provider",
+      "medical provider",
+      "healthcare costs",
+      "provider services",
+      "healthcare transparency",
+      providerData.provider_city,
+      providerData.provider_state,
+      "medical facilities",
     ].filter(Boolean),
-    url: `https://costsavyhealth.com/providers/${provider._id}`,
+    url: `https://costsavyhealth.com/providers/${params.providerId}`,
   });
 }
+
 import React, { Suspense } from "react";
 import { FeedbackSection } from "@/components/providers/feedback-section";
 import { ProviderFaqs } from "@/components/providers/provider-faqs";
 import EstimatedCost from "@/components/providers/estimated-cost";
 import { Summary } from "@/components/providers/summary";
+import EstimatedCostSkeleton from "@/components/providers/estimated-cost-skeleton";
 
 export default function page() {
   return (
     <div className="px-[16px]">
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<EstimatedCostSkeleton />}>
         <EstimatedCost />
       </Suspense>
-      <Summary />
-      <div className="md:px-20 lg:mt-28 mt-16 px-2">
+
+      <div className="md:px-20 lg:mt-10 mt-16 px-2">
         <ProviderFaqs />
       </div>
     </div>

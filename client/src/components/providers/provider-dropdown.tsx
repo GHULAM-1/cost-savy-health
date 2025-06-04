@@ -1,12 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,6 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Command,
   CommandEmpty,
   CommandGroup,
@@ -23,30 +26,31 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { insuranceOptions } from "@/data/landing-page/insurance";
+import { cn } from "@/lib/utils";
+import { getInsurersByBillingCode } from "@/api/search/api";
 
 const formSchema = z.object({
   insurance: z.string().min(1, "Please select an insurance option"),
 });
 
-type ProviderDropdownProps = {
+type InsuranceDropdownProps = {
   defaultValue?: string;
+  onSelect?: (insuranceId: string) => void;
+  openOnMount?: boolean;
+  externalRef?: React.RefObject<HTMLDivElement>;
 };
 
-export default function ProviderDropdown({
-  defaultValue,
-}: ProviderDropdownProps) {
-  //STATES
+export default function InsuranceDropdown({ defaultValue, onSelect, openOnMount, externalRef }: InsuranceDropdownProps) {
   const [popoverOpen, setPopoverOpen] = useState(false);
   const [popoverWidth, setPopoverWidth] = useState<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+
+  const [insuranceOptionsState, setInsuranceOptionsState] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -54,13 +58,10 @@ export default function ProviderDropdown({
       insurance: defaultValue || "",
     },
   });
-  //HANDLERS
+
   useEffect(() => {
     if (defaultValue) {
-      const matchingOption = insuranceOptions.find(
-        (option) => option.id === defaultValue
-      );
-      form.setValue("insurance", matchingOption?.id || "");
+      form.setValue("insurance", defaultValue);
     }
   }, [defaultValue, form]);
 
@@ -70,38 +71,35 @@ export default function ProviderDropdown({
     }
   }, [triggerRef.current]);
 
-  const updateUrlWithInsurance = (insuranceId: string) => {
-    const searchParams = new URLSearchParams(window.location.search);
-    searchParams.set("insurance", insuranceId);
-    router.replace(`?${searchParams.toString()}`);
-  };
+  useEffect(() => {
+    if (!popoverOpen) return;
+    setLoading(true);
+    getInsurersByBillingCode(query)
+      .then((res) => setInsuranceOptionsState(res.data))
+      .catch(() => setInsuranceOptionsState([]))
+      .finally(() => setLoading(false));
+  }, [query, popoverOpen]);
+
+  useEffect(() => {
+    if (openOnMount) {
+      setPopoverOpen(true);
+      if (externalRef && externalRef.current) {
+        externalRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }, [openOnMount, externalRef]);
 
   const handleSelect = (optionId: string) => {
     form.setValue("insurance", optionId);
-    updateUrlWithInsurance(optionId);
     setPopoverOpen(false);
+    if (onSelect) {
+      onSelect(optionId);
+    }
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    try {
-      console.log(values);
-      toast(
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      );
-    } catch (error) {
-      console.error("Form submission error", error);
-      toast.error("Failed to submit the form. Please try again.");
-    }
-  }
-
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8 max-w-3xl mx-auto w-full  "
-      >
+    <div ref={externalRef}>
+      <Form {...form}>
         <FormField
           control={form.control}
           name="insurance"
@@ -123,7 +121,7 @@ export default function ProviderDropdown({
                       {field.value
                         ? insuranceOptions.find(
                             (option) => option.id === field.value
-                          )?.name
+                          )?.name || field.value
                         : "Select insurance"}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -131,41 +129,47 @@ export default function ProviderDropdown({
                 </PopoverTrigger>
                 <PopoverContent
                   style={{ width: popoverWidth || "100%" }}
-                  className="p-0 w-full max-w-md"
+                  className="p-0 w-full"
                 >
                   <Command>
-                    <CommandInput placeholder="Search insurance..." />
+                    <CommandInput
+                      placeholder="Search insurance..."
+                      value={query}
+                      onValueChange={setQuery}
+                    />
                     <CommandList>
-                      <CommandEmpty>No insurance found.</CommandEmpty>
-                      <CommandGroup>
-                        {insuranceOptions.map((option) => (
-                          <CommandItem
-                            value={option.name}
-                            key={option.id}
-                            onSelect={() => handleSelect(option.id)}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                option.id === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {option.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
+                      {loading ? (
+                        <div className="text-center py-4 text-gray-500">Loading...</div>
+                      ) : insuranceOptionsState.length === 0 ? (
+                        <CommandEmpty>No insurance found.</CommandEmpty>
+                      ) : (
+                        <CommandGroup>
+                          {insuranceOptionsState.map((option) => (
+                            <CommandItem
+                              value={option}
+                              key={option}
+                              onSelect={() => handleSelect(option)}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  field.value === option ? "opacity-100" : "opacity-0"
+                                )}
+                              />
+                              {option}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      )}
                     </CommandList>
                   </Command>
                 </PopoverContent>
               </Popover>
-
               <FormMessage />
             </FormItem>
           )}
         />
-      </form>
-    </Form>
+      </Form>
+    </div>
   );
 }

@@ -17,7 +17,7 @@ type MedicareDoc = {
   type Props = {
     medicareItems: MedicareDoc;
   };
-export default function MediHero({medicareItems}:Props) {
+export default function IndiviualHero({medicareItems}:Props) {
   return (
     <section className="bg-white overflow-hidden">
       <div 

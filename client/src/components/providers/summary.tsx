@@ -1,7 +1,68 @@
-import React from "react";
-import { MapPin, Plus, Printer, ChevronDown, AlertCircle } from "lucide-react";
+import React, { useState } from "react";
+import {
+  MapPin,
+  Plus,
+  Printer,
+  ChevronDown,
+  ChevronUp,
+  AlertCircle,
+} from "lucide-react";
+import { Provider } from "@/types/sanity/sanity-types";
+import { PortableText } from "@portabletext/react";
+import { HealthcareRecord } from "@/api/search/api";
 
-export function Summary() {
+interface SummaryProps {
+  procedure: any;
+  providers: HealthcareRecord[];
+  insurance: string;
+  onChangeRate?: () => void;
+}
+
+export function Summary({
+  procedure,
+  providers,
+  insurance,
+  onChangeRate,
+}: SummaryProps) {
+  // View more state for introduction
+  const [showFull, setShowFull] = React.useState(false);
+  const charLimit = 250;
+  console.log("prooo", providers[0]?.["Description of Service"]);
+  console.log("prooo", providers[0]);
+  const [feesOpen, setFeesOpen] = useState(false);
+  const [optional, setOptional] = useState(false);
+  const facilityFees = [
+    "Colonoscopy",
+    "Anesthesia - General",
+    "Gastrointestinal Services - General",
+    "Intramuscular Injection of 10mg Propofol",
+    "Microscopic/gross-exam of Surgical Pathology Biopsies/Exam/resections",
+    "Pharmacy (Also see 063X, an extension of 250X) - General",
+    "Pharmacy - Extension of 025X - Drugs requiring detailed coding",
+    "Recovery Room - General",
+  ];
+  // Helper to get plain text from Portable Text blocks
+  function getPlainText(blocks: any[]): string {
+    return blocks
+      .map((block) =>
+        typeof block === "string"
+          ? block
+          : block.children
+            ? block.children.map((child: any) => child.text).join("")
+            : ""
+      )
+      .join(" ");
+  }
+
+  let truncated = null;
+  const description = providers[0]?.["Description of Service"];
+  if (Array.isArray(description)) {
+    const plain = getPlainText(description);
+    if (plain.length > charLimit && !showFull) {
+      truncated = plain.slice(0, charLimit) + "...";
+    }
+  }
+
   return (
     <>
       <div className="w-full mx-auto max-w-[780px] h-3 bg-[repeating-linear-gradient(45deg,_#4b5563_0px,_#4b5563_1px,_transparent_1px,_transparent_4px)] mb-6" />
@@ -12,29 +73,51 @@ export function Summary() {
             <h1 className="text-xl md:text-2xl font-semibold text-[#2d3c3b]">
               Summary
             </h1>
-            <button className="text-[#407672] self-end mt-2 sm:mt-0">
+            <button 
+              className="text-[#A34E78] hover:bg-gray-100 p-2 rounded-sm hover:cursor-pointer self-end mt-2 sm:mt-0"
+              onClick={() => window.print()}
+            >
               <Printer className="w-5 h-5" />
             </button>
           </div>
 
           <div className="space-y-4">
-            <div className="inline-block px-3 py-1 bg-gray-100 rounded-md text-sm font-medium">
-              PU000
+            <div>
+              <span className="bg-[#F3F4F6] px-3 text-sm py-[2px] rounded-[2px] border-[1px]">
+                {providers[0]?.billing_code_type}
+              </span>
             </div>
-
             <h2 className="text-lg md:text-xl font-semibold text-[#2d3c3b]">
-              Bronchoscopy
+              {providers[0]?.billing_code_name}
             </h2>
 
-            <p className="text-[#2d3c3b] text-sm md:text-base leading-relaxed">
-              Bronchoscopy is a procedure used to directly visualize the inside
-              of the lungs. It employs a bronchoscope, a long, flexible tube
-              with a light and camera at the end. Specially designed surgic...
-            </p>
-
-            <button className="text-[#407672] font-medium text-sm md:text-base">
-              View more
-            </button>
+            <div className="text-[#2d3c3b] text-sm md:text-base leading-relaxed">
+              {typeof description === "string" && description}
+              {Array.isArray(description) &&
+                (truncated && !showFull ? (
+                  <>
+                    <span>{truncated}</span>
+                    <button
+                      className=" text-[#A34E78] underline cursor-pointer text-sm"
+                      onClick={() => setShowFull(true)}
+                    >
+                      View more
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <PortableText value={description} />
+                    {showFull && (
+                      <button
+                        className="text-[#A34E78] underline cursor-pointer text-sm"
+                        onClick={() => setShowFull(false)}
+                      >
+                        View less
+                      </button>
+                    )}
+                  </>
+                ))}
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -44,10 +127,11 @@ export function Summary() {
               </div>
               <div>
                 <h3 className="font-semibold text-[#2d3c3b] text-base">
-                  Kingsbrook Jewish Medical Center
+                  {providers[0]?.provider_name}
                 </h3>
                 <p className="text-[#2d3c3b] text-sm">
-                  585 Schenectady Avenue, Brooklyn, NY 11203
+                  {providers[0]?.provider_city}, {providers[0]?.provider_state},{" "}
+                  {providers[0]?.provider_zip_code}
                 </p>
               </div>
             </div>
@@ -59,12 +143,15 @@ export function Summary() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-[#2d3c3b] text-base">
-                    Anthem CA PPO
+                    {insurance}
                   </h3>
                   <p className="text-[#2d3c3b] text-sm">Insurance</p>
                 </div>
               </div>
-              <button className="text-[#407672] font-medium text-sm">
+              <button
+                className="text-[#A34E78] font-medium text-sm hover:cursor-pointer"
+                onClick={onChangeRate}
+              >
                 Change
               </button>
             </div>
@@ -83,32 +170,84 @@ export function Summary() {
                   </p>
                 </div>
               </div>
-              <div className="text-right">
+              <div className="text-left md:text-right">
                 <div className="text-xl md:text-2xl font-semibold text-[#2d3c3b]">
-                  $2,170
+                  ${providers[0]?.negotiated_rate}
                 </div>
-                <button className="text-[#407672] font-medium text-sm">
+                <button className="text-[#A34E78] font-medium text-sm">
                   Case Rate
                 </button>
               </div>
             </div>
 
-            <button className="w-full flex items-center justify-between p-4 bg-white rounded-lg border">
-              <span className="font-semibold text-[#2d3c3b] text-base">
-                Facility Fees
-              </span>
-              <div className="flex items-center gap-2">
-                <span className="text-[#2d3c3b] text-sm">10 Fees</span>
-                <ChevronDown className="w-5 h-5 text-[#2d3c3b]" />
-              </div>
-            </button>
+            <div className="w-full bg-[#F8F8FA]  rounded-lg border mb-2">
+              <button
+                className="w-full flex items-center justify-between p-2 font-semibold text-[#A34E78] text-base"
+                onClick={() => setFeesOpen((open) => !open)}
+              >
+                <span>Facility Fees</span>
+                <div className="flex gap-3">
+                  <span className="text-sm font-normal">
+                    {facilityFees.length} Fees
+                  </span>
+                  {feesOpen ? (
+                    <ChevronUp className="w-5 h-5 hover:cursor-pointer" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 hover:cursor-pointer" />
+                  )}
+                </div>
+              </button>
+              <ul
+                className={`overflow-hidden transition-all duration-300 ${
+                  feesOpen ? 'max-h-96' : 'max-h-0'
+                }`}
+              >
+                {facilityFees.map((fee, idx) => (
+                  <li
+                    key={idx}
+                    className="px-2 py-2 border-t text-[#2d3c3b] text-sm"
+                  >
+                    {fee}
+                  </li>
+                ))}
+              </ul>
+              <button
+                className="w-full flex items-center justify-between border-t-[1px] p-2 font-semibold text-[#A34E78] text-base"
+                onClick={() => setOptional((open) => !open)}
+              >
+                <span>Optional Fees</span>
+                <div className="flex gap-3">
+                  <span className="text-sm font-normal">
+                    {facilityFees.length} Fees
+                  </span>
+                  {optional ? (
+                    <ChevronUp className="w-5 h-5 hover:cursor-pointer" />
+                  ) : (
+                    <ChevronDown className="w-5 h-5 hover:cursor-pointer" />
+                  )}
+                </div>
+              </button>
+              <ul
+                className={`overflow-hidden transition-all duration-300 ${
+                  optional ? 'max-h-96' : 'max-h-0'
+                }`}
+              >
+                {facilityFees.map((fee, idx) => (
+                  <li
+                    key={idx}
+                    className="px-2 py-2 border-t text-[#2d3c3b] text-sm"
+                  >
+                    {fee}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-[#2d3c3b] mt-2 border-t-[1px] px-2 py-2 text-sm md:text-base leading-relaxed">
+                This estimate includes services commonly performed during this
+                treatment. We include these services to give you the most
+                accurate estimate possible.
+              </p>
+            </div>
           </div>
-
-          <p className="text-[#2d3c3b] text-sm md:text-base leading-relaxed">
-            This estimate includes services commonly performed during this
-            treatment. We include these services to give you the most accurate
-            estimate possible.
-          </p>
         </div>
       </div>
 

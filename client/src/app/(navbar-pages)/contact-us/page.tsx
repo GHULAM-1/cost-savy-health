@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'  
+export const fetchCache = 'force-no-store'
+
 import WorkTogether from "@/components/contact-us/work-together";
 import React from "react";
 import { Metadata } from 'next';

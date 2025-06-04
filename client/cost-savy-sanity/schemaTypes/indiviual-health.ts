@@ -1,8 +1,8 @@
 import {defineType, defineField} from 'sanity'
 
 export default defineType({
-  name: 'medicare',
-  title: 'Medicare',
+  name: 'indiviual',
+  title: 'Indiviual Health',
   type: 'document',
   fields: [
     defineField({

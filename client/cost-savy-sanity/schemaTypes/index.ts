@@ -10,6 +10,8 @@ import provider from './provider'
 import aboutSchemas from './about'
 import homeSchemas from './home'
 import medicare from './medicare'
+import contactUs from './contact-us'
+import indiviualHealth from './indiviual-health'
 
 export const schemaTypes = [
   author,
@@ -21,6 +23,8 @@ export const schemaTypes = [
   provider,
   procedure,
   medicare,
+  indiviualHealth,
+  contactUs,
   healthSystem,
   ...aboutSchemas,
   ...homeSchemas

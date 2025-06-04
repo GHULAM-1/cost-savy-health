@@ -381,7 +381,26 @@ export const getProviderByIdQuery = groq`
 export async function getProviderById(id: string) {
   return await client.fetch(getProviderByIdQuery, { id });
 }
+export const getProviderByNameQuery = groq`
+  *[_type == "provider" && name == $name][0] {
+    _id,
+    name,
+    address,
+    phone,
+    medicareProviderId,
+    npi,
+    website,
+    providerType,
+    ownership,
+    beds,
+    nearbyProviders,
+    clinicalServices
+  }
+`;
 
+export async function getProviderByName(name: string) {
+  return await client.fetch(getProviderByNameQuery, { name });
+}
 
 export const getHealthSystemByIdQuery = groq`
   *[_type == "healthSystem" && _id == $id][0] {
@@ -439,13 +458,51 @@ export async function medicare() {
     featuresGrid[]{
       heading,
       description,
+      readmore,
       "imageUrl": image.asset->url
     }
   }
 `;
   const data = await client.fetch(medicareQuery);
   if (!data) {
-    throw new Error("Home page content not found in Sanity");
+    throw new Error("medicare page content not found in Sanity");
+  }
+  return data;
+}
+export async function indiviual() {
+  const indiviualQuery = groq`
+  *[_type == "indiviual"]{
+    _id,
+    heading,
+    description,
+    number,
+    "imageUrl": image.asset->url,
+    featuresGrid[]{
+      heading,
+      description,
+      readmore,
+      "imageUrl": image.asset->url
+    }
+  }
+`;
+  const data = await client.fetch(indiviualQuery);
+  if (!data) {
+    throw new Error("indiviual page content not found in Sanity");
+  }
+  return data;
+}
+export async function contactUs() {
+  const contactQuery = groq`
+  *[_type == "contact"]{
+    _id,
+    heading,
+    description,
+    subDescription,
+}
+`;
+  const data = await client.fetch(contactQuery);
+  if (!data) {
+    throw new Error("contact page content not found in Sanity");
   }
   return data;
 }
@@ -614,6 +671,6 @@ export async function getProcedureByTitle(title: string) {
       conclusion
     }
   `;
-  
+
   return client.fetch(query, { title: `*${title}*` });
 }

@@ -15,19 +15,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { Check, ChevronsUpDown, Loader2 } from "lucide-react";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { formSchema, FormSchemaType } from "@/schema/contact-form-schema";
 import { organization } from "@/data/contact-us/organization"; // Now using correct content for Organization Type
@@ -186,63 +180,45 @@ export default function MyForm() {
           control={form.control}
           name="hear"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="relative">
               <FormLabel className="text-sm font-medium text-gray-700 uppercase flex">
                 How Did You Hear About Us?
                 <span className="ml-1" style={{ color: "#098481" }}>
                   *
                 </span>
               </FormLabel>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "w-full rounded-full border border-gray-300 px-4 py-3 justify-between text-left focus:outline-none focus:ring-0",
-                        !field.value && "text-gray-400"
-                      )}
+              <Select 
+                onValueChange={(value) => {
+                  console.log('Value changed:', value);
+                  field.onChange(value);
+                }} 
+                value={field.value}
+                defaultValue={field.value}
+                onOpenChange={(open) => {
+                  console.log('Dropdown open state:', open);
+                }}
+              >
+                <FormControl>
+                  <SelectTrigger 
+                    className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-0"
+                    onClick={() => console.log('SelectTrigger clicked')}
+                  >
+                    <SelectValue placeholder="------" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent position="popper" className="z-50">
+                  {hearAboutUs.map((item) => (
+                    <SelectItem 
+                      key={item.value} 
+                      value={item.value}
+                      className="cursor-pointer"
+                      onClick={() => console.log('Item clicked:', item.value)}
                     >
-                      {field.value
-                        ? hearAboutUs.find((item) => item.value === field.value)
-                            ?.label
-                        : "------"}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent
-                  className="w-[200px] p-0 rounded-lg border border-gray-200"
-                  align="start"
-                >
-                  <Command>
-                    <CommandInput placeholder="Search..." />
-                    <CommandList>
-                      <CommandEmpty>No option found.</CommandEmpty>
-                      <CommandGroup>
-                        {hearAboutUs.map((item) => (
-                          <CommandItem
-                            key={item.value}
-                            value={item.value}
-                            onSelect={() => form.setValue("hear", item.value)}
-                          >
-                            <Check
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                item.value === field.value
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )}
-                            />
-                            {item.label}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

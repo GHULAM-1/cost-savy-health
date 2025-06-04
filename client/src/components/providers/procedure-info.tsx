@@ -34,6 +34,31 @@ export default function ProcedureInfo({ type }: { type: string }) {
     fetchProcedure();
   }, [searchCare]);
 
+  // View more state
+  const [showFull, setShowFull] = useState(false);
+  const charLimit = 250;
+
+  // Helper to get plain text from Portable Text blocks
+  function getPlainText(blocks: any[]): string {
+    return blocks
+      .map((block) =>
+        typeof block === "string"
+          ? block
+          : block.children
+          ? block.children.map((child: any) => child.text).join("")
+          : ""
+      )
+      .join(" ");
+  }
+
+  let truncated = null;
+  if (procedure && procedure.introduction && Array.isArray(procedure.introduction)) {
+    const plain = getPlainText(procedure.introduction);
+    if (plain.length > charLimit && !showFull) {
+      truncated = plain.slice(0, charLimit) + "...";
+    }
+  }
+
   if (loading) {
     return (
       <div className="w-fit p-[16px]">
@@ -47,7 +72,7 @@ export default function ProcedureInfo({ type }: { type: string }) {
   }
 
   return (
-    <div className="w-fit p-[16px]">
+    <div className="p-[16px] w-fit">
       <div className="flex items-center gap-2 mb-3">
         <h1 className="font-semibold text-[28px] text-[#03363D] whitespace-wrap">
           {searchCare}
@@ -61,7 +86,29 @@ export default function ProcedureInfo({ type }: { type: string }) {
       {procedure ? (
         <div className="text-[15px] leading-relaxed text-gray-700">
           <div className="prose">
-            <PortableText value={procedure.introduction} />
+            {truncated && !showFull ? (
+              <>
+                <span>{truncated}</span>
+                <button
+                  className="ml-2 text-[#A34E78] underline cursor-pointer text-sm"
+                  onClick={() => setShowFull(true)}
+                >
+                  View more
+                </button>
+              </>
+            ) : (
+              <>
+                <PortableText value={procedure.introduction} />
+                {showFull && (
+                  <button
+                    className="text-[#A34E78] underline cursor-pointer text-sm"
+                    onClick={() => setShowFull(false)}
+                  >
+                    View less
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
       ) : (

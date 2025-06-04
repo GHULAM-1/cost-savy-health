@@ -58,9 +58,9 @@ exports.getInsuranceOptions = async (req, res, next) => {
     if (zipCode) {
       const zip = parseInt(zipCode, 10);
       if (!isNaN(zip)) {
-        const base = Math.floor(zip / 10000);
-        const lower = base * 10000;
-        const upper = lower + 9999;
+        const firstDigit = Math.floor(zip / 1000);
+        const lower = firstDigit * 1000;
+        const upper = lower + 999;
         filter.provider_zip_code = { $gte: lower, $lte: upper };
       }
     }
@@ -127,12 +127,13 @@ exports.getProviders = async (req, res, next) => {
     if (zipCode) {
       const zip = parseInt(zipCode, 10);
       if (!isNaN(zip)) {
-        const base = Math.floor(zip / 10000);
-        const lower = base * 10000;
-        const upper = lower + 9999;
+        const firstDigit = Math.floor(zip / 1000);
+        const lower = firstDigit * 1000;
+        const upper = lower + 999;
         filter.provider_zip_code = { $gte: lower, $lte: upper };
       }
     }
+    console.log("for insurance",filter.provider_zip_code)
     if (insurance) {
       filter.reporting_entity_name_in_network_files = new RegExp(
         escapeRegex(insurance),
@@ -221,6 +222,7 @@ exports.getRecordBySingleCare = async (req, res, next) => {
           provider_address: 1,
           provider_city: 1,
           provider_state: 1,
+          billing_code_type:1,
           _id: 0
         })
         .skip(skip)
@@ -237,3 +239,41 @@ exports.getRecordBySingleCare = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getRecordBySingleCareById = async (req, res, next) => {
+  res.set("Cache-Control", "no-store");
+
+  try {
+    const Id = (req.query.Id || "").trim();
+    if (!Id) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing required `id` param" });
+    }
+
+    const filter = { _id: Id };
+    const docs = await Healthcare.find(filter)
+      .select({
+        billing_code_name: 1,
+        reporting_entity_name_in_network_files: 1,
+        provider_zip_code: 1,
+        negotiated_rate: 1,
+        provider_name: 1,
+        provider_address: 1,
+        provider_city: 1,
+        provider_state: 1,
+        billing_code_type: 1,
+        "Description of Service":1,
+        _id: 0
+      })
+      .lean();
+
+    return res.status(200).json({
+      success: true,
+      data: docs,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+

@@ -145,7 +145,7 @@ export default function NavLinks() {
           },
           {
             title: "Indiviual & Family Health",
-            url: "#",
+            url: "/indiviual",
           }
         ]}
       />

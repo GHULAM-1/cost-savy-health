@@ -17,10 +17,17 @@ const transporter = nodemailer.createTransport({
 export async function sendContactMessage(req, res) {
   const { firstName, lastName, email, phone, howHeard, problem } = req.body;
 
+  // Determine recipients
+  const adminEmail = process.env.CONTACT_RECEIVER || process.env.SMTP_FROM;
+  const userEmail = email; // Email from the user who submitted the form
+
+  // Combine recipients, ensuring no empty entries if one is missing
+  const mailRecipients = [adminEmail, userEmail].filter(Boolean).join(', ');
+
   // Build email content
   const mailOptions = {
     from: `"Contact Form" <${process.env.SMTP_FROM}>`,
-    to: process.env.CONTACT_RECEIVER || process.env.SMTP_FROM, // admin/support email
+    to: mailRecipients, 
     subject: 'New Contact Form Submission',
     html: `
       <h2>New Contact Form Submission</h2>
@@ -32,8 +39,11 @@ export async function sendContactMessage(req, res) {
     `,
   };
 
+  console.log('Attempting to send email with options:', mailOptions);
+
   try {
-    await transporter.sendMail(mailOptions);
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', info);
     
     res.status(200).json({ success: true, message: 'Contact message sent successfully' });
   } catch (error) {

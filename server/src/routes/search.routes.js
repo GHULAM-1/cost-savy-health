@@ -6,6 +6,7 @@ const {
   getProviders,
   getEntityRecords,
   getRecordBySingleCare,
+  getRecordBySingleCareById,
 } = require("../controllers/search.controller");
 const router = express.Router();
 
@@ -15,6 +16,7 @@ router.get("/zips",      getZipCodes);
 router.get("/", getProviders);
 router.get("/entity-records", getEntityRecords);
 router.get("/single-records", getRecordBySingleCare);
+router.get("/single-records-id", getRecordBySingleCareById);
 
 
 

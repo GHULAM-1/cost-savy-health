@@ -34,7 +34,7 @@ export async function generateMetadata({
     "cash price",
     "healthcare pricing",
     "medical treatment",
-    "healthcare procedure"
+    "healthcare procedure",
   ].filter(Boolean);
 
   return generateMetadataTemplate({
@@ -81,34 +81,54 @@ export default async function ProcedurePage(props: {
 
   return (
     <>
-      <article className="mx-auto max-w-3xl p-8 space-y-8">
-        <div className="flex md:flex-row flex-col md:gap-2 gap-0 justify-between ">
+      <article className="mx-auto max-w-[1200px] p-5 sm:p-8 space-y-8 flex gap-10">
+        <div className="flex flex-col md:gap-2 gap-0 justify-between lg:w-[55%]">
           <header className="flex flex-col mb-0 items-center">
-            <h1 className="text-4xl font-bold mb-4 font-tiempos">{proc.title}</h1>
+            <h1 className="text-4xl font-bold mb-4 font-tiempos">
+              {proc.title}
+            </h1>
             <section className="prose">
               <PortableText value={proc.introduction} />
             </section>
           </header>
-          <div>
-            <div className="bg-white shadow-xl p-8 flex items-center flex-col gap-3 rounded">
-              <p className="text-2xl text-gray-600 font-tiempos">Average Cash Price</p>
-              <p className="text-3xl font-semibold font-tiempos">${proc.averageCashPrice}</p>
+          <div className="flex lg:hidden w-full mb-10">
+            <div className="bg-white w-full shadow-xl px-12 py-10 flex items-center flex-col gap-3 rounded">
+              <p className="text-2xl font-semibold text-gray-600 font-tiempos">
+                Average Cash Price
+              </p>
+              <p className="text-3xl text-[#8C2F5D] font-semibold font-tiempos">
+                ${proc.averageCashPrice}
+              </p>
             </div>
           </div>
+          <section className="space-y-6">
+            <h2 className="text-2xl font-bold font-tiempos">
+              Procedure Information
+            </h2>
+            {proc?.sections?.map((sec, i) => (
+              <div key={i} className="prose">
+                <h3 className="text-2xl font-bold font-tiempos">
+                  {sec.heading}
+                </h3>
+                <PortableText value={sec.content} />
+              </div>
+            ))}
+          </section>
+          <section className="prose">
+            <h2 className="text-2xl font-bold font-tiempos">Conclusion</h2>
+            <PortableText value={proc.conclusion} />
+          </section>
         </div>
-        <section className="space-y-6">
-          <h2 className="text-xl font-bold font-tiempos">Procedure Information</h2>
-          {proc?.sections?.map((sec, i) => (
-            <div key={i} className="prose">
-              <h3 className="text-2xl font-bold font-tiempos">{sec.heading}</h3>
-              <PortableText value={sec.content} />
-            </div>
-          ))}
-        </section>
-        <section className="prose">
-          <h2 className="text-2xl font-bold font-tiempos">Conclusion</h2>
-          <PortableText value={proc.conclusion} />
-        </section>
+        <div className="lg:inline-block hidden w-auto">
+          <div className="bg-white shadow-xl px-12 py-10 flex items-center flex-col gap-3 rounded">
+            <p className="text-2xl font-semibold text-gray-600 font-tiempos">
+              Average Cash Price
+            </p>
+            <p className="text-3xl text-[#8C2F5D] font-semibold font-tiempos">
+              ${proc.averageCashPrice}
+            </p>
+          </div>
+        </div>
       </article>
       <section className="bg-[#6B1548] py-16 px-4">
         <div className="max-w-xl mx-auto text-center">
@@ -120,7 +140,7 @@ export default async function ProcedurePage(props: {
             claiming your provider page and listing your services. It only takes
             10 minutes.
           </p>
-          <a href="/contact-us">
+          <a href="/quote">
             <button className="bg-[#8C2F5D] hover:cursor-pointer text-white font-medium rounded-full px-6 py-3 transition">
               Get Started
             </button>

@@ -24,6 +24,12 @@ export default defineConfig({
               .title('Medicare Page')
               .child(S.document().schemaType('medicare').documentId('medicare')),
             S.listItem()
+              .title('Indiviual Health Page')
+              .child(S.document().schemaType('indiviual').documentId('indiviual')),
+            S.listItem()
+              .title('Contact Us Page')
+              .child(S.document().schemaType('contact').documentId('contact')),
+            S.listItem()
               .title('Blog Main Cards')
               .child(S.documentTypeList('blogMainCard').title('Blog Main Cards')),
             S.listItem()

@@ -21,6 +21,7 @@ export interface HealthcareRecord {
   provider_city: string;
   provider_state: string;
   negotiated_rate: number;
+  "Description of Service":string;
 }
 interface EntitiesResponse {
     success: boolean;
@@ -145,6 +146,18 @@ interface EntitiesResponse {
     params.set("page",   String(page));
     params.set("limit",  String(limit));
     const url = `${API_URL}/search/single-records?${params.toString()}`;
+    return apiRequest<ProvidersResponse<HealthcareRecord>>(
+      url,
+      { ...fetchOptions, method: "GET" },
+      "Failed to load entity records"
+    );
+  };
+  export const getEntityRecordsById = async (
+    entity: string,
+  ):Promise<ProvidersResponse<HealthcareRecord>> => {
+    const params = new URLSearchParams();
+    params.set("Id", entity);
+    const url = `${API_URL}/search/single-records-id?${params.toString()}`;
     return apiRequest<ProvidersResponse<HealthcareRecord>>(
       url,
       { ...fetchOptions, method: "GET" },

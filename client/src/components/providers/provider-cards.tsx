@@ -61,7 +61,7 @@ export default function ProviderCards({
   console.log(providers);
 
   return (
-    <div className="py-6 px-2">
+    <div className="py-6 px-4">
       <div className="max-w-[1600px] space-y-4">
         <SearchHeader
           searchTerm={searchCare}

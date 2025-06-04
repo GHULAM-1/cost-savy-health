@@ -201,15 +201,25 @@ export default function SearchBar() {
     };
   }, [openZip, form.getValues("searchCare"), localZipQuery]); // Depend on openZip, searchCare, and localZipQuery
 
+  // Effect to fetch insurance options when the dropdown opens and searchCare/zipCode are available
   useEffect(() => {
-    if (!openIns) return;
-    let active = true;
-    setLoadingIns(true);
+    // Only fetch if the dropdown is open AND searchCare and zipCode have values
     const searchCare = form.getValues("searchCare");
     const zipCode = form.getValues("zipCode");
-    getInsurersByBillingCode(
-      searchCare && zipCode ? `${searchCare}|${zipCode}` : ""
-    )
+
+    if (!openIns || !searchCare || !zipCode) {
+      // If conditions for fetching are not met, clear options and loading state
+      setInsOptions([]);
+      setLoadingIns(false);
+      setInsLoaded(true);
+      return;
+    }
+
+    let active = true;
+    setLoadingIns(true);
+
+    // Fetch data using searchCare and zipCode
+    getInsurersByBillingCode(`${searchCare}|${zipCode}`)
       .then((res) => active && setInsOptions(res.data))
       .catch(() => active && setInsOptions([]))
       .finally(() => {
@@ -218,48 +228,11 @@ export default function SearchBar() {
           setInsLoaded(true);
         }
       });
-    return () => {
-      active = false;
-    };
-  }, [openIns, form.getValues("searchCare"), form.getValues("zipCode")]);
 
-  useEffect(() => {
-    if (!openCare) return;
-    let active = true;
-    setLoadingCare(true);
-    getReportingEntities(localCareQuery)
-      .then((res) => active && setCareOptions(res.data))
-      .catch(() => active && setCareOptions([]))
-      .finally(() => {
-        if (active) {
-          setLoadingCare(false);
-          setCareLoaded(true);
-        }
-      });
     return () => {
       active = false;
     };
-  }, [localCareQuery, openCare]);
-
-  useEffect(() => {
-    if (!openIns) return;
-    let active = true;
-    setLoadingIns(true);
-    const searchCare = form.getValues("searchCare");
-    const zipCode = form.getValues("zipCode");
-    getInsurersByBillingCode(localInsQuery)
-      .then((res) => active && setInsOptions(res.data))
-      .catch(() => active && setInsOptions([]))
-      .finally(() => {
-        if (active) {
-          setLoadingIns(false);
-          setInsLoaded(true);
-        }
-      });
-    return () => {
-      active = false;
-    };
-  }, [localInsQuery, openIns]);
+  }, [openIns, form.getValues("searchCare"), form.getValues("zipCode")]); // Depend on openIns, searchCare, and zipCode
 
   function onSubmit(vals: ProvidersSchemaType) {
     setIsSubmitting(true);
