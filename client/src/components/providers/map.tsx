@@ -11,11 +11,9 @@ import {
 } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-// 1) Install and import the compatibility package at least once:
 import "leaflet-defaulticon-compatibility";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
-// (No need to manually mergeOptions here; the package does it.)
 
 export interface ProviderMapProps {
   zipCodes: number[];
