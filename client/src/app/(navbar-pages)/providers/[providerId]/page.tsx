@@ -1,15 +1,27 @@
-import { Metadata } from "next";
+// File: app/(navbar-pages)/providers/[providerId]/page.tsx
+
+import React, { Suspense } from "react";
+import type { Metadata } from "next";
 import { generateMetadataTemplate } from "@/lib/metadata";
 import { getEntityRecordsById } from "@/api/search/api";
 
+import { ProviderFaqs } from "@/components/providers/provider-faqs";
+import EstimatedCost from "@/components/providers/estimated-cost";
+import EstimatedCostSkeleton from "@/components/providers/estimated-cost-skeleton";
+
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
-  params: { providerId: string };
+  params: Promise<{ providerId: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
-  const provider = await getEntityRecordsById(params.providerId);
-  
+  const { providerId } = await params;
+
+  const provider = await getEntityRecordsById(providerId);
+
   if (!provider || !provider.data || provider.data.length === 0) {
+    // Fallback metadata when provider not found
     return generateMetadataTemplate({
       title: "Provider Not Found | Cost Savy Health",
       description: "The requested healthcare provider could not be found.",
@@ -37,18 +49,19 @@ export async function generateMetadata({
       providerData.provider_state,
       "medical facilities",
     ].filter(Boolean),
-    url: `https://costsavyhealth.com/providers/${params.providerId}`,
+    url: `https://costsavyhealth.com/providers/${providerId}`,
   });
 }
 
-import React, { Suspense } from "react";
-import { FeedbackSection } from "@/components/providers/feedback-section";
-import { ProviderFaqs } from "@/components/providers/provider-faqs";
-import EstimatedCost from "@/components/providers/estimated-cost";
-import { Summary } from "@/components/providers/summary";
-import EstimatedCostSkeleton from "@/components/providers/estimated-cost-skeleton";
+export default async function Page({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ providerId: string }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const { providerId } = await params;
 
-export default function page() {
   return (
     <div className="px-[16px]">
       <Suspense fallback={<EstimatedCostSkeleton />}>

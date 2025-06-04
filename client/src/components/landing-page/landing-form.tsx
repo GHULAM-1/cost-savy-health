@@ -586,7 +586,7 @@ export default function SearchBar() {
           <div className="px-4 py-2 w-full lg:w-auto">
             <Button
               type="submit"
-              className="flex items-center justify-center bg-[#8C2F5D] hover:bg-[#C85990] text-white px-5 py-4 rounded  transition-colors w-full lg:h-full lg:w-auto"
+              className="flex items-center hover:cursor-pointer justify-center bg-[#8C2F5D] hover:bg-[#C85990] text-white px-5 py-4 rounded  transition-colors w-full lg:h-full lg:w-auto"
               disabled={
                 isSubmitting ||
                 !form.getValues("searchCare") ||

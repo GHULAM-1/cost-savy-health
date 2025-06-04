@@ -1,4 +1,4 @@
-// map.tsx
+// components/Map.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -9,24 +9,26 @@ import {
   Popup,
   useMap,
 } from "react-leaflet";
-import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-import iconRetinaUrl from "leaflet/dist/images/marker-icon-2x.png";
-import iconUrl        from "leaflet/dist/images/marker-icon.png";
-import shadowUrl      from "leaflet/dist/images/marker-shadow.png";
+// 1) Install and import the compatibility package at least once:
+import "leaflet-defaulticon-compatibility";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 
-// tell Leaflet where to find its marker assets
-L.Icon.Default.mergeOptions({ iconRetinaUrl, iconUrl, shadowUrl });
+// (No need to manually mergeOptions here; the package does it.)
 
 export interface ProviderMapProps {
-  zipCodes:  number[];
+  zipCodes: number[];
   names:     string[];
 }
 
-interface GeoLocation { lat: number; lng: number; name: string; }
+interface GeoLocation {
+  lat: number;
+  lng: number;
+  name: string;
+}
 
-// fits the map to show all markers
+// Optional: if you see map sizing issues in prod, use this
 function FitMarkers({ locations }: { locations: GeoLocation[] }) {
   const map = useMap();
   useEffect(() => {
@@ -38,10 +40,7 @@ function FitMarkers({ locations }: { locations: GeoLocation[] }) {
   return null;
 }
 
-export default function Map({
-  zipCodes,
-  names,
-}: ProviderMapProps) {
+export default function Map({ zipCodes, names }: ProviderMapProps) {
   const [locations, setLocations] = useState<GeoLocation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -50,34 +49,30 @@ export default function Map({
     async function fetchLocations() {
       const results: GeoLocation[] = [];
       setError(null);
-      
+
       for (let i = 0; i < zipCodes.length; i++) {
         try {
           const res = await fetch(`/api/geocode?zip=${zipCodes[i]}`);
           if (!res.ok) {
             throw new Error(`Failed to fetch location for ZIP ${zipCodes[i]}`);
           }
-          
           const data = await res.json();
-          console.log(`Raw geocode response for ZIP ${zipCodes[i]}:`, data);
-          
           if (Array.isArray(data) && data.length > 0) {
             const { lat, lon } = data[0];
-            console.log(`Extracted Lat: ${lat}, Lng: ${lon} for ZIP ${zipCodes[i]}`);
             results.push({
               lat: parseFloat(lat),
               lng: parseFloat(lon),
               name: names[i],
             });
           } else {
-            console.warn(`No location data found for ZIP ${zipCodes[i]}`);
+            console.warn(`No data for ZIP ${zipCodes[i]}`);
           }
         } catch (err) {
           console.error(`Failed to geocode ZIP ${zipCodes[i]}`, err);
-          setError(`Unable to locate some providers. Please try a different ZIP code.`);
+          setError(`Unable to locate some providers. Please try again later.`);
         }
       }
-      
+
       setLocations(results);
       setLoading(false);
     }
@@ -89,15 +84,12 @@ export default function Map({
       setLocations([]);
       setLoading(false);
     }
-    console.log("zip codes and name",zipCodes, names)
   }, [zipCodes, names]);
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[50vh] w-full">
-        <div className="w-full h-full bg-gray-100 animate-pulse rounded-lg">
-          <div className="w-full h-full bg-gray-200 rounded-lg"></div>
-        </div>
+        <div className="w-full h-full bg-gray-100 animate-pulse rounded-lg" />
       </div>
     );
   }
@@ -127,9 +119,7 @@ export default function Map({
         attribution='&copy; <a href="https://www.openstreetmap.org/">OSM</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-
       <FitMarkers locations={locations} />
-
       {locations.map((loc, idx) => (
         <Marker key={idx} position={[loc.lat, loc.lng]}>
           <Popup>{loc.name}</Popup>
