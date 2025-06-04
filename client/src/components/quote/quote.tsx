@@ -193,28 +193,18 @@ export default function ContactPage() {
               <FormItem>
                 <FormLabel>How did you find us? *</FormLabel>
                 <FormControl>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-between"
-                      >
-                        {field.value || "Select"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-full p-0">
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger className="w-full rounded-full border border-gray-300 px-4 py-3 focus:outline-none focus:ring-0">
+                      <SelectValue placeholder="Select" />
+                    </SelectTrigger>
+                    <SelectContent position="popper" className="z-50">
                       {refOptions.map((opt) => (
-                        <Button
-                          key={opt}
-                          variant="ghost"
-                          className="w-full justify-start"
-                          onClick={() => field.onChange(opt)}
-                        >
+                        <SelectItem key={opt} value={opt} className="cursor-pointer">
                           {opt}
-                        </Button>
+                        </SelectItem>
                       ))}
-                    </PopoverContent>
-                  </Popover>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>

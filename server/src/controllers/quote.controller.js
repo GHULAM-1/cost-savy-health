@@ -17,10 +17,21 @@ const transporter = nodemailer.createTransport({
 export async function sendQuoteRequest(req, res) {
   const { insuranceType, firstName, lastName, zipCode, email, refSource, phone } = req.body;
 
+  // Determine recipients, similar to contact controller
+  const adminEmail = process.env.CONTACT_RECEIVER || process.env.SMTP_FROM;
+  const userEmail = email; // Email from the user who submitted the form
+
+  // Combine recipients, ensuring no empty entries if one is missing
+  const mailRecipients = [adminEmail, userEmail].filter(Boolean).join(', ');
+
+  console.log('Admin email recipient (from CONTACT_RECEIVER or SMTP_FROM):', adminEmail);
+  console.log('User email from payload:', userEmail);
+  console.log('Calculated recipients:', mailRecipients);
+
   // Build email content
   const mailOptions = {
     from: `"Quote Request" <${process.env.SMTP_FROM}>`,
-    to: `${email}`, // your receiving address
+    to: mailRecipients, // Send to both user and admin email
     subject: 'New Quote Request',
     html: `
       <h2>New Quote Request</h2>
