@@ -1,15 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { X, Globe, MapPin, Phone, Shield, HelpCircle } from "lucide-react";
+import { getEntityRecordsById, HealthcareRecord } from "@/api/search/api";
+import { getProviderByName } from "@/api/sanity/queries";
+import { SanityProviderRecord } from "@/types/providers/providers-card";
 
 interface ContactProviderModalProps {
   isOpen: boolean;
+  provider: string;
   onClose: () => void;
 }
 
 export function ContactProviderModal({
+  provider,
   isOpen,
   onClose,
 }: ContactProviderModalProps) {
+  const [providerData, setProviderData] = useState<SanityProviderRecord | null>(
+    null
+  );
+  const [loading, setLoading] = useState(false);
+  console.log(provider, "here what came");
+  useEffect(() => {
+    if (isOpen && provider) {
+      setLoading(true);
+      getProviderByName(provider)
+        .then((response) => {
+          console.log("chalo respinse", response);
+          if (response) {
+            setProviderData(response);
+          } else {
+            setProviderData(null);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching provider data:", error);
+          setProviderData(null);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [isOpen, provider]);
+  console.log(providerData, "here what thenflkjan lacame");
+
   if (!isOpen) return null;
 
   return (
@@ -28,7 +61,7 @@ export function ContactProviderModal({
         </div>
 
         <div className="p-3 sm:p-4">
-          <p className="text-gray-700 mb-4 sm:mb-6 text-sm">
+          {/* <p className="text-gray-700 mb-4 sm:mb-6 text-sm">
             Contact the provider to let them know you'd like an estimate. The
             finance or billing department is often best equipped to help verify
             expected costs.
@@ -94,18 +127,26 @@ export function ContactProviderModal({
                 </p>
               </div>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            <button className="flex items-center justify-center gap-2 px-3 py-2 border border-teal-700 rounded-lg text-[#098481] hover:bg-teal-50 transition-colors text-sm">
-              <Globe className="w-4 h-4" />
-              Website
-            </button>
-            <button className="flex items-center justify-center gap-2 px-3 py-2 bg-[#098481] text-white rounded-lg hover:bg-teal-800 transition-colors text-sm">
-              <Phone className="w-4 h-4" />
-              (718) 604-5789
-            </button>
-          </div>
+          </div> */}
+          {providerData && (
+            <div className="grid sm:grid-cols-2 gap-2 sm:gap-3">
+              <a href={providerData?.website ?? undefined} className="" target="_blank">
+                <button className="flex w-full items-center justify-center gap-2 px-3 py-2 border border-[#A34E78] rounded-lg text-[#A34E78] hover:bg-[#A34E78] hover:text-white transition-colors hover:cursor-pointer text-sm">
+                  <Globe className="w-4 h-4" />
+                  Website
+                </button>
+              </a>
+              {providerData.phone && (
+                <a 
+                  href={`tel:${providerData.phone}`}
+                  className="flex items-center justify-center gap-2 px-3 py-2 bg-[#A34E78] text-white rounded-lg hover:bg-[#6B1548] hover:cursor-pointer transition-colors text-sm"
+                >
+                  <Phone className="w-4 h-4" />
+                  {providerData.phone}
+                </a>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

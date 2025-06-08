@@ -399,6 +399,7 @@ export const getProviderByNameQuery = groq`
 `;
 
 export async function getProviderByName(name: string) {
+  console.log("came ehre")
   return await client.fetch(getProviderByNameQuery, { name });
 }
 
@@ -590,7 +591,15 @@ export async function sanityFetchMainCardBySlug(
       "name": author->name,
       "image": author->image.asset->url
     },
-    content,
+    content[]{
+        ...,
+        // whenever it's an image block, dereference the asset:
+        _type == "image" => {
+          "asset": asset->,
+          alt,
+          caption
+        }
+      },
     date,
     slug,
     readTime,
@@ -614,8 +623,16 @@ export async function sanityFetchArticleBySlug(
       "name": author->name,
       "image": author->image.asset->url
     },
-    content,
-    date,
+    content[]{
+        ...,
+        // whenever it's an image block, dereference the asset:
+        _type == "image" => {
+          "asset": asset->,
+          alt,
+          caption
+        }
+      },   
+       date,
     slug,
     readTime,
     "mainCardId": mainCardRef->_id,
@@ -638,6 +655,15 @@ export async function sanityFetchOtherBySlug(
       "name": author->name,
       "image": author->image.asset->url
     },
+        content[]{
+        ...,
+        // whenever it's an image block, dereference the asset:
+        _type == "image" => {
+          "asset": asset->,
+          alt,
+          caption
+        }
+      },
     date,
     slug,
     readTime,

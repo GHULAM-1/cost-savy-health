@@ -84,15 +84,25 @@ export default async function BlogPostPage({
     },
 
     types: {
-      image: ({ value }: any) => (
-        <Image
-          src={value.asset.url}
-          alt={value.alt || ""}
-          width={800}
-          height={400}
-          className="rounded-lg my-6"
-        />
-      ),
+      image: ({ value }: any) => {
+        if (!value?.asset?.url) return null;
+        return (
+          <figure className="my-6">
+            <Image
+              src={value.asset.url}
+              alt={value.alt || 'Blog image'}
+              width={800}
+              height={400}
+              className="rounded-lg"
+            />
+            {value.caption && (
+              <figcaption className="text-center text-gray-500 text-sm mt-2">
+                {value.caption}
+              </figcaption>
+            )}
+          </figure>
+        );
+      },
     },
 
     // ← NEW: handle list wrappers

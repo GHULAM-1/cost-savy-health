@@ -236,7 +236,7 @@ export default function EstimatedCost() {
             >
               Contact Provider to Verify
             </button>
-            {/* <ContactProviderModal isOpen={isModalOpen} onClose={closeModal} /> */}
+            <ContactProviderModal provider={provider[0]?.provider_name} isOpen={isModalOpen} onClose={closeModal} />
           </div>
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
           <p className="text-gray-700 mb-4 text-sm sm:text-base">
             Use the cost calculator below to estimate your total out-of-pocket
             cost. You can{" "}
-            <a href="#" className="text-teal-700 hover:underline">
+            <a href="#" className="text-teal-[#A34E78] hover:underline">
               log in to your insurance portal
             </a>{" "}
             to find your coverage information.
@@ -75,7 +75,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
                 <button
                   className={`px-4 py-2 rounded-lg border ${
                     outOfPocketMax === "yes"
-                      ? "border-teal-700 bg-white text-gray-900"
+                      ? "border-[#A34E78] bg-white text-gray-900"
                       : "border-gray-300 bg-white text-gray-500"
                   }`}
                   onClick={() => setOutOfPocketMax("yes")}
@@ -85,7 +85,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
                 <button
                   className={`px-4 py-2 rounded-lg border ${
                     outOfPocketMax === "no"
-                      ? "border-teal-700 bg-white text-gray-900"
+                      ? "border-[#A34E78] bg-white text-gray-900"
                       : "border-gray-300 bg-white text-gray-500"
                   }`}
                   onClick={() => setOutOfPocketMax("no")}
@@ -121,7 +121,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
                     <button
                       className={`px-4 py-2 rounded-lg border ${
                         metDeductible === "yes"
-                          ? "border-teal-700 bg-white text-gray-900"
+                          ? "border-[#A34E78] bg-white text-gray-900"
                           : "border-gray-300 bg-white text-gray-500"
                       }`}
                       onClick={() => setMetDeductible("yes")}
@@ -131,7 +131,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
                     <button
                       className={`px-4 py-2 rounded-lg border ${
                         metDeductible === "no"
-                          ? "border-teal-700 bg-white text-gray-900"
+                          ? "border-[#A34E78] bg-white text-gray-900"
                           : "border-gray-300 bg-white text-gray-500"
                       }`}
                       onClick={() => setMetDeductible("no")}
@@ -167,7 +167,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
                       <button
                         className={`px-4 py-2 rounded-lg border ${
                           benefitType === "copay"
-                            ? "border-teal-700 bg-white text-gray-900"
+                            ? "border-[#A34E78] bg-white text-gray-900"
                             : "border-gray-300 bg-white text-gray-500"
                         }`}
                         onClick={() => setBenefitType("copay")}
@@ -177,7 +177,7 @@ export default function Calculator({ procedureCost }: CalculatorProps) {
                       <button
                         className={`px-4 py-2 rounded-lg border ${
                           benefitType === "coinsurance"
-                            ? "border-teal-700 bg-white text-gray-900"
+                            ? "border-[#A34E78] bg-white text-gray-900"
                             : "border-gray-300 bg-white text-gray-500"
                         }`}
                         onClick={() => setBenefitType("coinsurance")}

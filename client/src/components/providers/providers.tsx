@@ -6,7 +6,7 @@ import ProviderCards from "./provider-cards";
 import ProviderMap from "./provider-map";
 import { FilterBar } from "./filter";
 import { Map } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import {
   getEntityRecords,
   getProviders,
@@ -15,6 +15,7 @@ import {
 
 export default function AllProviders() {
   //STATES
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [isMapVisible, setIsMapVisible] = useState(false);
   const [providers, setProviders] = useState<HealthcareRecord[]>([]);
@@ -28,6 +29,13 @@ export default function AllProviders() {
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
   useEffect(() => {
+    // Check if any search parameters are provided
+    const hasSearchParams = searchCare || zipCode || insurance;
+    if (!hasSearchParams) {
+      router.push("/");
+      return;
+    }
+
     setLoading(true);
     const queryKeys = Array.from(searchParams.keys());
     const onlySearchCare =
@@ -56,7 +64,7 @@ export default function AllProviders() {
           });
 
     fetchData.finally(() => setLoading(false));
-  }, [searchCare, zipCode, insurance, currentPage]);
+  }, [searchCare, zipCode, insurance, currentPage, router]);
 
   // derive map props
   console.log(providers)
