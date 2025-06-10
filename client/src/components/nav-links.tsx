@@ -161,7 +161,7 @@ export default function NavLinks({
             url: "/medicare",
           },
           {
-            title: "Indiviual & Family Health",
+            title: "Individual & Family Health",
             url: "/indiviual",
           }
         ]}
