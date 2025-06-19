@@ -36,6 +36,13 @@ export default function RootLayout({
       lang="en"
       className={`${hankenGrotesk.variable} ${sourceSerif.variable} ${tiempos.variable}`}
     >
+      <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2978396974503639"
+          crossOrigin="anonymous"
+        ></script>
+      </head>
       <body
         className={` antialiased max-w-[1660px] w-full mx-auto`}
       >
