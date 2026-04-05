@@ -24,6 +24,8 @@ interface Facility {
   longitude: number | null;
   facility_key: string;
   website_url: string | null;
+  payer_name: string | null;
+  payer_differs: boolean;
 }
 
 interface MapData {
@@ -320,7 +322,9 @@ export default function PriceSearch() {
                   const isLow = f.price && f.price <= minPrice * 1.2;
                   const isEst = !f.price;
                   const showWeb = f.web_price != null && Number(f.web_price) > 0;
-                  const note = f.price ? (f.price_source === "web_search" ? "Web search" : f.price_source === "db" ? "Verified" : "Verified") : "Estimate";
+                  const note = f.price
+                    ? (f.price_source === "web_search" ? "Web search" : "Verified")
+                    : "Estimate";
                   let siteHtml: React.ReactNode = null;
                   try {
                     if (f.website_url) {
@@ -343,6 +347,9 @@ export default function PriceSearch() {
                         <div className="min-w-0">
                           <p className="font-semibold text-[#6b2458] text-sm truncate">{f.hospital_name || "Healthcare Facility"}</p>
                           <p className="text-xs text-gray-400 mb-1">Healthcare Facility</p>
+                          {f.payer_differs && f.payer_name && (
+                            <p className="text-xs text-amber-600 font-semibold mb-1">Insurance covered by {f.payer_name}</p>
+                          )}
                           <p className="text-xs text-gray-500">
                             {f.distance_miles != null && <span>📍 {f.distance_miles.toFixed(1)} mi · </span>}
                             {normalizeAddress(f.address || "")}
